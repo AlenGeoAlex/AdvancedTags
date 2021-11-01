@@ -1,63 +1,79 @@
 package me.alen_alex.advancedtags.database;
 
 import me.Abhigya.core.database.Database;
+import me.Abhigya.core.database.sql.SQLDatabase;
 import me.Abhigya.core.database.sql.h2.H2;
 import me.Abhigya.core.database.sql.hikaricp.HikariCP;
 import me.Abhigya.core.database.sql.hikaricp.HikariClientBuilder;
 import me.Abhigya.core.database.sql.sqlite.SQLite;
 import me.alen_alex.advancedtags.AdvancedTags;
+import org.bukkit.Bukkit;
 
 import java.io.File;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 public abstract class Storage {
 
     private AdvancedTags plugin;
-    private Database databaseEngine;
-    private final String LOCAL_PATH;
+    private SQLDatabase databaseEngine;
+    private static final String LOCAL_PATH = File.separator+"storage"+File.separator+"database.db";;
 
     public Storage(AdvancedTags plugins) {
         this.plugin = plugins;
-        LOCAL_PATH = plugin.getDataFolder().getAbsolutePath()+File.separator+"storage"+File.separator+"database.db";
+        buildConnection();
     }
 
     public AdvancedTags getPlugin() {
         return plugin;
     }
 
-    private void configureDatabaseType(){
-
-    }
-
-
-    public void buildConnection(){
+    private void buildConnection(){
+        final File localStoragePath = new File(plugin.getDataFolder()+LOCAL_PATH);
         switch (plugin.getConfigurationHandler().getPluginConfig().getDatabaseType().toUpperCase()){
             case "H2":
-                final File h2File = new File(LOCAL_PATH);
-                databaseEngine = new H2(h2File,true);
+                databaseEngine = new H2(localStoragePath,true);
                 break;
             case "MYSQL":
-                /*databaseEngine = new HikariCP(new HikariClientBuilder(
-                        getPlugin().getConfigurationHandler().getPluginConfig().getSqlHost(),
+                databaseEngine = new HikariClientBuilder(getPlugin().getConfigurationHandler().getPluginConfig().getSqlHost(),
                         Integer.parseInt(getPlugin().getConfigurationHandler().getPluginConfig().getSqlPort()),
                         getPlugin().getConfigurationHandler().getPluginConfig().getSqlDatabse(),
                         getPlugin().getConfigurationHandler().getPluginConfig().getSqlUsername(),
                         getPlugin().getConfigurationHandler().getPluginConfig().getSqlPassword(),
                         true,
-                        getPlugin().getConfigurationHandler().getPluginConfig().isSqlUseSSL()).build());*/
+                        getPlugin().getConfigurationHandler().getPluginConfig().isSqlUseSSL()).build();
                 break;
             case "SQLITE":
-                final File sqliteFile = new File(LOCAL_PATH);
-                databaseEngine = new SQLite(sqliteFile,true);
+                databaseEngine = new SQLite(localStoragePath,true);
                 break;
             default:
-                final File h2FileDB = new File(LOCAL_PATH);
-                databaseEngine = new H2(h2FileDB,true);
+                databaseEngine = new H2(localStoragePath,true);
                 getPlugin().getLogger().severe("Unknown database type found in config, Forcing to H2");
         }
     }
 
-    public abstract boolean handleStartupWorks();
+    public boolean connect(){
+        try {
+            databaseEngine.connect();
+            return databaseEngine.isConnected();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
-
-
+    public Connection getDatabaseEngine() {
+        try {
+            if(databaseEngine.isConnected())
+                return databaseEngine.getConnection();
+            else {
+                connect();
+                return databaseEngine.getConnection();
+            }
+        } catch (IOException | SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
