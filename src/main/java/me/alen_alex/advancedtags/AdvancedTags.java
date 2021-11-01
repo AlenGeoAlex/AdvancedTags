@@ -3,11 +3,15 @@ package me.alen_alex.advancedtags;
 import me.Abhigya.core.main.CoreAPI;
 import me.Abhigya.core.plugin.PluginAdapter;
 import me.alen_alex.advancedtags.configurations.ConfigurationHandler;
+import me.alen_alex.advancedtags.database.StorageWorker;
+import me.alen_alex.advancedtags.database.methods.MongoDB;
+import me.alen_alex.advancedtags.database.methods.SQL;
 
 public final class AdvancedTags extends PluginAdapter {
 
     private static AdvancedTags plugin;
     private ConfigurationHandler configurationHandler;
+    private StorageWorker storageWorker;
 
     @Override
     public void onLoad(){
@@ -18,16 +22,24 @@ public final class AdvancedTags extends PluginAdapter {
     protected boolean setUp() {
         plugin = this;
         CoreAPI.getInstance().load();
-        if(initPlugin())
-            return true;
-        else
-            return false;
+        return true;
     }
 
     @Override
     protected boolean setUpConfig(){
         configurationHandler = new ConfigurationHandler(this);
         return configurationHandler.loadAllPluginFiles();
+    }
+
+    @Override
+    protected boolean setUpHandlers(){
+        if(configurationHandler.getPluginConfig().isUsingNoSQL())
+            storageWorker = new MongoDB(this);
+        else
+            storageWorker = new SQL(this);
+        storageWorker.init();
+        getLogger().info("Connected to storage worker on "+storageWorker.getDatabaseType());
+        return true;
     }
 
     @Override
@@ -43,9 +55,7 @@ public final class AdvancedTags extends PluginAdapter {
         return configurationHandler;
     }
 
-    private boolean initPlugin(){
-
-        return true;
+    public StorageWorker getStorageWorker() {
+        return storageWorker;
     }
-
 }

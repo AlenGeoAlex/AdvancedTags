@@ -12,6 +12,18 @@ public class SQL extends SQLStorage implements StorageWorker {
 
     @Override
     public boolean init() {
+        return connect();
+    }
+
+    @Override
+    public boolean handleIntial() {
         return false;
     }
+
+    @Override
+    public String getDatabaseType() {
+        return getType().name();
+    }
+
+
 }

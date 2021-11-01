@@ -13,7 +13,9 @@ public class Configuration extends ConfigurationFile {
 
     //Database-Settings
 
-    private String databaseType,sqlHost,sqlPassword,sqlUsername,sqlPort,sqlDatabse;
+    private String databaseType,sqlHost,sqlPassword,sqlUsername,sqlDatabse;
+    private String mongoHost,mongodatabase;
+    private int mongoPort,sqlPort;
     private boolean sqlUseSSL;
 
     public Configuration(ConfigurationHandler handler) {
@@ -35,13 +37,20 @@ public class Configuration extends ConfigurationFile {
     public void loadConfig() {
         config.getString("storage.mysql-settings");
         this.version = config.getString("version");
+        //Database -- SQL
         this.databaseType = config.getString("storage.DBType");
         this.sqlHost = config.getString("storage.mysql-settings.host");
-        this.sqlPort = config.getString("storage.mysql-settings.port");
+        this.sqlPort = config.getInt("storage.mysql-settings.port");
         this.sqlUsername = config.getString("storage.mysql-settings.username");
         this.sqlPassword = config.getString("storage.mysql-settings.password");
         this.sqlDatabse = config.getString("storage.mysql-settings.database");
         this.sqlUseSSL = config.getBoolean("storage.mysql-settings.use-ssl");
+        //Database -- MongoDB
+        if(databaseType.equalsIgnoreCase("MongoDB")) {
+            this.mongoHost = config.getString("storage.mongoDB-settings.host");
+            this.mongoPort = config.getInt("storage.mongoDB-settings.port");
+            this.mongodatabase = config.getString("storage.mongoDB-settings.database");
+        }
         getHandler().getPlugin().getLogger().info("Plugin Configuration has been loaded with the version "+getVersion());
     }
 
@@ -49,6 +58,7 @@ public class Configuration extends ConfigurationFile {
     public long reloadConfig() {
         final long startTime = System.currentTimeMillis();
         this.config.forceReload();
+        init();
         final long endTime = System.currentTimeMillis();
         return (endTime-startTime);
     }
@@ -84,7 +94,7 @@ public class Configuration extends ConfigurationFile {
         return sqlUsername;
     }
 
-    public String getSqlPort() {
+    public int getSqlPort() {
         return sqlPort;
     }
 
@@ -94,5 +104,21 @@ public class Configuration extends ConfigurationFile {
 
     public boolean isSqlUseSSL() {
         return sqlUseSSL;
+    }
+
+    public String getMongoHost() {
+        return mongoHost;
+    }
+
+    public String getMongodatabase() {
+        return mongodatabase;
+    }
+
+    public int getMongoPort() {
+        return mongoPort;
+    }
+
+    public boolean isUsingNoSQL(){
+        return this.databaseType.equalsIgnoreCase("MongoDB");
     }
 }

@@ -1,13 +1,14 @@
 package me.alen_alex.advancedtags.database;
 
 import me.Abhigya.core.database.Database;
+import me.Abhigya.core.database.DatabaseType;
 import me.Abhigya.core.database.sql.SQLDatabase;
 import me.Abhigya.core.database.sql.h2.H2;
 import me.Abhigya.core.database.sql.hikaricp.HikariCP;
 import me.Abhigya.core.database.sql.hikaricp.HikariClientBuilder;
+import me.Abhigya.core.database.sql.postgresql.PostGreSQL;
 import me.Abhigya.core.database.sql.sqlite.SQLite;
 import me.alen_alex.advancedtags.AdvancedTags;
-import org.bukkit.Bukkit;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,7 +38,7 @@ public abstract class SQLStorage {
                 break;
             case "MYSQL":
                 databaseEngine = new HikariClientBuilder(getPlugin().getConfigurationHandler().getPluginConfig().getSqlHost(),
-                        Integer.parseInt(getPlugin().getConfigurationHandler().getPluginConfig().getSqlPort()),
+                        getPlugin().getConfigurationHandler().getPluginConfig().getSqlPort(),
                         getPlugin().getConfigurationHandler().getPluginConfig().getSqlDatabse(),
                         getPlugin().getConfigurationHandler().getPluginConfig().getSqlUsername(),
                         getPlugin().getConfigurationHandler().getPluginConfig().getSqlPassword(),
@@ -46,6 +47,17 @@ public abstract class SQLStorage {
                 break;
             case "SQLITE":
                 databaseEngine = new SQLite(localStoragePath,true);
+                break;
+            case "POSTGRESQL":
+                databaseEngine = new PostGreSQL(
+                        getPlugin().getConfigurationHandler().getPluginConfig().getSqlHost(),
+                        getPlugin().getConfigurationHandler().getPluginConfig().getSqlPort(),
+                        getPlugin().getConfigurationHandler().getPluginConfig().getSqlDatabse(),
+                        getPlugin().getConfigurationHandler().getPluginConfig().getSqlUsername(),
+                        getPlugin().getConfigurationHandler().getPluginConfig().getSqlPassword(),
+                        true,
+                        getPlugin().getConfigurationHandler().getPluginConfig().isSqlUseSSL()
+                );
                 break;
             default:
                 databaseEngine = new H2(localStoragePath,true);
@@ -63,7 +75,7 @@ public abstract class SQLStorage {
         }
     }
 
-    public Connection getDatabaseEngine() {
+    public Connection getConnection() {
         try {
             if(databaseEngine.isConnected())
                 return databaseEngine.getConnection();
@@ -75,5 +87,9 @@ public abstract class SQLStorage {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public DatabaseType getType(){
+        return databaseEngine.getDatabaseType();
     }
 }

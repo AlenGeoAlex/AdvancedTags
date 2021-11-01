@@ -6,8 +6,10 @@ version:
 ##H2 -> H2 is a local storage system (Better to use than SQLite) Default
 ##SQLite -> SQLite is also a local storage System
 ##MySQL -> MySQL is an online storage database system, Requires a MySQL Server. The plugin uses HikkariCP for performance
+##PostGreSQL -> Better Than MySQL in Storage
 ##MongoDB -> Coming Soon!
 ##mysql-settings: Basic MySQL Settings
+##mongoDB-settings: MongoDB Connection URL, port and database
 storage:
   DBType: "H2"
   mysql-settings:
@@ -17,3 +19,7 @@ storage:
     password: "password"
     database: "adv_tags"
     use-ssl: true
+  mongoDB-settings:
+    host:
+    port:
+    database:
