@@ -14,13 +14,13 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public abstract class Storage {
+public abstract class SQLStorage {
 
     private AdvancedTags plugin;
     private SQLDatabase databaseEngine;
     private static final String LOCAL_PATH = File.separator+"storage"+File.separator+"database.db";;
 
-    public Storage(AdvancedTags plugins) {
+    public SQLStorage(AdvancedTags plugins) {
         this.plugin = plugins;
         buildConnection();
     }
