@@ -7,15 +7,14 @@ import me.alen_alex.advancedtags.utils.FileUtils;
 
 public class ConfigurationHandler {
 
-    private AdvancedTags plugin;
+    private final AdvancedTags plugin;
     private FileUtils fileUtils;
-    //
     private Configuration pluginConfig;
     private MessageConfiguration messageConfiguration;
 
     enum FileType{
-        PLUGINCONFIG,
-        MESSAGECONFIG
+        PLUGIN_CONFIG,
+        MESSAGE_CONFIG
     }
 
     public ConfigurationHandler(AdvancedTags plugins) {
@@ -30,11 +29,8 @@ public class ConfigurationHandler {
     }
 
     public boolean loadAllPluginFiles(){
-        boolean loaded = true;
-        if(pluginConfig.init() && messageConfiguration.init())
-            loaded = true;
-        else
-            loaded = false;
+        boolean loaded;
+        loaded = pluginConfig.init() && messageConfiguration.init();
         return loaded;
     }
 
@@ -49,10 +45,10 @@ public class ConfigurationHandler {
     public long reloadFile(FileType fileType){
         long returnTime = Long.MIN_VALUE;
         switch (fileType){
-            case PLUGINCONFIG:
+            case PLUGIN_CONFIG:
                 returnTime = pluginConfig.reloadConfig();
                 break;
-            case MESSAGECONFIG:
+            case MESSAGE_CONFIG:
                 returnTime = messageConfiguration.reloadConfig();
                 break;
             default:

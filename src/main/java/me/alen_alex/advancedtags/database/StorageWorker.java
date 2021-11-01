@@ -4,7 +4,7 @@ public interface StorageWorker {
 
     boolean init();
 
-    boolean handleIntial();
+    boolean handleInitial();
 
     String getDatabaseType();
 }

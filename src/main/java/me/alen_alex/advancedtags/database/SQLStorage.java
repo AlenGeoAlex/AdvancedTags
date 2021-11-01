@@ -1,10 +1,8 @@
 package me.alen_alex.advancedtags.database;
 
-import me.Abhigya.core.database.Database;
 import me.Abhigya.core.database.DatabaseType;
 import me.Abhigya.core.database.sql.SQLDatabase;
 import me.Abhigya.core.database.sql.h2.H2;
-import me.Abhigya.core.database.sql.hikaricp.HikariCP;
 import me.Abhigya.core.database.sql.hikaricp.HikariClientBuilder;
 import me.Abhigya.core.database.sql.postgresql.PostGreSQL;
 import me.Abhigya.core.database.sql.sqlite.SQLite;
@@ -17,9 +15,9 @@ import java.sql.SQLException;
 
 public abstract class SQLStorage {
 
-    private AdvancedTags plugin;
+    private final AdvancedTags plugin;
     private SQLDatabase databaseEngine;
-    private static final String LOCAL_PATH = File.separator+"storage"+File.separator+"database.db";;
+    private static final String LOCAL_PATH = File.separator+"storage"+File.separator+"database.db";
 
     public SQLStorage(AdvancedTags plugins) {
         this.plugin = plugins;
@@ -77,12 +75,10 @@ public abstract class SQLStorage {
 
     public Connection getConnection() {
         try {
-            if(databaseEngine.isConnected())
-                return databaseEngine.getConnection();
-            else {
+            if(!databaseEngine.isConnected())
                 connect();
-                return databaseEngine.getConnection();
-            }
+
+            return databaseEngine.getConnection();
         } catch (IOException | SQLException e) {
             e.printStackTrace();
             return null;

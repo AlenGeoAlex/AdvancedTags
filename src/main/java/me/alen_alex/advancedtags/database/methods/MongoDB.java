@@ -6,7 +6,7 @@ import me.alen_alex.advancedtags.database.StorageWorker;
 public class MongoDB implements StorageWorker {
 
     private me.Abhigya.core.database.mongo.MongoDB databaseEngine;
-    private AdvancedTags plugin;
+    private final AdvancedTags plugin;
 
     public MongoDB(AdvancedTags plugin) {
         this.plugin = plugin;
@@ -23,7 +23,7 @@ public class MongoDB implements StorageWorker {
     }
 
     @Override
-    public boolean handleIntial() {
+    public boolean handleInitial() {
         return false;
     }
 

@@ -16,7 +16,7 @@ public class SQL extends SQLStorage implements StorageWorker {
     }
 
     @Override
-    public boolean handleIntial() {
+    public boolean handleInitial() {
         return false;
     }
 
