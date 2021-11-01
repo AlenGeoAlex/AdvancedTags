@@ -35,8 +35,12 @@ public final class AdvancedTags extends PluginAdapter {
 
     }
 
-    public static AdvancedTags getPlugin() {
+    public AdvancedTags getPlugin() {
         return plugin;
+    }
+
+    public ConfigurationHandler getConfigurationHandler() {
+        return configurationHandler;
     }
 
     private boolean initPlugin(){
