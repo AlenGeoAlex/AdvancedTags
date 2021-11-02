@@ -1,0 +1,13 @@
+Simple:
+  display-name: "&7Si&8Mp&fle"
+  dynamic: false
+  permission:
+    required: true
+    node: at.unlock.simple
+  lore:
+    - "&fSomething simple as we know!"
+    - ""
+    - "&cRequires permission: &6at.unlock.simple"
+  material: CRAFTING_TABLE
+
+

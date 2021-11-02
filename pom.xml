@@ -98,10 +98,6 @@
 
     <repositories>
         <repository>
-            <id>iridiumdevelopment</id>
-            <url>https://nexus.iridiumdevelopment.net/</url>
-        </repository>
-        <repository>
             <id>spigotmc-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
@@ -117,6 +113,10 @@
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
+        <repository>
+            <id>placeholderapi</id>
+            <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -130,12 +130,17 @@
             <groupId>me.Abhigya</groupId>
             <artifactId>CoreAPI</artifactId>
             <version>1.2.2</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.github.simplix-softworks</groupId>
             <artifactId>simplixstorage</artifactId>
             <version>3.2.3</version>
+        </dependency>
+        <dependency>
+            <groupId>me.clip</groupId>
+            <artifactId>placeholderapi</artifactId>
+            <version>2.10.10</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>
