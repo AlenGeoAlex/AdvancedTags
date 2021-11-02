@@ -4,6 +4,8 @@ import me.alen_alex.advancedtags.AdvancedTags;
 import me.alen_alex.advancedtags.database.SQLStorage;
 import me.alen_alex.advancedtags.database.StorageWorker;
 
+import java.sql.SQLException;
+
 public class SQL extends SQLStorage implements StorageWorker {
 
     public SQL(AdvancedTags plugins) {
@@ -23,6 +25,15 @@ public class SQL extends SQLStorage implements StorageWorker {
     @Override
     public String getDatabaseType() {
         return getType().name();
+    }
+
+    @Override
+    public void disconnect() {
+        try {
+            getConnection().close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 

@@ -44,7 +44,13 @@ public final class AdvancedTags extends PluginAdapter {
 
     @Override
     public void onDisable() {
-
+        if(storageWorker != null){
+            storageWorker.disconnect();
+            getLogger().info("Successfully disconnected from Database Service ["+storageWorker.getDatabaseType()+"]");
+        }else getLogger().warning("Storage Worker (Database) was not initialized, Hence didn't close the connection!");
+        storageWorker = null;
+        configurationHandler.saveAllConfigs();
+        configurationHandler = null;
     }
 
     public AdvancedTags getPlugin() {

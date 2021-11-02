@@ -56,6 +56,11 @@ public class ConfigurationHandler {
         return returnTime;
     }
 
+    public void saveAllConfigs(){
+        pluginConfig.saveConfig();
+        messageConfiguration.saveConfig();
+    }
+
     public FileUtils getFileUtils() {
         return fileUtils;
     }

@@ -7,4 +7,6 @@ public interface StorageWorker {
     boolean handleInitial();
 
     String getDatabaseType();
+
+    void disconnect();
 }

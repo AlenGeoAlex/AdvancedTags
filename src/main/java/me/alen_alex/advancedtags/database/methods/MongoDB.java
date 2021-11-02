@@ -32,6 +32,11 @@ public class MongoDB implements StorageWorker {
         return databaseEngine.getDatabaseType().name();
     }
 
+    @Override
+    public void disconnect() {
+        databaseEngine.disconnect();
+    }
+
     private boolean connect(){
         databaseEngine.connect();
         return databaseEngine.isConnected();
