@@ -4,6 +4,7 @@ import de.leonhard.storage.Config;
 import de.leonhard.storage.Yaml;
 import me.alen_alex.advancedtags.configurations.ConfigurationFile;
 import me.alen_alex.advancedtags.configurations.ConfigurationHandler;
+import org.apache.commons.lang.StringUtils;
 
 public class Configuration extends ConfigurationFile {
     private Config config;
@@ -15,6 +16,7 @@ public class Configuration extends ConfigurationFile {
 
     private String databaseType,sqlHost,sqlPassword,sqlUsername,sqlDatabse;
     private String mongoHost,mongodatabase;
+    private String pluginPrefix;
     private int mongoPort,sqlPort;
     private boolean sqlUseSSL;
 
@@ -37,6 +39,8 @@ public class Configuration extends ConfigurationFile {
     public void loadConfig() {
         config.getString("storage.mysql-settings");
         this.version = config.getString("version");
+        //Plugin-Prefix
+        this.pluginPrefix = handler.getPlugin().getChatUtils().parseColorCodes(config.getString("prefix"));
         //Database -- SQL
         this.databaseType = config.getString("storage.DBType");
         this.sqlHost = config.getString("storage.mysql-settings.host");
@@ -116,6 +120,14 @@ public class Configuration extends ConfigurationFile {
 
     public int getMongoPort() {
         return mongoPort;
+    }
+
+    public String getPluginPrefix() {
+        return pluginPrefix;
+    }
+
+    public boolean hasPluginPrefix(){
+        return StringUtils.isBlank(this.pluginPrefix);
     }
 
     public boolean isUsingNoSQL(){

@@ -1,5 +1,12 @@
 version:
 
+##prefix -> Prefix for the plugin messages, Leave empty if no prefix is required
+##The plugin utilizes the Iridium Color API, It will support Hex Colors on servers higher than 1.15. If the native server does not support it
+##The plugin will automatically try to convert all your text to the legacy color codes.
+##The usage of the color codes has been described on the Github of Iridium Color API. (Link Below)
+## https://github:com/Iridium-Development/IridiumColorAPI:
+prefix: "&7[<SOLID:FF0000>Advanced<SOLID:ABA6A6>Tags&7] &8»"
+
 ##Storage method plugin should utilize to store data
 ##DBType: Which Database Type Should the plugin should use
 ##Available DBTypes:
