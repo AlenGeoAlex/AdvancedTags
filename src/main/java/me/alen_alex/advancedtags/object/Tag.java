@@ -1,4 +1,4 @@
-package me.alen_alex.advancedtags.tags;
+package me.alen_alex.advancedtags.object;
 
 import com.google.common.base.Objects;
 import me.Abhigya.core.util.xseries.XMaterial;
@@ -6,7 +6,6 @@ import me.alen_alex.advancedtags.utils.iridiumcolorapi.IridiumColorAPI;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public final class Tag {
@@ -24,68 +23,6 @@ public final class Tag {
      * @param name
      * @param displayTag
      */
-    public Tag(String name, String displayTag) {
-        this.name = name;
-        this.displayTag = IridiumColorAPI.process(displayTag);
-        this.permissionRequired = false;
-        this.permission = "";
-        this.dynamicTag = false;
-        this.lore = new ArrayList<>();
-        this.menuMaterial = XMaterial.CRAFTING_TABLE;
-    }
-
-    /**
-     * Creates a new Tag
-     * @param name
-     * @param displayTag
-     * @param menuMaterial
-     */
-    public Tag(String name, String displayTag, XMaterial menuMaterial) {
-        this.name = name;
-        this.displayTag = IridiumColorAPI.process(displayTag);
-        this.menuMaterial = menuMaterial;
-        this.permissionRequired = false;
-        this.permission = "";
-        this.dynamicTag = false;
-        this.lore = new ArrayList<>();
-    }
-
-    /**
-     * Creates a new Tag
-     * @param name
-     * @param displayTag
-     * @param permissionRequired
-     * @param permission
-     */
-    public Tag(String name, String displayTag, boolean permissionRequired, String permission) {
-        this.name = name;
-        this.displayTag = IridiumColorAPI.process(displayTag);
-        this.permissionRequired = permissionRequired;
-        this.permission = permission.replaceAll("%name%",this.name);
-        this.dynamicTag = false;
-        this.lore = new ArrayList<>();
-        this.menuMaterial = XMaterial.CRAFTING_TABLE;
-    }
-
-    /**
-     * Creates a new Tag
-     * @param name
-     * @param displayTag
-     * @param permissionRequired
-     * @param permission
-     * @param dynamicTag
-     * @param lore
-     * @param menuMaterial
-     */
-    public Tag(String name, String displayTag, boolean permissionRequired, String permission, boolean dynamicTag, List<String> lore, XMaterial menuMaterial) {
-        this.name = name;
-        this.displayTag = IridiumColorAPI.process(displayTag);
-        this.permissionRequired = permissionRequired;
-        this.permission = permission;
-        this.dynamicTag = dynamicTag;
-        this.lore = lore;
-        this.menuMaterial = menuMaterial;
-    }
 
     public Tag(String name, String displayTag, boolean permissionRequired, String permission, boolean dynamicTag, List<String> lore, String menuMaterial) {
         XMaterial menuMaterial1;
@@ -93,6 +30,20 @@ public final class Tag {
         this.displayTag = IridiumColorAPI.process(displayTag);
         this.permissionRequired = permissionRequired;
         this.permission = permission;
+        this.dynamicTag = dynamicTag;
+        this.lore = lore;
+        menuMaterial1 = XMaterial.matchXMaterial(menuMaterial).get();
+        if(menuMaterial1 == null)
+            menuMaterial1 = XMaterial.CRAFTING_TABLE;
+        this.menuMaterial = menuMaterial1;
+    }
+
+    public Tag(String name, String displayTag, boolean dynamicTag, List<String> lore, String menuMaterial) {
+        XMaterial menuMaterial1;
+        this.name = name;
+        this.displayTag = IridiumColorAPI.process(displayTag);
+        this.permissionRequired = false;
+        this.permission = "";
         this.dynamicTag = dynamicTag;
         this.lore = lore;
         menuMaterial1 = XMaterial.matchXMaterial(menuMaterial).get();

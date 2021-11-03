@@ -19,7 +19,7 @@ public class Configuration extends ConfigurationFile {
     private String pluginPrefix;
     private int mongoPort,sqlPort;
     private boolean sqlUseSSL;
-    private boolean globalEnabled;
+    private boolean globalEnabled,globalPriority;
     public Configuration(ConfigurationHandler handler) {
         super(handler);
         this.handler = handler;
@@ -57,6 +57,7 @@ public class Configuration extends ConfigurationFile {
         }
         //Global-Tag
         this.globalEnabled = config.getBoolean("global-tag.enable");
+        this.globalPriority = config.getBoolean("global-tag.priority-for-global");
         getHandler().getPlugin().getLogger().info("Plugin Configuration has been loaded with the version "+getVersion());
     }
 
@@ -138,6 +139,10 @@ public class Configuration extends ConfigurationFile {
 
     public boolean isGlobalEnabled() {
         return globalEnabled;
+    }
+
+    public boolean isGlobalPriority() {
+        return globalPriority;
     }
 }
 

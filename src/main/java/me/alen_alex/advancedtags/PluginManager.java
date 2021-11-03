@@ -1,6 +1,6 @@
 package me.alen_alex.advancedtags;
 
-import me.alen_alex.advancedtags.tags.Tag;
+import me.alen_alex.advancedtags.object.Tag;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -17,7 +17,21 @@ public class PluginManager {
     }
 
     public void insertTag(@NotNull String tagName, @NotNull Tag tagObject){
-        this.tagCache.put(tagName,tagObject);
+        if(containsTag(tagName)){
+            if(plugin.getConfigurationHandler().getPluginConfig().isGlobalPriority())
+            {
+                if(tagObject.isGlobal()){
+                    this.tagCache.remove(tagName);
+                    this.tagCache.put(tagName,tagObject);
+                }
+            }else {
+                if(!tagObject.isGlobal()) {
+                    this.tagCache.remove(tagName);
+                    this.tagCache.put(tagName,tagObject);
+                }
+            }
+        }else
+            this.tagCache.put(tagName,tagObject);
     }
 
     public boolean containsTag(@NotNull String tagName){

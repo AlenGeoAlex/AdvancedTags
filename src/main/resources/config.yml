@@ -33,3 +33,4 @@ storage:
 
 global-tag:
   enable: true
+  priority-for-global: true
