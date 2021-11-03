@@ -3,16 +3,15 @@ package me.alen_alex.advancedtags;
 import me.Abhigya.core.main.CoreAPI;
 import me.Abhigya.core.plugin.PluginAdapter;
 import me.alen_alex.advancedtags.configurations.ConfigurationHandler;
-import me.alen_alex.advancedtags.database.StorageWorker;
-import me.alen_alex.advancedtags.database.methods.MongoDB;
-import me.alen_alex.advancedtags.database.methods.SQL;
+import me.alen_alex.advancedtags.database.StorageHandler;
 import me.alen_alex.advancedtags.utils.ChatUtils;
 
 public final class AdvancedTags extends PluginAdapter {
 
     private static AdvancedTags plugin;
+    private PluginManager pluginManager;
     private ConfigurationHandler configurationHandler;
-    private StorageWorker storageWorker;
+    private StorageHandler storageHandler;
     private ChatUtils chatUtils;
 
     @Override
@@ -24,6 +23,7 @@ public final class AdvancedTags extends PluginAdapter {
     protected boolean setUp() {
         plugin = this;
         CoreAPI.getInstance().load();
+        pluginManager = new PluginManager(this);
         return true;
     }
 
@@ -35,15 +35,12 @@ public final class AdvancedTags extends PluginAdapter {
 
     @Override
     protected boolean setUpHandlers(){
-        if(configurationHandler.getPluginConfig().isUsingNoSQL())
-            storageWorker = new MongoDB(this);
-        else
-            storageWorker = new SQL(this);
-        if(!storageWorker.init()){
+        storageHandler = new StorageHandler(this);
+        if(!storageHandler.connect()){
             getLogger().severe("Unable to connect to database... Plugin will be disabled");
             return false;
         }
-        getLogger().info("Connected to storage worker on "+storageWorker.getDatabaseType());
+        getLogger().info("Connected to storage worker on "+storageHandler.getType().name());
         chatUtils = new ChatUtils(this);
         if(configurationHandler.getPluginConfig().hasPluginPrefix())
             chatUtils.setPrefix(configurationHandler.getPluginConfig().getPluginPrefix());
@@ -52,11 +49,11 @@ public final class AdvancedTags extends PluginAdapter {
 
     @Override
     public void onDisable() {
-        if(storageWorker != null){
-            storageWorker.disconnect();
-            getLogger().info("Successfully disconnected from Database Service ["+storageWorker.getDatabaseType()+"]");
+        if(storageHandler != null){
+            storageHandler.disconnect();
+            getLogger().info("Successfully disconnected from Database Service ["+storageHandler.getType().name()+"]");
         }else getLogger().warning("Storage Worker (Database) was not initialized, Hence didn't close the connection!");
-        storageWorker = null;
+        storageHandler = null;
         configurationHandler.saveAllConfigs();
         configurationHandler = null;
         chatUtils = null;
@@ -76,13 +73,7 @@ public final class AdvancedTags extends PluginAdapter {
         return configurationHandler;
     }
 
-    /**
-     * The Database Storage Worker
-     * @return Storage Worker
-     */
-    public StorageWorker getStorageWorker() {
-        return storageWorker;
-    }
+
 
     /**
      * The Chat Handler
@@ -90,5 +81,21 @@ public final class AdvancedTags extends PluginAdapter {
      */
     public ChatUtils getChatUtils() {
         return chatUtils;
+    }
+
+    /**
+     * The plugin handler, where the plugin caches PlayerData and Tag Data
+     * @return
+     */
+    public PluginManager getPluginManager() {
+        return pluginManager;
+    }
+
+    /**
+     * The Database Storage Worker
+     * @return Storage Handler
+     */
+    public StorageHandler getStorageHandler() {
+        return storageHandler;
     }
 }

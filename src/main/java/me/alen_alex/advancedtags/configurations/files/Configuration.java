@@ -19,7 +19,7 @@ public class Configuration extends ConfigurationFile {
     private String pluginPrefix;
     private int mongoPort,sqlPort;
     private boolean sqlUseSSL;
-
+    private boolean globalEnabled;
     public Configuration(ConfigurationHandler handler) {
         super(handler);
         this.handler = handler;
@@ -55,6 +55,8 @@ public class Configuration extends ConfigurationFile {
             this.mongoPort = config.getInt("storage.mongoDB-settings.port");
             this.mongodatabase = config.getString("storage.mongoDB-settings.database");
         }
+        //Global-Tag
+        this.globalEnabled = config.getBoolean("global-tag.enable");
         getHandler().getPlugin().getLogger().info("Plugin Configuration has been loaded with the version "+getVersion());
     }
 
@@ -133,4 +135,9 @@ public class Configuration extends ConfigurationFile {
     public boolean isUsingNoSQL(){
         return this.databaseType.equalsIgnoreCase("MongoDB");
     }
+
+    public boolean isGlobalEnabled() {
+        return globalEnabled;
+    }
 }
+

@@ -30,3 +30,6 @@ storage:
     host:
     port:
     database:
+
+global-tag:
+  enable: true
