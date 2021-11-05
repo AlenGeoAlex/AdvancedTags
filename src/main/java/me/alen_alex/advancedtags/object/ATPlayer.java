@@ -24,6 +24,7 @@ public class ATPlayer {
         this.plugin = plugin;
         this.playerUnlockedTags = playerUnlockedTags;
         this.player = Bukkit.getPlayer(this.playerID);
+        this.playerName = player.getName();
         processPlayer();
     }
 

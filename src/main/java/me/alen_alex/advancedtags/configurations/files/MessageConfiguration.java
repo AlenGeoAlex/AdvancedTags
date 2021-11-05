@@ -11,6 +11,8 @@ public class MessageConfiguration extends ConfigurationFile{
     private ConfigurationHandler handler;
     private String version;
 
+    private String selectedRandomTag,removedTagNoTag;
+
     public MessageConfiguration(ConfigurationHandler handler) {
         super(handler);
         this.handler = handler;
@@ -29,6 +31,11 @@ public class MessageConfiguration extends ConfigurationFile{
     @Override
     public void loadConfig() {
         version = messageConfig.getString("version");
+
+        //Tag Proccess
+        this.selectedRandomTag = handler.getPlugin().getChatUtils().parseColorCodes(this.messageConfig.getString("selecting-random-tag-no-tag-on-server"));
+        this.removedTagNoTag = handler.getPlugin().getChatUtils().parseColorCodes(this.messageConfig.getString("no-tag-on-the-server"));
+
         getHandler().getPlugin().getLogger().info("Message Configuration has been loaded with the version "+getVersion());
     }
 
@@ -54,4 +61,7 @@ public class MessageConfiguration extends ConfigurationFile{
     public String getVersion() {
         return this.version;
     }
+
+
+
 }
