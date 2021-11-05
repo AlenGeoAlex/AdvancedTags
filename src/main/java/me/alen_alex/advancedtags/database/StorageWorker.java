@@ -18,7 +18,7 @@ public interface StorageWorker {
 
     DatabaseType getType();
 
-    boolean registerUser(Player player);
+    boolean registerUser(UUID player);
 
     boolean doUserExist(UUID uuid);
 

@@ -4,6 +4,7 @@ import de.leonhard.storage.Config;
 import de.leonhard.storage.Yaml;
 import me.alen_alex.advancedtags.configurations.ConfigurationFile;
 import me.alen_alex.advancedtags.configurations.ConfigurationHandler;
+import me.alen_alex.advancedtags.utils.iridiumcolorapi.IridiumColorAPI;
 import org.apache.commons.lang.StringUtils;
 
 public class Configuration extends ConfigurationFile {
@@ -20,6 +21,9 @@ public class Configuration extends ConfigurationFile {
     private int mongoPort,sqlPort;
     private boolean sqlUseSSL;
     private boolean globalEnabled,globalPriority;
+    private boolean randomTagOnInvalid;
+    private boolean failedToRegister,failedToFetch;
+    private String failedRegisterKickMessage,failedFetchKickMessage;
     public Configuration(ConfigurationHandler handler) {
         super(handler);
         this.handler = handler;
@@ -58,6 +62,14 @@ public class Configuration extends ConfigurationFile {
         //Global-Tag
         this.globalEnabled = config.getBoolean("global-tag.enable");
         this.globalPriority = config.getBoolean("global-tag.priority-for-global");
+
+        //Failed-Database-Operations
+        this.failedToRegister = config.getBoolean("kick-if-failed.register.enable");
+        this.failedToFetch = config.getBoolean("kick-if-failed.data-fetch.enable");
+        this.failedRegisterKickMessage = IridiumColorAPI.process(config.getString("kick-if-failed.register.message"));
+        this.failedFetchKickMessage = IridiumColorAPI.process(config.getString("kick-if-failed.data-fetch.message"));
+
+        this.randomTagOnInvalid = config.getBoolean("set-random-if-invalid-dbtag");
         getHandler().getPlugin().getLogger().info("Plugin Configuration has been loaded with the version "+getVersion());
     }
 
@@ -143,6 +155,26 @@ public class Configuration extends ConfigurationFile {
 
     public boolean isGlobalPriority() {
         return globalPriority;
+    }
+
+    public boolean isRandomTagOnInvalid() {
+        return randomTagOnInvalid;
+    }
+
+    public boolean isFailedToRegister() {
+        return failedToRegister;
+    }
+
+    public boolean isFailedToFetch() {
+        return failedToFetch;
+    }
+
+    public String getFailedRegisterKickMessage() {
+        return failedRegisterKickMessage;
+    }
+
+    public String getFailedFetchKickMessage() {
+        return failedFetchKickMessage;
     }
 }
 

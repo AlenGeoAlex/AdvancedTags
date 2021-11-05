@@ -46,9 +46,8 @@ public class MySQL implements StorageWorker {
     @Override
     public boolean handleInitial() {
         try {
-            final String QUERY_CREATE_PLAYERDATA = "CREATE TABLE IF NOT EXISTS "+this.handler.getSqlPlayerDataTable()+" (`id` int NOT NULL AUTO_INCREMENT PRIMARY KEY, `uuid` VARCHAR(50) NOT NULL,`current` VARCHAR(40) , `tags` VARCHAR(MAX));";
+            final String QUERY_CREATE_PLAYERDATA = "CREATE TABLE IF NOT EXISTS "+this.handler.getSqlPlayerDataTable()+" (`id` int NOT NULL AUTO_INCREMENT PRIMARY KEY, `uuid` VARCHAR(50) NOT NULL,`current` VARCHAR(40) ,`tags` VARCHAR(MAX));";
             final String QUERY_CREATE_GLOBALTAG = "CREATE TABLE IF NOT EXISTS "+this.handler.getSqlGlobalTagTable()+" (`id` int NOT NULL AUTO_INCREMENT PRIMARY KEY)";
-            //TODO Change to Execute
             this.databaseEngine.executeAsync(QUERY_CREATE_PLAYERDATA);
             if(this.handler.getPlugin().getConfigurationHandler().getPluginConfig().isGlobalEnabled()){
                 if(this.handler.isUsingOnlineDatabase()){
@@ -78,7 +77,8 @@ public class MySQL implements StorageWorker {
     }
 
     @Override
-    public boolean registerUser(Player player) {
+    public boolean registerUser(UUID player) {
+
         return false;
     }
 
@@ -89,6 +89,7 @@ public class MySQL implements StorageWorker {
 
     @Override
     public ATPlayer loadPlayer(UUID uuid) {
+
         return null;
     }
 

@@ -31,6 +31,15 @@ storage:
     port:
     database:
 
+set-random-if-invalid-dbtag: true
+kick-if-failed:
+  register:
+    enable: true
+    message: "&cFailed to register your user data to database - AdvancedTags"
+  data-fetch:
+    enable: true
+    message: "&cFailed to fetch your user data from database - AdvancedTags"
+
 global-tag:
   enable: true
   priority-for-global: true

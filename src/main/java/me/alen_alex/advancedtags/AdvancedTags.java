@@ -4,6 +4,8 @@ import me.Abhigya.core.main.CoreAPI;
 import me.Abhigya.core.plugin.PluginAdapter;
 import me.alen_alex.advancedtags.configurations.ConfigurationHandler;
 import me.alen_alex.advancedtags.database.StorageHandler;
+import me.alen_alex.advancedtags.listeners.AsyncPlayerJoinEvent;
+import me.alen_alex.advancedtags.listeners.PlayerJoinEvent;
 import me.alen_alex.advancedtags.utils.ChatUtils;
 
 public final class AdvancedTags extends PluginAdapter {
@@ -44,6 +46,13 @@ public final class AdvancedTags extends PluginAdapter {
         chatUtils = new ChatUtils(this);
         if(configurationHandler.getPluginConfig().hasPluginPrefix())
             chatUtils.setPrefix(configurationHandler.getPluginConfig().getPluginPrefix());
+        return true;
+    }
+
+    @Override
+    protected boolean setUpListeners(){
+        new AsyncPlayerJoinEvent(this);
+        new PlayerJoinEvent(this);
         return true;
     }
 

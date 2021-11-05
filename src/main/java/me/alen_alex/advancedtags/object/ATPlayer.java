@@ -1,5 +1,6 @@
 package me.alen_alex.advancedtags.object;
 
+import me.alen_alex.advancedtags.AdvancedTags;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -10,19 +11,49 @@ public class ATPlayer {
 
     private final UUID playerID;
     private String playerName;
+    private String tagOnDatabase;
     private List<String> playerUnlockedTags;
     private Tag playerCurrentTag;
     private final Player player;
+    private final AdvancedTags plugin;
 
-    public ATPlayer(UUID playerID) {
+
+    public ATPlayer(AdvancedTags plugin,UUID playerID, String tagOnDatabase,List<String> playerUnlockedTags) {
         this.playerID = playerID;
+        this.tagOnDatabase = tagOnDatabase;
+        this.plugin = plugin;
+        this.playerUnlockedTags = playerUnlockedTags;
         this.player = Bukkit.getPlayer(this.playerID);
+        processPlayer();
     }
 
-    public ATPlayer(UUID playerID, String playerName) {
-        this.playerID = playerID;
-        this.playerName = playerName;
-        this.player = Bukkit.getPlayer(this.playerID);
+    private void processPlayer(){
+        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
+            @Override
+            public void run() {
+                if(plugin.getPluginManager().containsTag(tagOnDatabase)){
+                    playerCurrentTag = plugin.getPluginManager().getTagFromCache(tagOnDatabase);
+                }else {
+                    if(plugin.getConfigurationHandler().getPluginConfig().isRandomTagOnInvalid()){
+                        boolean found = false;
+                        for(String tagName : playerUnlockedTags){
+                            if(plugin.getPluginManager().containsTag(tagName)){
+                                found = true;
+                                playerCurrentTag = plugin.getPluginManager().getTagFromCache(tagName);
+                                break;
+                            }
+                        }
+                        if(!found)
+                            playerCurrentTag = null;
+                        else plugin.getChatUtils().sendSimpleMessage(player,"//TODO Current tag not on server, switching to random ${tagName}");
+                    }else playerCurrentTag = null;
+                }
+
+                if(playerCurrentTag == null){
+                    //TODO Send no tag on the server message
+                }
+            }
+        });
     }
 
     public Tag getPlayerCurrentTag() {
@@ -46,4 +77,6 @@ public class ATPlayer {
     public int getTillUnlockedTagCount(){
         return this.playerUnlockedTags.size();
     }
+
+
 }

@@ -23,6 +23,7 @@ public class ChatUtils {
 
     public void setPrefix(String prefix) {
         this.prefix = prefix;
+        prefix = IridiumColorAPI.process(this.prefix);
     }
 
     public String parseColorCodes(@NotNull String message) {
@@ -35,13 +36,27 @@ public class ChatUtils {
         if (StringUtils.isBlank(prefix))
             return parseColorCodes(message);
         else
-            return parseColorCodes(this.prefix + " " + message);
+            return (this.prefix + " " + parseColorCodes(message));
+    }
+
+    private String formatSimpleMessage(String message){
+        if (StringUtils.isBlank(prefix))
+            return (message);
+        else
+            return (this.prefix + " " + message);
     }
 
     public void sendMessage(@NotNull Player player, String message) {
         if (StringUtils.isBlank(message))
             return;
         player.sendMessage(formatMessage(message));
+    }
+
+    public void sendSimpleMessage(@NotNull Player player,String message){
+        if(StringUtils.isBlank(message))
+            return;
+
+        player.sendMessage(formatSimpleMessage(message));
     }
 
     public void sendMessage(@NotNull CommandSender sender, String message) {
