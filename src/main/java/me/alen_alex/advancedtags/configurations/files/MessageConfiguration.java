@@ -3,6 +3,7 @@ package me.alen_alex.advancedtags.configurations.files;
 import de.leonhard.storage.Yaml;
 import me.alen_alex.advancedtags.configurations.ConfigurationFile;
 import me.alen_alex.advancedtags.configurations.ConfigurationHandler;
+import me.alen_alex.advancedtags.utils.ChatUtils;
 
 public class MessageConfiguration extends ConfigurationFile{
 
@@ -10,12 +11,14 @@ public class MessageConfiguration extends ConfigurationFile{
 
     private ConfigurationHandler handler;
     private String version;
+    private ChatUtils chatUtils;
 
     private String selectedRandomTag,removedTagNoTag;
 
     public MessageConfiguration(ConfigurationHandler handler) {
         super(handler);
         this.handler = handler;
+        chatUtils = handler.getPlugin().getChatUtils();
     }
 
     @Override
