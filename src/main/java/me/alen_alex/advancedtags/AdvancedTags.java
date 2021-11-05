@@ -11,7 +11,7 @@ import me.alen_alex.advancedtags.utils.ChatUtils;
 public final class AdvancedTags extends PluginAdapter {
 
     private static AdvancedTags plugin;
-    private PluginManager pluginManager;
+    private PluginDataManager pluginManager;
     private ConfigurationHandler configurationHandler;
     private StorageHandler storageHandler;
     private ChatUtils chatUtils;
@@ -25,7 +25,7 @@ public final class AdvancedTags extends PluginAdapter {
     protected boolean setUp() {
         plugin = this;
         CoreAPI.getInstance().load();
-        pluginManager = new PluginManager(this);
+        pluginManager = new PluginDataManager(this);
         return true;
     }
 
@@ -96,7 +96,7 @@ public final class AdvancedTags extends PluginAdapter {
      * The plugin handler, where the plugin caches PlayerData and Tag Data
      * @return
      */
-    public PluginManager getPluginManager() {
+    public PluginDataManager getPluginManager() {
         return pluginManager;
     }
 

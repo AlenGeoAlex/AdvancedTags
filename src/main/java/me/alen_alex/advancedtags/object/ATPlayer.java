@@ -78,5 +78,15 @@ public class ATPlayer {
         return this.playerUnlockedTags.size();
     }
 
+    public UUID getPlayerID() {
+        return playerID;
+    }
 
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
 }

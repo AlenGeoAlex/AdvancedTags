@@ -27,9 +27,7 @@ public class PlayerJoinEvent implements Listener {
                     event.getPlayer().kickPlayer(plugin.getConfigurationHandler().getPluginConfig().getFailedFetchKickMessage());
                 return;
             }
-
-            //TODO Add player to the plugin manager cache once coded!
-
+            plugin.getPluginManager().addPlayer(newPlayer);
         }else event.getPlayer().kickPlayer("Rejoin to register your data on the server");
 
     }
