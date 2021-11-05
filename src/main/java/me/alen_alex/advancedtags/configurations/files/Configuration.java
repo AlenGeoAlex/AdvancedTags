@@ -24,6 +24,7 @@ public class Configuration extends ConfigurationFile {
     private boolean randomTagOnInvalid;
     private boolean failedToRegister,failedToFetch;
     private String failedRegisterKickMessage,failedFetchKickMessage;
+    private boolean hookVault,hookPlaceholderAPI;
     public Configuration(ConfigurationHandler handler) {
         super(handler);
         this.handler = handler;
@@ -68,6 +69,10 @@ public class Configuration extends ConfigurationFile {
         this.failedToFetch = config.getBoolean("kick-if-failed.data-fetch.enable");
         this.failedRegisterKickMessage = IridiumColorAPI.process(config.getString("kick-if-failed.register.message"));
         this.failedFetchKickMessage = IridiumColorAPI.process(config.getString("kick-if-failed.data-fetch.message"));
+
+        //hooks
+        this.hookVault = config.getBoolean("hooks.vault");
+        this.hookPlaceholderAPI = config.getBoolean("hooks.placeholder-api");
 
         this.randomTagOnInvalid = config.getBoolean("set-random-if-invalid-dbtag");
         getHandler().getPlugin().getLogger().info("Plugin Configuration has been loaded with the version "+getVersion());
@@ -175,6 +180,14 @@ public class Configuration extends ConfigurationFile {
 
     public String getFailedFetchKickMessage() {
         return failedFetchKickMessage;
+    }
+
+    public boolean isHookVault() {
+        return hookVault;
+    }
+
+    public boolean isHookPlaceholderAPI() {
+        return hookPlaceholderAPI;
     }
 }
 

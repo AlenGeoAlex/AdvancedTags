@@ -12,12 +12,13 @@ public final class Tag {
 
     private final String name;
     private final String displayTag;
-    private final boolean permissionRequired;
-    private final String permission;
-    private final boolean dynamicTag;
+    private boolean permissionRequired;
+    private String permission;
+    private boolean dynamicTag;
     private final List<String> lore;
     private final XMaterial menuMaterial;
     private boolean global = false;
+    private float money;
     /**
      * Creates a new Tag
      * @param name
@@ -50,6 +51,22 @@ public final class Tag {
         if(menuMaterial1 == null)
             menuMaterial1 = XMaterial.CRAFTING_TABLE;
         this.menuMaterial = menuMaterial1;
+    }
+
+    public void setPermissionRequired(boolean permissionRequired) {
+        this.permissionRequired = permissionRequired;
+    }
+
+    public void setPermission(String permission) {
+        this.permission = permission;
+    }
+
+    public void setDynamicTag(boolean dynamicTag) {
+        this.dynamicTag = dynamicTag;
+    }
+
+    public void setMoney(float money) {
+        this.money = money;
     }
 
     public String getName() {
@@ -109,4 +126,6 @@ public final class Tag {
     public int hashCode() {
         return Objects.hashCode(name, displayTag, permissionRequired, permission, dynamicTag, lore, menuMaterial, global);
     }
+
+
 }

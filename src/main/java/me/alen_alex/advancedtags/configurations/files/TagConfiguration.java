@@ -34,6 +34,7 @@ public class TagConfiguration extends ConfigurationFile {
          final List<Tag> batchTag = new ArrayList<Tag>();
          for(String tagName : tagConfig.singleLayerKeySet()){
              tagConfig.setPathPrefix(tagName);
+             //Redo with setters, check vaulthook, placeholderhooks
              Tag loadable;
              if(tagConfig.contains("permission") && !tagConfig.getBoolean("permission.required"))
                 loadable  = new Tag(tagName,

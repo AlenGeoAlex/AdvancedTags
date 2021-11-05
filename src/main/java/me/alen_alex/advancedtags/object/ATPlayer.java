@@ -46,12 +46,12 @@ public class ATPlayer {
                         }
                         if(!found)
                             playerCurrentTag = null;
-                        else plugin.getChatUtils().sendSimpleMessage(player,"//TODO Current tag not on server, switching to random ${tagName}");
+                        else plugin.getChatUtils().sendSimpleMessage(player,plugin.getConfigurationHandler().getMessageConfiguration().getSelectedRandomTag(tagOnDatabase,playerCurrentTag.getName()));
                     }else playerCurrentTag = null;
                 }
 
                 if(playerCurrentTag == null){
-                    //TODO Send no tag on the server message
+                    plugin.getChatUtils().sendSimpleMessage(player,plugin.getConfigurationHandler().getMessageConfiguration().getRemovedTagNoTag(tagOnDatabase));
                 }
             }
         });

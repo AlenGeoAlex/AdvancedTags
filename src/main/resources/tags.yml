@@ -9,5 +9,5 @@ Simple:
     - ""
     - "&cRequires permission: &6at.unlock.simple"
   material: CRAFTING_TABLE
-
+  money: 250
 

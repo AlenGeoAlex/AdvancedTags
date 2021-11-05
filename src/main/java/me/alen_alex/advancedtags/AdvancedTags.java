@@ -15,6 +15,7 @@ public final class AdvancedTags extends PluginAdapter {
     private ConfigurationHandler configurationHandler;
     private StorageHandler storageHandler;
     private ChatUtils chatUtils;
+    private boolean vaultEnabled,placeholderAPIEnabled;
 
     @Override
     public void onLoad(){
@@ -106,5 +107,13 @@ public final class AdvancedTags extends PluginAdapter {
      */
     public StorageHandler getStorageHandler() {
         return storageHandler;
+    }
+
+    public boolean isVaultEnabled() {
+        return vaultEnabled;
+    }
+
+    public boolean isPlaceholderAPIEnabled() {
+        return placeholderAPIEnabled;
     }
 }

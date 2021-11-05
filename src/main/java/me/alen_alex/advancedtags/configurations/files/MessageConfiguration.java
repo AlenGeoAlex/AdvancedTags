@@ -11,14 +11,12 @@ public class MessageConfiguration extends ConfigurationFile{
 
     private ConfigurationHandler handler;
     private String version;
-    private ChatUtils chatUtils;
 
     private String selectedRandomTag,removedTagNoTag;
 
     public MessageConfiguration(ConfigurationHandler handler) {
         super(handler);
         this.handler = handler;
-        chatUtils = handler.getPlugin().getChatUtils();
     }
 
     @Override
@@ -53,6 +51,14 @@ public class MessageConfiguration extends ConfigurationFile{
     @Override
     public void saveConfig() {
 
+    }
+
+    public String getSelectedRandomTag(String oldTag,String newTag){
+        return this.selectedRandomTag.replaceAll("%selected_tag%",oldTag).replaceAll("%temp_tag%",newTag);
+    }
+
+    public String getRemovedTagNoTag(String oldTag){
+        return this.selectedRandomTag.replaceAll("%selected_tag%",oldTag);
     }
 
     @Override

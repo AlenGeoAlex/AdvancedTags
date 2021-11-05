@@ -40,6 +40,10 @@ kick-if-failed:
     enable: true
     message: "&cFailed to fetch your user data from database - AdvancedTags"
 
+hooks:
+  vault: true
+  placeholder-api: true
+
 global-tag:
   enable: true
   priority-for-global: true
