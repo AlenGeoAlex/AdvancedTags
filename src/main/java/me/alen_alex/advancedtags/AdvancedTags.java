@@ -95,7 +95,7 @@ public final class AdvancedTags extends PluginAdapter {
 
     /**
      * The Configuration Handler. It Handles Every Files Required By The Plugin
-     * @return
+     * @return Configuration Handler
      */
     public ConfigurationHandler getConfigurationHandler() {
         return configurationHandler;
@@ -105,7 +105,7 @@ public final class AdvancedTags extends PluginAdapter {
 
     /**
      * The Chat Handler
-     * @return
+     * @return ChatUtils
      */
     public ChatUtils getChatUtils() {
         return chatUtils;
@@ -113,7 +113,7 @@ public final class AdvancedTags extends PluginAdapter {
 
     /**
      * The plugin handler, where the plugin caches PlayerData and Tag Data
-     * @return
+     * @return PluginDataManager
      */
     public PluginDataManager getPluginManager() {
         return pluginManager;
