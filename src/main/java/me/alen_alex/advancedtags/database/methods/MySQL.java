@@ -46,7 +46,7 @@ public class MySQL implements StorageWorker {
     @Override
     public boolean handleInitial() {
         try {
-            final String QUERY_CREATE_PLAYERDATA = "CREATE TABLE IF NOT EXISTS "+this.handler.getSqlPlayerDataTable()+" (`id` int NOT NULL AUTO_INCREMENT PRIMARY KEY, `uuid` VARCHAR(50) NOT NULL,`current` VARCHAR(40) ,`tags` VARCHAR(MAX));";
+            final String QUERY_CREATE_PLAYERDATA = "CREATE TABLE IF NOT EXISTS "+this.handler.getSqlPlayerDataTable()+" (`id` int NOT NULL AUTO_INCREMENT PRIMARY KEY, `uuid` VARCHAR(50) NOT NULL,`current` VARCHAR(40) ,`tags` TEXT);";
             final String QUERY_CREATE_GLOBALTAG = "CREATE TABLE IF NOT EXISTS "+this.handler.getSqlGlobalTagTable()+" (`id` int NOT NULL AUTO_INCREMENT PRIMARY KEY)";
             this.databaseEngine.executeAsync(QUERY_CREATE_PLAYERDATA);
             if(this.handler.getPlugin().getConfigurationHandler().getPluginConfig().isGlobalEnabled()){
@@ -81,7 +81,7 @@ public class MySQL implements StorageWorker {
         final CompletableFuture<Boolean> future = new CompletableFuture<Boolean>();
 
         try {
-            this.databaseEngine.executeAsync("INSERT INTO " + handler.getSqlPlayerDataTable() + "` (`uuid`) VALUES ('" + uuid.toString() + "');").thenAccept(b -> future.complete(b));
+            this.databaseEngine.executeAsync("INSERT INTO `" + handler.getSqlPlayerDataTable() + "` (`uuid`) VALUES ('" + uuid.toString() + "');").thenAccept(b -> future.complete(b));
         }catch (Exception e){
             this.handler.getPlugin().getLogger().warning("Unable to register playerdata for "+uuid);
             future.complete(false);
@@ -99,8 +99,12 @@ public class MySQL implements StorageWorker {
                 public void accept(ResultSet resultSet) throws SQLException {
                     if(resultSet == null)
                         future.complete(false);
+
                     if(resultSet.next())
                         future.complete(true);
+                    else
+                        future.complete(false);
+
                 }
             });
         }catch (Exception e){

@@ -6,6 +6,7 @@ import me.alen_alex.advancedtags.utils.iridiumcolorapi.IridiumColorAPI;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public final class Tag {
@@ -15,8 +16,8 @@ public final class Tag {
     private boolean permissionRequired;
     private String permission;
     private boolean dynamicTag;
-    private final List<String> lore;
-    private final XMaterial menuMaterial;
+    private List<String> lore;
+    private XMaterial menuMaterial;
     private boolean global = false;
     private float money;
     /**
@@ -51,6 +52,16 @@ public final class Tag {
         if(menuMaterial1 == null)
             menuMaterial1 = XMaterial.CRAFTING_TABLE;
         this.menuMaterial = menuMaterial1;
+    }
+
+    public Tag(String name, String displayTag) {
+        this.name = name;
+        this.displayTag = IridiumColorAPI.process(displayTag);
+        this.permissionRequired = false;
+        this.permission = "";
+        this.dynamicTag = false;
+        this.lore = new ArrayList<String>();
+        this.menuMaterial = XMaterial.CRAFTING_TABLE;
     }
 
     public void setPermissionRequired(boolean permissionRequired) {
@@ -113,6 +124,13 @@ public final class Tag {
         this.global = global;
     }
 
+    public void setLore(List<String> lore) {
+        this.lore = lore;
+    }
+
+    public void setMenuMaterial(XMaterial menuMaterial) {
+        this.menuMaterial = menuMaterial;
+    }
 
     @Override
     public boolean equals(Object o) {

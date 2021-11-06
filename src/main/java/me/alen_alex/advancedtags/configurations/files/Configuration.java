@@ -42,7 +42,6 @@ public class Configuration extends ConfigurationFile {
 
     @Override
     public void loadConfig() {
-        config.getString("storage.mysql-settings");
         this.version = config.getString("version");
         //Plugin-Prefix
         this.pluginPrefix = handler.getPlugin().getChatUtils().parseColorCodes(config.getString("prefix"));

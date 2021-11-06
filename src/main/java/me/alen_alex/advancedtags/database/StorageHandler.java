@@ -63,6 +63,10 @@ public class StorageHandler {
         return databaseImpl.init();
     }
 
+    public boolean doStartupWorks(){
+        return databaseImpl.handleInitial();
+    }
+
     public void disconnect(){
         databaseImpl.disconnect();
     }

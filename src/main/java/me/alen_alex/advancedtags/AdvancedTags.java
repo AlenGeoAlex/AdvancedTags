@@ -27,6 +27,9 @@ public final class AdvancedTags extends PluginAdapter {
         plugin = this;
         CoreAPI.getInstance().load();
         pluginManager = new PluginDataManager(this);
+        chatUtils = new ChatUtils(this);
+        vaultEnabled = getServer().getPluginManager().isPluginEnabled("Vault");
+        placeholderAPIEnabled = getServer().getPluginManager().isPluginEnabled("PlaceholderAPI");
         return true;
     }
 
@@ -43,8 +46,11 @@ public final class AdvancedTags extends PluginAdapter {
             getLogger().severe("Unable to connect to database... Plugin will be disabled");
             return false;
         }
+
+        if(!storageHandler.doStartupWorks())
+            return false;
+
         getLogger().info("Connected to storage worker on "+storageHandler.getType().name());
-        chatUtils = new ChatUtils(this);
         if(configurationHandler.getPluginConfig().hasPluginPrefix())
             chatUtils.setPrefix(configurationHandler.getPluginConfig().getPluginPrefix());
         return true;
@@ -52,8 +58,8 @@ public final class AdvancedTags extends PluginAdapter {
 
     @Override
     protected boolean setUpListeners(){
-        new AsyncPlayerJoinEvent(this);
-        new PlayerJoinEvent(this);
+        getServer().getPluginManager().registerEvents(new PlayerJoinEvent(this),this);
+        getServer().getPluginManager().registerEvents(new AsyncPlayerJoinEvent(this),this);
         return true;
     }
 

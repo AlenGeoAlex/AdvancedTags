@@ -1,6 +1,7 @@
 package me.alen_alex.advancedtags.object;
 
 import me.alen_alex.advancedtags.AdvancedTags;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -32,26 +33,29 @@ public class ATPlayer {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
             @Override
             public void run() {
-                if(plugin.getPluginManager().containsTag(tagOnDatabase)){
-                    playerCurrentTag = plugin.getPluginManager().getTagFromCache(tagOnDatabase);
-                }else {
-                    if(plugin.getConfigurationHandler().getPluginConfig().isRandomTagOnInvalid()){
-                        boolean found = false;
-                        for(String tagName : playerUnlockedTags){
-                            if(plugin.getPluginManager().containsTag(tagName)){
-                                found = true;
-                                playerCurrentTag = plugin.getPluginManager().getTagFromCache(tagName);
-                                break;
+                if(tagOnDatabase != null || StringUtils.isNotBlank(tagOnDatabase)) {
+                    if (plugin.getPluginManager().containsTag(tagOnDatabase)) {
+                        playerCurrentTag = plugin.getPluginManager().getTagFromCache(tagOnDatabase);
+                    } else {
+                        if (plugin.getConfigurationHandler().getPluginConfig().isRandomTagOnInvalid()) {
+                            boolean found = false;
+                            for (String tagName : playerUnlockedTags) {
+                                if (plugin.getPluginManager().containsTag(tagName)) {
+                                    found = true;
+                                    playerCurrentTag = plugin.getPluginManager().getTagFromCache(tagName);
+                                    break;
+                                }
                             }
-                        }
-                        if(!found)
-                            playerCurrentTag = null;
-                        else plugin.getChatUtils().sendSimpleMessage(player,plugin.getConfigurationHandler().getMessageConfiguration().getSelectedRandomTag(tagOnDatabase,playerCurrentTag.getName()));
-                    }else playerCurrentTag = null;
-                }
+                            if (!found)
+                                playerCurrentTag = null;
+                            else
+                                plugin.getChatUtils().sendSimpleMessage(player, plugin.getConfigurationHandler().getMessageConfiguration().getSelectedRandomTag(tagOnDatabase, playerCurrentTag.getName()));
+                        } else playerCurrentTag = null;
+                    }
 
-                if(playerCurrentTag == null){
-                    plugin.getChatUtils().sendSimpleMessage(player,plugin.getConfigurationHandler().getMessageConfiguration().getRemovedTagNoTag(tagOnDatabase));
+                    if(playerCurrentTag == null){
+                        plugin.getChatUtils().sendSimpleMessage(player,plugin.getConfigurationHandler().getMessageConfiguration().getRemovedTagNoTag(tagOnDatabase));
+                    }
                 }
             }
         });

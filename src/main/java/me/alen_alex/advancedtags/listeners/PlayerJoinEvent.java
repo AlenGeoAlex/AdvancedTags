@@ -13,15 +13,18 @@ public class PlayerJoinEvent implements Listener {
 
     public PlayerJoinEvent(AdvancedTags plugin) {
         this.plugin = plugin;
-        plugin.getServer().getPluginManager().registerEvents(this,this.plugin);
     }
 
     @EventHandler
     public void onPlayerJoinEvent(org.bukkit.event.player.PlayerJoinEvent event){
+
+
+
         final UUID playerUUID = event.getPlayer().getUniqueId();
             plugin.getStorageHandler().getDatabaseImpl().doUserExist(playerUUID).thenAccept(exist -> {
-               if(exist){
+                if(exist){
                    plugin.getStorageHandler().getDatabaseImpl().loadPlayer(playerUUID).thenAccept(player -> {
+
                        if(player == null){
                            if(plugin.getConfigurationHandler().getPluginConfig().isFailedToFetch())
                                SchedulerUtils.runTask(new Runnable() {

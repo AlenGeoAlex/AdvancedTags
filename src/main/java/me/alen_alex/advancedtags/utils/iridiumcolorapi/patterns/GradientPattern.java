@@ -1,6 +1,7 @@
 package me.alen_alex.advancedtags.utils.iridiumcolorapi.patterns;
 
-import com.iridium.iridiumcolorapi.IridiumColorAPI;
+
+import me.alen_alex.advancedtags.utils.iridiumcolorapi.IridiumColorAPI;
 
 import java.awt.*;
 import java.util.regex.Matcher;

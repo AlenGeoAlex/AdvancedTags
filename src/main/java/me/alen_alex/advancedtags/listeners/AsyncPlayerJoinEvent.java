@@ -14,13 +14,13 @@ public class AsyncPlayerJoinEvent implements Listener {
 
     public AsyncPlayerJoinEvent(AdvancedTags plugin) {
         this.plugin = plugin;
-        plugin.getPlugin().getServer().getPluginManager().registerEvents(this,this.plugin);
     }
 
     @EventHandler
     public void onAsyncPlayerJoinEvent(AsyncPlayerPreLoginEvent event){
         if(event.getLoginResult() != AsyncPlayerPreLoginEvent.Result.ALLOWED)
             return;
+
 
         final UUID playerUUID = event.getUniqueId();
         plugin.getStorageHandler().getDatabaseImpl().doUserExist(playerUUID).thenAccept(exist -> {

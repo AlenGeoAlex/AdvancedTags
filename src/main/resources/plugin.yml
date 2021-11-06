@@ -3,3 +3,6 @@ version: '${project.version}'
 main: me.alen_alex.advancedtags.AdvancedTags
 prefix: AT
 authors: [ Alen_Alex ]
+softdepend:
+  - "PlaceholderAPI"
+  - "Vault"
