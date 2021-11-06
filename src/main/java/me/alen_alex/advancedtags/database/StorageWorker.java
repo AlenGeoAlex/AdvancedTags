@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 public interface StorageWorker {
 
@@ -20,9 +21,9 @@ public interface StorageWorker {
 
     boolean registerUser(UUID player);
 
-    boolean doUserExist(UUID uuid);
+    CompletableFuture<Boolean> doUserExist(UUID uuid);
 
-    ATPlayer loadPlayer(UUID uuid);
+    CompletableFuture<ATPlayer> loadPlayer(UUID uuid);
 
     List<Tag> loadBatchTags();
 

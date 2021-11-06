@@ -9,11 +9,15 @@ import me.alen_alex.advancedtags.database.methods.MongoDB;
 import me.alen_alex.advancedtags.database.methods.MySQL;
 import me.alen_alex.advancedtags.database.methods.PostGreSQL;
 import me.alen_alex.advancedtags.database.methods.SQLite;
+import org.apache.commons.lang.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class StorageHandler {
 
@@ -21,6 +25,7 @@ public class StorageHandler {
     private StorageWorker databaseImpl;
     private static final String SQL_PLAYER_DATA_TABLE = "adtag_pd";
     private static final String SQL_GLOBAL_TAG_TABLE = "adtab_gt";
+    private static final String TAG_DELIMITER = "/:/";
 
     public StorageHandler(AdvancedTags plugins) {
         this.plugin = plugins;
@@ -81,5 +86,14 @@ public class StorageHandler {
 
     public DatabaseType getType(){
         return this.databaseImpl.getType();
+    }
+
+    public List<String> fetchAndSplitTags(String fromDB){
+        List<String> tags = new ArrayList<String>();
+        if(StringUtils.isBlank(fromDB))
+            return tags;
+        Arrays.stream(fromDB.split(TAG_DELIMITER)).forEach(s -> tags.add(s));
+
+        return tags;
     }
 }

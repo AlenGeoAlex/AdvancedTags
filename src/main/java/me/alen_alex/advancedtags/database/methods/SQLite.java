@@ -5,8 +5,13 @@ import me.Abhigya.core.database.sql.SQLDatabase;
 import me.alen_alex.advancedtags.AdvancedTags;
 import me.alen_alex.advancedtags.database.StorageHandler;
 import me.alen_alex.advancedtags.database.StorageWorker;
+import me.alen_alex.advancedtags.object.ATPlayer;
+import me.alen_alex.advancedtags.object.Tag;
 
 import java.io.File;
+import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 public class SQLite implements StorageWorker {
 
@@ -46,5 +51,50 @@ public class SQLite implements StorageWorker {
     @Override
     public DatabaseType getType() {
         return DatabaseType.SQLite;
+    }
+
+    @Override
+    public boolean registerUser(UUID player) {
+        return false;
+    }
+
+    @Override
+    public CompletableFuture<Boolean> doUserExist(UUID uuid) {
+        return null;
+    }
+
+    @Override
+    public CompletableFuture<ATPlayer> loadPlayer(UUID uuid) {
+        return null;
+    }
+
+    @Override
+    public List<Tag> loadBatchTags() {
+        return null;
+    }
+
+    @Override
+    public boolean setCurrentTag(String name) {
+        return false;
+    }
+
+    @Override
+    public boolean insertGlobalTag(Tag tag) {
+        return false;
+    }
+
+    @Override
+    public boolean updateGlobalTag(Tag tag) {
+        return false;
+    }
+
+    @Override
+    public boolean removeGlobalTag(String tagName) {
+        return false;
+    }
+
+    @Override
+    public Tag fetchTag(String tagName) {
+        return null;
     }
 }

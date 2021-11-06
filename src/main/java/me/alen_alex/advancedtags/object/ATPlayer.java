@@ -10,8 +10,8 @@ import java.util.UUID;
 public class ATPlayer {
 
     private final UUID playerID;
-    private String playerName;
-    private String tagOnDatabase;
+    private final String playerName;
+    private final String tagOnDatabase;
     private List<String> playerUnlockedTags;
     private Tag playerCurrentTag;
     private final Player player;

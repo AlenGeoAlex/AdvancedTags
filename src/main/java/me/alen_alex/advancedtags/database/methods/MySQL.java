@@ -1,6 +1,7 @@
 package me.alen_alex.advancedtags.database.methods;
 
 import me.Abhigya.core.database.DatabaseType;
+import me.Abhigya.core.database.sql.SQLConsumer;
 import me.Abhigya.core.database.sql.SQLDatabase;
 import me.Abhigya.core.database.sql.hikaricp.HikariCP;
 import me.Abhigya.core.database.sql.hikaricp.HikariClientBuilder;
@@ -11,9 +12,14 @@ import me.alen_alex.advancedtags.object.ATPlayer;
 import me.alen_alex.advancedtags.object.Tag;
 import org.bukkit.entity.Player;
 
+import java.io.IOException;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 public class MySQL implements StorageWorker {
 
@@ -83,14 +89,49 @@ public class MySQL implements StorageWorker {
     }
 
     @Override
-    public boolean doUserExist(UUID uuid) {
-        return false;
+    public CompletableFuture<Boolean> doUserExist(UUID uuid){
+        final CompletableFuture<Boolean> future = new CompletableFuture<Boolean>();
+        try {
+            this.databaseEngine.query("SELECT * FROM " + this.handler.getSqlPlayerDataTable() + " WHERE `uuid` = '" + uuid.toString() + "';", new SQLConsumer<ResultSet>() {
+                @Override
+                public void accept(ResultSet resultSet) throws SQLException {
+                    if(resultSet == null)
+                        future.complete(false);
+                    if(resultSet.next())
+                        future.complete(true);
+                }
+            });
+        }catch (Exception e){
+            this.handler.getPlugin().getLogger().warning("Unable to load playerdata for "+uuid);
+            future.complete(false);
+        }
+        return future;
     }
 
     @Override
-    public ATPlayer loadPlayer(UUID uuid) {
+    public CompletableFuture<ATPlayer> loadPlayer(UUID uuid){
+        final CompletableFuture<ATPlayer> future = new CompletableFuture<ATPlayer>();
+        try {
+            this.databaseEngine.query("SELECT * FROM " + this.handler.getSqlPlayerDataTable() + " WHERE `uuid` = '" + uuid.toString() + "';", new SQLConsumer<ResultSet>() {
+                @Override
+                public void accept(ResultSet resultSet) throws SQLException {
+                    if(resultSet == null)
+                        future.complete(null);
 
-        return null;
+                    if(resultSet.next()){
+                        future.complete(new ATPlayer(handler.getPlugin(),
+                                UUID.fromString(resultSet.getString("uuid")),
+                                resultSet.getString("current"),
+                                handler.fetchAndSplitTags(resultSet.getString("tags"))));
+                    }
+                }
+            });
+        }catch (Exception e){
+            this.handler.getPlugin().getLogger().warning("Unable to load playerdata for "+uuid);
+            future.complete(null);
+        }
+
+        return future;
     }
 
     @Override

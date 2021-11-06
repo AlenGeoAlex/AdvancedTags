@@ -1,7 +1,7 @@
 package me.alen_alex.advancedtags.listeners;
 
+import me.Abhigya.core.util.scheduler.SchedulerUtils;
 import me.alen_alex.advancedtags.AdvancedTags;
-import me.alen_alex.advancedtags.object.ATPlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -19,17 +19,30 @@ public class PlayerJoinEvent implements Listener {
     @EventHandler
     public void onPlayerJoinEvent(org.bukkit.event.player.PlayerJoinEvent event){
         final UUID playerUUID = event.getPlayer().getUniqueId();
-
-        if(plugin.getStorageHandler().getDatabaseImpl().doUserExist(playerUUID)){
-            ATPlayer newPlayer = plugin.getStorageHandler().getDatabaseImpl().loadPlayer(playerUUID);
-            if(newPlayer == null){
-                if(plugin.getConfigurationHandler().getPluginConfig().isFailedToFetch())
-                    event.getPlayer().kickPlayer(plugin.getConfigurationHandler().getPluginConfig().getFailedFetchKickMessage());
-                return;
-            }
-            plugin.getPluginManager().addPlayer(newPlayer);
-        }else event.getPlayer().kickPlayer("Rejoin to register your data on the server");
-
+            plugin.getStorageHandler().getDatabaseImpl().doUserExist(playerUUID).thenAccept(exist -> {
+               if(exist){
+                   plugin.getStorageHandler().getDatabaseImpl().loadPlayer(playerUUID).thenAccept(player -> {
+                       if(player == null){
+                           if(plugin.getConfigurationHandler().getPluginConfig().isFailedToFetch())
+                               SchedulerUtils.runTask(new Runnable() {
+                                   @Override
+                                   public void run() {
+                                       event.getPlayer().kickPlayer(plugin.getConfigurationHandler().getPluginConfig().getFailedFetchKickMessage());
+                                   }
+                               },this.plugin);
+                           return;
+                       }
+                       plugin.getPluginManager().addPlayer(player);
+                   });
+               }else {
+                  SchedulerUtils.runTask(new Runnable() {
+                      @Override
+                      public void run() {
+                          event.getPlayer().kickPlayer("Rejoin to register your data on the server");
+                      }
+                  },this.plugin);
+               }
+            });
     }
 
 }
