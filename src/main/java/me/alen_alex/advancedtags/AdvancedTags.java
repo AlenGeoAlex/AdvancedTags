@@ -42,10 +42,17 @@ public final class AdvancedTags extends PluginAdapter {
     @Override
     protected boolean setUpHandlers(){
         storageHandler = new StorageHandler(this);
-        if(!storageHandler.connect()){
-            getLogger().severe("Unable to connect to database... Plugin will be disabled");
+        try {
+            if(!storageHandler.connect()){
+                getLogger().severe("Unable to connect to database... Plugin will be disabled");
+                return false;
+            }
+        }catch (Exception e){
+            getLogger().severe("Unable to connect to database... Plugin will be disabled, Check console for more info");
+            e.printStackTrace();
             return false;
         }
+
 
         if(!storageHandler.doStartupWorks())
             return false;
@@ -65,10 +72,15 @@ public final class AdvancedTags extends PluginAdapter {
 
     @Override
     public void onDisable() {
-        if(storageHandler != null){
-            storageHandler.disconnect();
-            getLogger().info("Successfully disconnected from Database Service ["+storageHandler.getType().name()+"]");
-        }else getLogger().warning("Storage Worker (Database) was not initialized, Hence didn't close the connection!");
+        try {
+            if(storageHandler != null){
+                storageHandler.disconnect();
+                getLogger().info("Successfully disconnected from Database Service ["+storageHandler.getType().name()+"]");
+            }else getLogger().warning("Storage Worker (Database) was not initialized, Hence didn't close the connection!");
+        }catch (Exception e){
+            getLogger().info("Unable to close out the storage handler connection, Check out the console for more errors!");
+            e.printStackTrace();
+        }
         storageHandler = null;
         configurationHandler.saveAllConfigs();
         configurationHandler = null;

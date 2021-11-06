@@ -29,48 +29,13 @@ public class TagConfiguration extends ConfigurationFile {
         tagConfig = handler.getFileUtils().createFile(getInputStreamFromFile("tags.yml"),"tags.yml");
         if(tagConfig != null){
             tagConfig.setDefault("version",getPluginVersion());
-            //loadConfig();
-            b();
+            loadConfig();
             return true;
         }else return false;
     }
 
     @Override
     public void loadConfig() {
-         final List<Tag> batchTag = new ArrayList<Tag>();
-         for(String tagName : tagConfig.singleLayerKeySet()){
-             tagConfig.setPathPrefix(tagName);
-             //Redo with setters, check vaulthook, placeholderhooks
-             Tag loadable;
-             if(tagConfig.contains("permission") && !tagConfig.getBoolean("permission.required"))
-                loadable  = new Tag(tagName,
-                        tagConfig.getString("display-name"),
-                        tagConfig.getBoolean("dynamic"),
-                        tagConfig.getStringList("lore"),
-                        tagConfig.getString("material"));
-             else
-                 loadable  = new Tag(tagName,
-                         tagConfig.getString("display-name"),
-                         tagConfig.getBoolean("permission.required"),
-                         tagConfig.getString("permission.node") ,
-                         tagConfig.getBoolean("dynamic"),
-                         tagConfig.getStringList("lore"),
-                         tagConfig.getString("material"));
-             if(loadable == null){
-                 getHandler().getPlugin().getLogger().warning("Somehow, the object creation for tag "+tagName+" has became null!, Skipping");
-             }else{
-                 loadable.setGlobal(false);
-                 batchTag.add(loadable);
-             }
-         }
-         if(!batchTag.isEmpty()){
-             getHandler().getPlugin().getPluginManager().insertTagAsBatch(batchTag);
-             getHandler().getPlugin().getLogger().info("Loaded "+batchTag.size()+" local tags to cache!");
-             batchTag.clear();
-         }
-    }
-
-    public void b(){
         final List<Tag> tagBatch = new ArrayList<Tag>();
         for(String tagName : tagConfig.singleLayerKeySet()){
             if(tagName.equalsIgnoreCase("version"))
@@ -107,11 +72,11 @@ public class TagConfiguration extends ConfigurationFile {
             {
                 System.out.println(tagConfig.getString(tagName+".material"));
                 System.out.println(tagConfig.getEnum(tagName+".material",Material.class));
-                 if(EnumUtils.isValidEnum(Material.class,tagConfig.getString(tagName+".material"))){
-                     tag.setMenuMaterial(XMaterial.matchXMaterial(tagConfig.getEnum(tagName+".material",Material.class)));
-                 }else{
+                if(EnumUtils.isValidEnum(XMaterial.class,tagConfig.getString(tagName+".material"))){
+                    tag.setMenuMaterial(tagConfig.getEnum(tagName+".material",XMaterial.class));
+                }else{
                     this.handler.getPlugin().getLogger().warning("Specified material name for "+tagName+" is not a valid name. Setting to default "+tag.getMenuMaterial().name());
-                 }
+                }
             }
 
             if(tagConfig.contains(tagName+".money")){
@@ -133,6 +98,7 @@ public class TagConfiguration extends ConfigurationFile {
         }
 
     }
+
 
 
 
