@@ -90,10 +90,6 @@ public class TagConfiguration extends ConfigurationFile {
 
             if(tag != null){
                 tagBatch.add(tag);
-                System.out.println(tag.getDisplayTag());
-                System.out.println(tag.getName());
-                System.out.println(tag.isDynamicTag());
-                System.out.println(tag.isPermissionRequired());
             }
         }
 
