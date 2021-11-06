@@ -47,6 +47,7 @@ public class TagConfiguration extends ConfigurationFile {
             }
 
             Tag tag = new Tag(tagName,tagConfig.getString(tagName+".display-name"));
+            tag.setGlobal(false);
             if(tagConfig.getBoolean(tagName+".permission.required")){
                 if(StringUtils.isBlank(tagConfig.getString(tagName+".permission.node"))){
                     this.handler.getPlugin().getLogger().warning("Permission has been required as true, but node is not specified for the tag in "+tagName+". Permission will be skipped!");
@@ -87,6 +88,8 @@ public class TagConfiguration extends ConfigurationFile {
                     this.handler.getPlugin().getLogger().warning("VaultAPI has been not enabled, tag "+tagName+" has been set as not vault");
                 }
             }
+
+
 
             if(tag != null){
                 tagBatch.add(tag);

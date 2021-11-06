@@ -47,7 +47,7 @@ public class MySQL implements StorageWorker {
     public boolean handleInitial() {
         try {
             final String QUERY_CREATE_PLAYERDATA = "CREATE TABLE IF NOT EXISTS "+this.handler.getSqlPlayerDataTable()+" (`id` int NOT NULL AUTO_INCREMENT PRIMARY KEY, `uuid` VARCHAR(50) NOT NULL,`current` VARCHAR(40) ,`tags` TEXT);";
-            final String QUERY_CREATE_GLOBALTAG = "CREATE TABLE IF NOT EXISTS "+this.handler.getSqlGlobalTagTable()+" (`id` int NOT NULL AUTO_INCREMENT PRIMARY KEY)";
+            final String QUERY_CREATE_GLOBALTAG = "CREATE TABLE IF NOT EXISTS "+this.handler.getSqlGlobalTagTable()+" (`id` int NOT NULL AUTO_INCREMENT PRIMARY KEY, `tagName` VARCHAR(50) NOT NULL, `tagDisplay` VARCHAR(50) NOT NULL, `permission` VARCHAR(50), `lore` TEXT, `dynamic` BIT, `material` VARCHAR(30), `money` DOUBLE(16,4));";
             this.databaseEngine.executeAsync(QUERY_CREATE_PLAYERDATA);
             if(this.handler.getPlugin().getConfigurationHandler().getPluginConfig().isGlobalEnabled()){
                 if(this.handler.isUsingOnlineDatabase()){
