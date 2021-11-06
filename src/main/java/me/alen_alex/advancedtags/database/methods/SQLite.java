@@ -54,8 +54,8 @@ public class SQLite implements StorageWorker {
     }
 
     @Override
-    public boolean registerUser(UUID player) {
-        return false;
+    public CompletableFuture<Boolean> registerUser(UUID player) {
+        return null;
     }
 
     @Override

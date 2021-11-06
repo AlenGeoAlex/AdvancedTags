@@ -1,5 +1,6 @@
 package me.alen_alex.advancedtags.listeners;
 
+import me.Abhigya.core.util.scheduler.SchedulerUtils;
 import me.alen_alex.advancedtags.AdvancedTags;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -22,14 +23,25 @@ public class AsyncPlayerJoinEvent implements Listener {
             return;
 
         final UUID playerUUID = event.getUniqueId();
-        if(!plugin.getStorageHandler().getDatabaseImpl().doUserExist(playerUUID)){
-            if(!plugin.getStorageHandler().getDatabaseImpl().registerUser(playerUUID)){
-                if(plugin.getConfigurationHandler().getPluginConfig().isFailedToRegister()){
-                    event.setLoginResult(AsyncPlayerPreLoginEvent.Result.KICK_OTHER);
-                    event.setKickMessage(plugin.getConfigurationHandler().getPluginConfig().getFailedRegisterKickMessage());
-                }
+        plugin.getStorageHandler().getDatabaseImpl().doUserExist(playerUUID).thenAccept(exist -> {
+            if(!exist) {
+                plugin.getStorageHandler().getDatabaseImpl().registerUser(playerUUID).thenAccept(registered -> {
+                    if(!registered){
+                        if(plugin.getConfigurationHandler().getPluginConfig().isFailedToRegister()){
+                            SchedulerUtils.runTask(new Runnable() {
+                                @Override
+                                public void run() {
+                                    event.setLoginResult(AsyncPlayerPreLoginEvent.Result.KICK_OTHER);
+                                    event.setKickMessage(plugin.getConfigurationHandler().getPluginConfig().getFailedRegisterKickMessage());
+                                }
+                            },plugin);
+
+                        }
+                    }
+                });
             }
-        }
+        });
+
     }
 
 }

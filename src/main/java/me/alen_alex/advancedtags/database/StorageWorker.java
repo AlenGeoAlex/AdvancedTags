@@ -19,7 +19,7 @@ public interface StorageWorker {
 
     DatabaseType getType();
 
-    boolean registerUser(UUID player);
+    CompletableFuture<Boolean> registerUser(UUID uuid);
 
     CompletableFuture<Boolean> doUserExist(UUID uuid);
 
