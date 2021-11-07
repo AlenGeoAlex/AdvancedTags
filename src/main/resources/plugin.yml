@@ -6,3 +6,5 @@ authors: [ Alen_Alex ]
 softdepend:
   - "PlaceholderAPI"
   - "Vault"
+commands:
+  Test:

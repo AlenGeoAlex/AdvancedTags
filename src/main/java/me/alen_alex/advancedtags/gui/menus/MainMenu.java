@@ -6,7 +6,6 @@ import me.Abhigya.core.menu.inventory.item.action.ActionItem;
 import me.Abhigya.core.menu.inventory.item.action.ItemAction;
 import me.Abhigya.core.menu.inventory.item.action.ItemActionPriority;
 import me.Abhigya.core.menu.inventory.size.ItemMenuSize;
-import me.Abhigya.core.util.xseries.XMaterial;
 import me.alen_alex.advancedtags.gui.GUI;
 import me.alen_alex.advancedtags.gui.GUIHandler;
 import org.bukkit.entity.Player;
@@ -15,20 +14,27 @@ import java.util.concurrent.CompletableFuture;
 
 public class MainMenu extends GUI {
 
-    private ItemMenu mainMenu;
+    private final ItemMenu mainMenu;
 
     public MainMenu(GUIHandler handler) {
         super(handler);
-        mainMenu = new ItemMenu(handler.getMenuConfiguration().getMainMenuName(), ItemMenuSize.fitOf(handler.getMenuConfiguration().getMainMenuSize()),null,null);
+        mainMenu = new ItemMenu(getHandler().getMenuConfiguration().getMainMenuName(), ItemMenuSize.fitOf(getHandler().getMenuConfiguration().getMainMenuSize()),null,null);
         init();
     }
 
     @Override
-    protected void init() {
-        if(handler.getMenuConfiguration().isMainMenuFillerEnabled()){
-            fillItems(mainMenu,handler.getMenuConfiguration().getFillerItem());
+    public void init() {
+        mainMenu.registerListener(getHandler().getPlugin());
+        loadStatics();
+    }
+
+    @Override
+    public void loadStatics() {
+        if(getHandler().getMenuConfiguration().isMainMenuFillerEnabled()){
+            fillItems(mainMenu,getHandler().getMenuConfiguration().getFillerItem());
         }
-        mainMenu.registerListener(handler.getPlugin());
+
+        setStaticItemStacks(getHandler().getMenuConfiguration().getMainMenuStaticMaterials(),this.mainMenu);
     }
 
 
@@ -41,9 +47,9 @@ public class MainMenu extends GUI {
     public CompletableFuture<ItemMenu> setUpMenu(Player player) {
         return CompletableFuture.supplyAsync( () -> {
             ActionItem myTags,tagShop,closeButton,adminButton;
-            myTags = new ActionItem(handler.getMenuConfiguration().getMyTags());
-            myTags.setName(handler.getMenuConfiguration().getMyTagDisplayName());
-            myTags.setLore(handler.getMenuConfiguration().getMyTagsLore());
+            myTags = new ActionItem(getHandler().getMenuConfiguration().getMyTags());
+            myTags.setName(getHandler().getMenuConfiguration().getMyTagDisplayName());
+            myTags.setLore(getHandler().getMenuConfiguration().getMyTagsLore());
             myTags.addAction(new ItemAction() {
                 @Override
                 public ItemActionPriority getPriority() {
@@ -56,9 +62,9 @@ public class MainMenu extends GUI {
                 }
             });
 
-            tagShop = new ActionItem(handler.getMenuConfiguration().getTagShop());
-            tagShop.setName(handler.getMenuConfiguration().getTagShopDisplayName());
-            tagShop.setLore(handler.getMenuConfiguration().getTagShopLore());
+            tagShop = new ActionItem(getHandler().getMenuConfiguration().getTagShop());
+            tagShop.setName(getHandler().getMenuConfiguration().getTagShopDisplayName());
+            tagShop.setLore(getHandler().getMenuConfiguration().getTagShopLore());
             tagShop.addAction(new ItemAction() {
                 @Override
                 public ItemActionPriority getPriority() {
@@ -73,9 +79,9 @@ public class MainMenu extends GUI {
             });
 
             if(handler.getMenuConfiguration().isMainMenuAdminEnabled()) {
-                adminButton = new ActionItem(handler.getMenuConfiguration().getAdminMenu());
-                adminButton.setName(handler.getMenuConfiguration().getAdminMenuDisplayMenu());
-                adminButton.setLore(handler.getMenuConfiguration().getAdminMenuLore());
+                adminButton = new ActionItem(getHandler().getMenuConfiguration().getAdminMenu());
+                adminButton.setName(getHandler().getMenuConfiguration().getAdminMenuDisplayMenu());
+                adminButton.setLore(getHandler().getMenuConfiguration().getAdminMenuLore());
                 adminButton.addAction(new ItemAction() {
                     @Override
                     public ItemActionPriority getPriority() {
@@ -87,12 +93,12 @@ public class MainMenu extends GUI {
                         System.out.println(itemClickAction.getClickedItem().getItemMeta().getDisplayName());
                     }
                 });
-                if(player.hasPermission(handler.getMenuConfiguration().getAdminMenuPermission()))
-                    mainMenu.setItem(handler.getMenuConfiguration().getAdminMenuSlot(),adminButton);
+                if(player.hasPermission(getHandler().getMenuConfiguration().getAdminMenuPermission()))
+                    mainMenu.setItem(getHandler().getMenuConfiguration().getAdminMenuSlot(),adminButton);
             }
 
-            mainMenu.setItem(handler.getMenuConfiguration().getMyTagSlot(),myTags);
-            mainMenu.setItem(handler.getMenuConfiguration().getTagShopSlot(),tagShop);
+            mainMenu.setItem(getHandler().getMenuConfiguration().getMyTagSlot(),myTags);
+            mainMenu.setItem(getHandler().getMenuConfiguration().getTagShopSlot(),tagShop);
             return mainMenu;
         });
 

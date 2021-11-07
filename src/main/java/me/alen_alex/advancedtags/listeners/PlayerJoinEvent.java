@@ -17,15 +17,6 @@ public class PlayerJoinEvent implements Listener {
 
     @EventHandler
     public void onPlayerJoinEvent(org.bukkit.event.player.PlayerJoinEvent event){
-
-        plugin.getServer().getScheduler().runTaskLater(plugin, new Runnable() {
-            @Override
-            public void run() {
-                plugin.getGuiHandler().getMainMenu().openMenu(event.getPlayer());
-            }
-        },100);
-
-
         final UUID playerUUID = event.getPlayer().getUniqueId();
             plugin.getStorageHandler().getDatabaseImpl().doUserExist(playerUUID).thenAccept(exist -> {
                 if(exist){

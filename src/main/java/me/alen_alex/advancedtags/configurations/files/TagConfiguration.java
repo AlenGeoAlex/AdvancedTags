@@ -58,14 +58,14 @@ public class TagConfiguration extends ConfigurationFile {
                 }
             }
 
-            if(tagConfig.contains(tagName+".dynamic"))
-                if(this.handler.getPlugin().isPlaceholderAPIEnabled()) {
+            if(tagConfig.contains(tagName+".dynamic")) {
+                if (this.handler.getPlugin().isPlaceholderAPIEnabled()) {
                     tag.setDynamicTag(tagConfig.getBoolean(tagName + ".dynamic"));
-                }else{
+                } else {
                     tag.setDynamicTag(false);
-                    this.handler.getPlugin().getLogger().warning("PlaceholderAPI has been not enabled, tag "+tagName+" has been set as not dynamic");
+                    this.handler.getPlugin().getLogger().warning("PlaceholderAPI has been not enabled, tag " + tagName + " has been set as not dynamic");
                 }
-            else tag.setDynamicTag(false);
+            } else tag.setDynamicTag(false);
 
             if(tagConfig.contains(tagName+".lore"))
                 tag.setLore(tagConfig.getStringList(tagName+".lore"));

@@ -11,8 +11,10 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class MenuConfiguration extends ConfigurationFile {
 
@@ -30,6 +32,7 @@ public class MenuConfiguration extends ConfigurationFile {
     private int myTagSlot,tagShopSlot,adminMenuSlot;
     private String myTagDisplayName,tagShopDisplayName,adminMenuDisplayMenu;
     private String adminMenuPermission;
+    private final HashMap<ItemStack,List<Integer>> mainMenuStaticMaterials = new HashMap<ItemStack,List<Integer>>();
 
     public MenuConfiguration(ConfigurationHandler handler) {
         super(handler);
@@ -57,7 +60,6 @@ public class MenuConfiguration extends ConfigurationFile {
         if(EnumUtils.isValidEnum(XMaterial.class,this.menuConfig.getString("main-menu.filler.filler"))){
             fillerItem = XMaterial.matchXMaterial(this.menuConfig.getString("main-menu.filler.filler")).get().parseItem();
         }else fillerItem = new ItemStack(Objects.requireNonNull(XMaterial.BLACK_STAINED_GLASS.parseItem()));
-
         myTags = processMaterial("main-menu.items.myTags.material");
         myTagSize = menuConfig.getInt("main-menu.items.myTags.size");
         myTagsLore =IridiumColorAPI.process(menuConfig.getStringList("main-menu.items.myTags.lore"));
@@ -75,6 +77,11 @@ public class MenuConfiguration extends ConfigurationFile {
         adminMenuSlot = menuConfig.getInt("main-menu.items.admin-menu.slot");
         adminMenuDisplayMenu = IridiumColorAPI.process(menuConfig.getString("main-menu.items.admin-menu.display-name"));
         adminMenuPermission = menuConfig.getString("main-menu.items.admin-menu.permission");
+        menuConfig.singleLayerKeySet("main-menu.others").forEach((string) -> {
+            final ItemStack material = processMaterial(menuConfig.getString("main-menu.others."+string+".material"));
+            final List<Integer> slots = menuConfig.getStringList("main-menu.others."+string+".slots").stream().map(Integer::parseInt).collect(Collectors.toList());
+            mainMenuStaticMaterials.put(material,slots);
+        });
 
     }
 
@@ -208,6 +215,10 @@ public class MenuConfiguration extends ConfigurationFile {
         }
 
         return arrayList;
+    }
+
+    public HashMap<ItemStack, List<Integer>> getMainMenuStaticMaterials() {
+        return mainMenuStaticMaterials;
     }
 
     public String getAdminMenuPermission() {
