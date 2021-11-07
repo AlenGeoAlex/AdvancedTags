@@ -1,0 +1,42 @@
+main-menu:
+  name: "&b&lAdvanced&f&lTags"
+  size: 45
+  filler:
+    fill-empty-slots: false
+    filler: BLACK_STAINED_GLASS_PANE
+  items:
+    myTags:
+      material: ENCHANTING_TABLE
+      display-name: "&cMy Tags"
+      size: 1
+      lore:
+        - "Click to open"
+      slot: 21
+    tagShop:
+      material: "ENDERCHEST"
+      display-name: "&bTag Shop"
+      size: 1
+      lore:
+        - "Click to open"
+      slot: 23
+    admin-menu:
+      enabled: true
+      permission: "at.gui.admin"
+      material: "DIAMOND_SWORD"
+      display-name: "&cAdmin"
+      size: 1
+      lore:
+        - "Click to open"
+      slot: 24
+  others:
+    GLASS_BORDER:
+      material: BLACK_STAINED_GLASS_PANE
+      slots:
+        - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+        - 7
+        - 8

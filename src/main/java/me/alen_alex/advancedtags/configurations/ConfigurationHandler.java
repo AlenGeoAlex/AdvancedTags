@@ -2,6 +2,7 @@ package me.alen_alex.advancedtags.configurations;
 
 import me.alen_alex.advancedtags.AdvancedTags;
 import me.alen_alex.advancedtags.configurations.files.Configuration;
+import me.alen_alex.advancedtags.configurations.files.MenuConfiguration;
 import me.alen_alex.advancedtags.configurations.files.MessageConfiguration;
 import me.alen_alex.advancedtags.configurations.files.TagConfiguration;
 import me.alen_alex.advancedtags.utils.FileUtils;
@@ -13,11 +14,13 @@ public class ConfigurationHandler {
     private Configuration pluginConfig;
     private MessageConfiguration messageConfiguration;
     private TagConfiguration tagConfiguration;
+    private MenuConfiguration menuConfiguration;
 
     enum FileType{
         PLUGIN_CONFIG,
         MESSAGE_CONFIG,
-        TAG_CONFIG;
+        TAG_CONFIG,
+        MENU_CONFIG;
     }
 
     public ConfigurationHandler(AdvancedTags plugins) {
@@ -30,11 +33,12 @@ public class ConfigurationHandler {
         pluginConfig = new Configuration(this);
         messageConfiguration = new MessageConfiguration(this);
         tagConfiguration = new TagConfiguration(this);
+        menuConfiguration = new MenuConfiguration(this);
     }
 
     public boolean loadAllPluginFiles(){
         boolean loaded;
-        loaded = pluginConfig.init() && messageConfiguration.init() && tagConfiguration.init();
+        loaded = pluginConfig.init() && messageConfiguration.init() && tagConfiguration.init() && menuConfiguration.init();
         return loaded;
     }
 
@@ -43,6 +47,7 @@ public class ConfigurationHandler {
         pluginConfig.reloadConfig();
         messageConfiguration.reloadConfig();
         tagConfiguration.reloadConfig();
+        menuConfiguration.reloadConfig();
         final long endTime = System.currentTimeMillis();
         return (endTime-startTime);
     }
@@ -58,6 +63,9 @@ public class ConfigurationHandler {
                 break;
             case TAG_CONFIG:
                 returnTime = tagConfiguration.reloadConfig();
+                break;
+            case MENU_CONFIG:
+                returnTime = menuConfiguration.reloadConfig();
             default:
         }
         return returnTime;
@@ -67,6 +75,7 @@ public class ConfigurationHandler {
         pluginConfig.saveConfig();
         messageConfiguration.saveConfig();
         tagConfiguration.saveConfig();
+        menuConfiguration.saveConfig();
     }
 
     public FileUtils getFileUtils() {
@@ -87,5 +96,9 @@ public class ConfigurationHandler {
 
     public TagConfiguration getTagConfiguration() {
         return tagConfiguration;
+    }
+
+    public MenuConfiguration getMenuConfiguration() {
+        return menuConfiguration;
     }
 }

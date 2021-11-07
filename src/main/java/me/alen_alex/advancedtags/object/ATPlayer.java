@@ -94,4 +94,12 @@ public class ATPlayer {
     public Player getPlayer() {
         return player;
     }
+
+    public String getTagOnDatabase() {
+        return tagOnDatabase;
+    }
+
+    public List<String> getPlayerUnlockedTags() {
+        return playerUnlockedTags;
+    }
 }

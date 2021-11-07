@@ -25,6 +25,8 @@ public interface StorageWorker {
 
     CompletableFuture<ATPlayer> loadPlayer(UUID uuid);
 
+    CompletableFuture<Boolean> savePlayerTag(ATPlayer playerObj);
+
     List<Tag> loadBatchTags();
 
     boolean setCurrentTag(String name);

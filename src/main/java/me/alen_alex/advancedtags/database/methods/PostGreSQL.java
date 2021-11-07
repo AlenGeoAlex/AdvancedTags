@@ -75,6 +75,11 @@ public class PostGreSQL implements StorageWorker {
     }
 
     @Override
+    public CompletableFuture<Boolean> savePlayerTag(ATPlayer playerObj) {
+        return null;
+    }
+
+    @Override
     public List<Tag> loadBatchTags() {
         return null;
     }

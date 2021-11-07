@@ -10,4 +10,18 @@ Simple:
     - "&cRequires permission: &6at.unlock.simple"
   material: CRAFTING_TABLE
   money: 250
+Simple2:
+  display-name: "&7Si&8Mp&fle2"
+  dynamic: false
+  permission:
+    required: true
+    node: at.unlock.simple
+  lore:
+    - "&fSomething simple as we know!"
+    - ""
+    - "&cRequires permission: &6at.unlock.simple"
+  material: "base64:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTJmM2Y5Y2NhNzdjNzI1MjE3ZTQ1YWQ0ZWVlZWZmYTA1NjVmODJiODY2YWM2Nzk5OWI0M2MzYTk3MzExNjI4YyJ9fX0="
+  money: 250
+
+
 

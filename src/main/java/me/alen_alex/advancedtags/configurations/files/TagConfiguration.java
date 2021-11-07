@@ -1,6 +1,7 @@
 package me.alen_alex.advancedtags.configurations.files;
 
 import de.leonhard.storage.Yaml;
+import me.Abhigya.core.util.itemstack.ItemStackUtils;
 import me.Abhigya.core.util.xseries.XMaterial;
 import me.alen_alex.advancedtags.configurations.ConfigurationFile;
 import me.alen_alex.advancedtags.configurations.ConfigurationHandler;
@@ -71,12 +72,14 @@ public class TagConfiguration extends ConfigurationFile {
 
             if(tagConfig.contains(tagName+".material"))
             {
-                System.out.println(tagConfig.getString(tagName+".material"));
-                System.out.println(tagConfig.getEnum(tagName+".material",Material.class));
-                if(EnumUtils.isValidEnum(XMaterial.class,tagConfig.getString(tagName+".material"))){
-                    tag.setMenuMaterial(tagConfig.getEnum(tagName+".material",XMaterial.class));
-                }else{
-                    this.handler.getPlugin().getLogger().warning("Specified material name for "+tagName+" is not a valid name. Setting to default "+tag.getMenuMaterial().name());
+                if(tagConfig.getString(tagName+".material").startsWith("base64")){
+                    tag.setMenuItem(ItemStackUtils.getSkull(tagConfig.getString(tagName+".material")));
+                }else {
+                    if (EnumUtils.isValidEnum(XMaterial.class, tagConfig.getString(tagName + ".material"))) {
+                        tag.setMenuItem(tagConfig.getEnum(tagName + ".material", XMaterial.class));
+                    } else {
+                        this.handler.getPlugin().getLogger().warning("Specified material name for " + tagName + " is not a valid name. Setting to default " + tag.getMenuItem().getType().name());
+                    }
                 }
             }
 
@@ -88,8 +91,6 @@ public class TagConfiguration extends ConfigurationFile {
                     this.handler.getPlugin().getLogger().warning("VaultAPI has been not enabled, tag "+tagName+" has been set as not vault");
                 }
             }
-
-
 
             if(tag != null){
                 tagBatch.add(tag);

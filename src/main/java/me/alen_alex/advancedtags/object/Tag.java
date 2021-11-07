@@ -5,6 +5,7 @@ import me.Abhigya.core.util.xseries.XMaterial;
 import me.alen_alex.advancedtags.utils.iridiumcolorapi.IridiumColorAPI;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,7 @@ public final class Tag {
     private String permission;
     private boolean dynamicTag;
     private List<String> lore;
-    private XMaterial menuMaterial;
+    private ItemStack menuItem;
     private boolean global = false;
     private float money;
     /**
@@ -37,7 +38,7 @@ public final class Tag {
         menuMaterial1 = XMaterial.matchXMaterial(menuMaterial).get();
         if(menuMaterial1 == null)
             menuMaterial1 = XMaterial.CRAFTING_TABLE;
-        this.menuMaterial = menuMaterial1;
+        this.menuItem = menuMaterial1.parseItem();
     }
 
     public Tag(String name, String displayTag, boolean dynamicTag, List<String> lore, String menuMaterial) {
@@ -51,7 +52,8 @@ public final class Tag {
         menuMaterial1 = XMaterial.matchXMaterial(menuMaterial).get();
         if(menuMaterial1 == null)
             menuMaterial1 = XMaterial.CRAFTING_TABLE;
-        this.menuMaterial = menuMaterial1;
+        this.menuItem = menuMaterial1.parseItem();
+
     }
 
     public Tag(String name, String displayTag) {
@@ -61,7 +63,7 @@ public final class Tag {
         this.permission = "";
         this.dynamicTag = false;
         this.lore = new ArrayList<String>();
-        this.menuMaterial = XMaterial.CRAFTING_TABLE;
+        this.menuItem = XMaterial.CRAFTING_TABLE.parseItem();
     }
 
     public void setPermissionRequired(boolean permissionRequired) {
@@ -104,16 +106,8 @@ public final class Tag {
         return lore;
     }
 
-    public XMaterial getMenuMaterial() {
-        return menuMaterial;
-    }
-
     public boolean hasPlayerPermissionRequired(Player player){
         return player.hasPermission(this.permission);
-    }
-
-    public Material parseXMaterial(){
-        return this.menuMaterial.parseMaterial();
     }
 
     public boolean isGlobal() {
@@ -128,8 +122,17 @@ public final class Tag {
         this.lore = lore;
     }
 
-    public void setMenuMaterial(XMaterial menuMaterial) {
-        this.menuMaterial = menuMaterial;
+
+    public ItemStack getMenuItem() {
+        return menuItem;
+    }
+
+    public void setMenuItem(ItemStack menuItem) {
+        this.menuItem = menuItem;
+    }
+
+    public void setMenuItem(XMaterial menuMaterial){
+        this.menuItem = menuMaterial.parseItem();
     }
 
     @Override
@@ -137,13 +140,11 @@ public final class Tag {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Tag tag = (Tag) o;
-        return permissionRequired == tag.permissionRequired && dynamicTag == tag.dynamicTag && global == tag.global && Objects.equal(name, tag.name) && Objects.equal(displayTag, tag.displayTag) && Objects.equal(permission, tag.permission) && Objects.equal(lore, tag.lore) && menuMaterial == tag.menuMaterial;
+        return isPermissionRequired() == tag.isPermissionRequired() && isDynamicTag() == tag.isDynamicTag() && isGlobal() == tag.isGlobal() && Float.compare(tag.money, money) == 0 && Objects.equal(getName(), tag.getName()) && Objects.equal(getDisplayTag(), tag.getDisplayTag()) && Objects.equal(getPermission(), tag.getPermission()) && Objects.equal(getLore(), tag.getLore()) && Objects.equal(getMenuItem(), tag.getMenuItem());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(name, displayTag, permissionRequired, permission, dynamicTag, lore, menuMaterial, global);
+        return Objects.hashCode(getName(), getDisplayTag(), isPermissionRequired(), getPermission(), isDynamicTag(), getLore(), getMenuItem(), isGlobal(), money);
     }
-
-
 }

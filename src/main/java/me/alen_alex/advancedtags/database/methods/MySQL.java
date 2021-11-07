@@ -9,6 +9,7 @@ import me.alen_alex.advancedtags.database.StorageWorker;
 import me.alen_alex.advancedtags.object.ATPlayer;
 import me.alen_alex.advancedtags.object.Tag;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.concurrent.CompletableFuture;
 public class MySQL implements StorageWorker {
 
     private SQLDatabase databaseEngine;
-    private StorageHandler handler;
+    private final StorageHandler handler;
 
     public MySQL(StorageHandler handler) {
         this.handler = handler;
@@ -47,7 +48,7 @@ public class MySQL implements StorageWorker {
     public boolean handleInitial() {
         try {
             final String QUERY_CREATE_PLAYERDATA = "CREATE TABLE IF NOT EXISTS "+this.handler.getSqlPlayerDataTable()+" (`id` int NOT NULL AUTO_INCREMENT PRIMARY KEY, `uuid` VARCHAR(50) NOT NULL,`current` VARCHAR(40) ,`tags` TEXT);";
-            final String QUERY_CREATE_GLOBALTAG = "CREATE TABLE IF NOT EXISTS "+this.handler.getSqlGlobalTagTable()+" (`id` int NOT NULL AUTO_INCREMENT PRIMARY KEY, `tagName` VARCHAR(50) NOT NULL, `tagDisplay` VARCHAR(50) NOT NULL, `permission` VARCHAR(50), `lore` TEXT, `dynamic` BIT, `material` VARCHAR(30), `money` DOUBLE(16,4));";
+            final String QUERY_CREATE_GLOBALTAG = "CREATE TABLE IF NOT EXISTS "+this.handler.getSqlGlobalTagTable()+" (`id` int NOT NULL AUTO_INCREMENT PRIMARY KEY, `tagName` VARCHAR(50) NOT NULL, `tagDisplay` VARCHAR(50) NOT NULL, `permission` VARCHAR(50), `lore` TEXT, `dynamic` BIT, `material` VARCHAR(70), `money` DOUBLE(16,4));";
             this.databaseEngine.executeAsync(QUERY_CREATE_PLAYERDATA);
             if(this.handler.getPlugin().getConfigurationHandler().getPluginConfig().isGlobalEnabled()){
                 if(this.handler.isUsingOnlineDatabase()){
@@ -137,6 +138,26 @@ public class MySQL implements StorageWorker {
             future.complete(null);
         }
 
+        return future;
+    }
+
+    @Override
+    public CompletableFuture<Boolean> savePlayerTag(ATPlayer playerObj) {
+        final CompletableFuture future = new CompletableFuture<Boolean>();
+        try {
+            //System.out.println("UPDATE `"+this.handler.getSqlPlayerDataTable()+"` SET `current` =  '"+playerObj.getTagOnDatabase()+"', `tags` = '"+this.handler.concatTags(playerObj.getPlayerUnlockedTags())+"';");
+            PreparedStatement ps = this.databaseEngine.getConnection().prepareStatement("UPDATE ? SET `current` = ?,`tags` =? WHERE `uuid` = ?;");
+            ps.setString(1, handler.getSqlPlayerDataTable());
+            ps.setString(2,playerObj.getTagOnDatabase());
+            ps.setString(3, handler.concatTags(playerObj.getPlayerUnlockedTags()));
+            ps.setString(4,playerObj.getPlayerID().toString());
+            //TODO
+            //this.databaseEngine.executeAsync(ps).thenAccept(s -> future.complete(s));
+            ps.close();
+        }catch (Exception e){
+            future.complete(false);
+            e.printStackTrace();
+        }
         return future;
     }
 

@@ -4,8 +4,10 @@ import me.Abhigya.core.main.CoreAPI;
 import me.Abhigya.core.plugin.PluginAdapter;
 import me.alen_alex.advancedtags.configurations.ConfigurationHandler;
 import me.alen_alex.advancedtags.database.StorageHandler;
+import me.alen_alex.advancedtags.gui.GUIHandler;
 import me.alen_alex.advancedtags.listeners.AsyncPlayerJoinEvent;
 import me.alen_alex.advancedtags.listeners.PlayerJoinEvent;
+import me.alen_alex.advancedtags.listeners.PlayerQuitEvent;
 import me.alen_alex.advancedtags.utils.ChatUtils;
 
 public final class AdvancedTags extends PluginAdapter {
@@ -15,6 +17,7 @@ public final class AdvancedTags extends PluginAdapter {
     private ConfigurationHandler configurationHandler;
     private StorageHandler storageHandler;
     private ChatUtils chatUtils;
+    private GUIHandler guiHandler;
     private boolean vaultEnabled,placeholderAPIEnabled;
 
     @Override
@@ -60,6 +63,10 @@ public final class AdvancedTags extends PluginAdapter {
         getLogger().info("Connected to storage worker on "+storageHandler.getType().name());
         if(configurationHandler.getPluginConfig().hasPluginPrefix())
             chatUtils.setPrefix(configurationHandler.getPluginConfig().getPluginPrefix());
+
+        guiHandler = new GUIHandler(this);
+        guiHandler.init();
+
         return true;
     }
 
@@ -67,6 +74,7 @@ public final class AdvancedTags extends PluginAdapter {
     protected boolean setUpListeners(){
         getServer().getPluginManager().registerEvents(new PlayerJoinEvent(this),this);
         getServer().getPluginManager().registerEvents(new AsyncPlayerJoinEvent(this),this);
+        getServer().getPluginManager().registerEvents(new PlayerQuitEvent(this),this);
         return true;
     }
 
@@ -125,6 +133,10 @@ public final class AdvancedTags extends PluginAdapter {
      */
     public StorageHandler getStorageHandler() {
         return storageHandler;
+    }
+
+    public GUIHandler getGuiHandler() {
+        return guiHandler;
     }
 
     public boolean isVaultEnabled() {

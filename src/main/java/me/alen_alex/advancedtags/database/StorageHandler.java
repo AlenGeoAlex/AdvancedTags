@@ -10,6 +10,7 @@ import me.alen_alex.advancedtags.database.methods.MySQL;
 import me.alen_alex.advancedtags.database.methods.PostGreSQL;
 import me.alen_alex.advancedtags.database.methods.SQLite;
 import org.apache.commons.lang.StringUtils;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -99,5 +100,12 @@ public class StorageHandler {
         Arrays.stream(fromDB.split(TAG_DELIMITER)).forEach(s -> tags.add(s));
 
         return tags;
+    }
+
+    public String concatTags(@NotNull List<String> tags){
+        if(tags.isEmpty())
+            return null;
+
+        return String.join(TAG_DELIMITER,tags);
     }
 }
