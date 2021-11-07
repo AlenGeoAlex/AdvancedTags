@@ -28,6 +28,7 @@ public abstract class GUI {
                 return;
             }
         };
+        filler.setName("");
         menu.fillToAll(filler);
     }
 
@@ -37,7 +38,10 @@ public abstract class GUI {
             Map.Entry<ItemStack, List<Integer>> currentConfig = staticISIterator.next();
             try {
                 ActionItem item = new ActionItem(currentConfig.getKey());
-                currentConfig.getValue().forEach((position) -> inventory.setItem(position,item));
+                item.setName("");
+                currentConfig.getValue().forEach((position) -> {
+                    inventory.setItem(position,item);
+                });
             }catch (Exception e){
                 handler.getPlugin().getLogger().warning("Failed to set static items on the inventory "+inventory.getTitle());
                 e.printStackTrace();

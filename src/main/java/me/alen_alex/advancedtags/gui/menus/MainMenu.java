@@ -6,6 +6,7 @@ import me.Abhigya.core.menu.inventory.item.action.ActionItem;
 import me.Abhigya.core.menu.inventory.item.action.ItemAction;
 import me.Abhigya.core.menu.inventory.item.action.ItemActionPriority;
 import me.Abhigya.core.menu.inventory.size.ItemMenuSize;
+import me.Abhigya.core.util.scheduler.SchedulerUtils;
 import me.alen_alex.advancedtags.gui.GUI;
 import me.alen_alex.advancedtags.gui.GUIHandler;
 import org.bukkit.entity.Player;
@@ -40,7 +41,15 @@ public class MainMenu extends GUI {
 
     @Override
     public void openMenu(Player player) {
-        setUpMenu(player).thenAccept(menu -> menu.open(player));
+        setUpMenu(player).thenAccept(menu -> {
+            SchedulerUtils.runTask(new Runnable() {
+                @Override
+                public void run() {
+                    menu.open(player);
+                }
+            }, getHandler().getPlugin());
+
+        });
     }
 
     @Override
@@ -78,6 +87,26 @@ public class MainMenu extends GUI {
                 }
             });
 
+            closeButton = new ActionItem(getHandler().getMenuConfiguration().getCloseButton());
+            closeButton.setName(getHandler().getMenuConfiguration().getCloseButtonDisplayName());
+            closeButton.setLore(getHandler().getMenuConfiguration().getCloseButtonLore());
+            closeButton.addAction(new ItemAction() {
+                @Override
+                public ItemActionPriority getPriority() {
+                    return ItemActionPriority.NORMAL;
+                }
+
+                @Override
+                public void onClick(ItemClickAction itemClickAction) {
+                    SchedulerUtils.runTask(new Runnable() {
+                        @Override
+                        public void run() {
+                            mainMenu.close(player);
+                        }
+                    }, getHandler().getPlugin());
+                }
+            });
+
             if(handler.getMenuConfiguration().isMainMenuAdminEnabled()) {
                 adminButton = new ActionItem(getHandler().getMenuConfiguration().getAdminMenu());
                 adminButton.setName(getHandler().getMenuConfiguration().getAdminMenuDisplayMenu());
@@ -99,6 +128,7 @@ public class MainMenu extends GUI {
 
             mainMenu.setItem(getHandler().getMenuConfiguration().getMyTagSlot(),myTags);
             mainMenu.setItem(getHandler().getMenuConfiguration().getTagShopSlot(),tagShop);
+            mainMenu.setItem(getHandler().getMenuConfiguration().getCloseButtonSlot(),closeButton);
             return mainMenu;
         });
 

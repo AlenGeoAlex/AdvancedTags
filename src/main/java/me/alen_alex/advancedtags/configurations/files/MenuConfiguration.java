@@ -27,10 +27,10 @@ public class MenuConfiguration extends ConfigurationFile {
     private boolean mainMenuFillerEnabled,mainMenuAdminEnabled;
     private int mainMenuSize,myTagSize,tagShopSize,adminMenuSize;
     private ItemStack fillerItem;
-    private ItemStack myTags,tagShop,adminMenu;
-    private List<String> myTagsLore,tagShopLore,adminMenuLore;
-    private int myTagSlot,tagShopSlot,adminMenuSlot;
-    private String myTagDisplayName,tagShopDisplayName,adminMenuDisplayMenu;
+    private ItemStack myTags,tagShop,adminMenu,closeButton;
+    private List<String> myTagsLore,tagShopLore,adminMenuLore,closeButtonLore;
+    private int myTagSlot,tagShopSlot,adminMenuSlot,closeButtonSlot;
+    private String myTagDisplayName,tagShopDisplayName,adminMenuDisplayMenu,closeButtonDisplayName;
     private String adminMenuPermission;
     private final HashMap<ItemStack,List<Integer>> mainMenuStaticMaterials = new HashMap<ItemStack,List<Integer>>();
 
@@ -57,30 +57,33 @@ public class MenuConfiguration extends ConfigurationFile {
         this.mainMenuName = IridiumColorAPI.process(this.menuConfig.getString("main-menu.name"));
         this.mainMenuSize = this.menuConfig.getInt("main-menu.size");
         this.mainMenuFillerEnabled = this.menuConfig.getBoolean("main-menu.filler.fill-empty-slots");
-        if(EnumUtils.isValidEnum(XMaterial.class,this.menuConfig.getString("main-menu.filler.filler"))){
-            fillerItem = XMaterial.matchXMaterial(this.menuConfig.getString("main-menu.filler.filler")).get().parseItem();
-        }else fillerItem = new ItemStack(Objects.requireNonNull(XMaterial.BLACK_STAINED_GLASS.parseItem()));
-        myTags = processMaterial("main-menu.items.myTags.material");
-        myTagSize = menuConfig.getInt("main-menu.items.myTags.size");
-        myTagsLore =IridiumColorAPI.process(menuConfig.getStringList("main-menu.items.myTags.lore"));
-        myTagSlot = menuConfig.getInt("main-menu.items.myTags.slot");
-        myTagDisplayName = IridiumColorAPI.process(menuConfig.getString("main-menu.items.myTags.display-name"));
-        tagShop = processMaterial("main-menu.items.tagShop.material");
-        tagShopLore = IridiumColorAPI.process(menuConfig.getStringList("main-menu.items.tagShop.lore"));
-        tagShopSize = menuConfig.getInt("main-menu.items.tagShop.size");
-        tagShopSlot = menuConfig.getInt("main-menu.items.tagShop.slot");
-        tagShopDisplayName = IridiumColorAPI.process(menuConfig.getString("main-menu.items.tagShop.display-name"));
-        mainMenuAdminEnabled = menuConfig.getBoolean("main-menu.items.admin-menu.enabled");
-        adminMenu = processMaterial("main-menu.items.admin-menu.material");
-        adminMenuLore = IridiumColorAPI.process(menuConfig.getStringList("main-menu.items.admin-menu.lore"));
-        adminMenuSize = menuConfig.getInt("main-menu.items.admin-menu.size");
-        adminMenuSlot = menuConfig.getInt("main-menu.items.admin-menu.slot");
-        adminMenuDisplayMenu = IridiumColorAPI.process(menuConfig.getString("main-menu.items.admin-menu.display-name"));
-        adminMenuPermission = menuConfig.getString("main-menu.items.admin-menu.permission");
-        menuConfig.singleLayerKeySet("main-menu.others").forEach((string) -> {
-            final ItemStack material = processMaterial(menuConfig.getString("main-menu.others."+string+".material"));
+        this.fillerItem = processMaterial("main-menu.filler.filler");
+        this.myTags = processMaterial("main-menu.items.myTags.material");
+        this.myTagSize = menuConfig.getInt("main-menu.items.myTags.size");
+        this.myTagsLore =IridiumColorAPI.process(menuConfig.getStringList("main-menu.items.myTags.lore"));
+        this.myTagSlot = menuConfig.getInt("main-menu.items.myTags.slot");
+        this.myTagDisplayName = IridiumColorAPI.process(menuConfig.getString("main-menu.items.myTags.display-name"));
+        this.tagShop = processMaterial("main-menu.items.tagShop.material");
+        this.tagShopLore = IridiumColorAPI.process(menuConfig.getStringList("main-menu.items.tagShop.lore"));
+        this.tagShopSize = menuConfig.getInt("main-menu.items.tagShop.size");
+        this.tagShopSlot = menuConfig.getInt("main-menu.items.tagShop.slot");
+        this.tagShopDisplayName = IridiumColorAPI.process(menuConfig.getString("main-menu.items.tagShop.display-name"));
+        this.mainMenuAdminEnabled = menuConfig.getBoolean("main-menu.items.admin-menu.enabled");
+        this.adminMenu = processMaterial("main-menu.items.admin-menu.material");
+        this.adminMenuLore = IridiumColorAPI.process(menuConfig.getStringList("main-menu.items.admin-menu.lore"));
+        this.adminMenuSize = menuConfig.getInt("main-menu.items.admin-menu.size");
+        this.adminMenuSlot = menuConfig.getInt("main-menu.items.admin-menu.slot");
+        this.adminMenuDisplayMenu = IridiumColorAPI.process(menuConfig.getString("main-menu.items.admin-menu.display-name"));
+        this.adminMenuPermission = menuConfig.getString("main-menu.items.admin-menu.permission");
+        this.closeButton = processMaterial("main-menu.items.closeMenu.material");
+        this.closeButtonLore = IridiumColorAPI.process(menuConfig.getStringList("main-menu.items.closeMenu.lore"));
+        this.closeButtonDisplayName = IridiumColorAPI.process(menuConfig.getString("main-menu.items.closeMenu.display-name"));
+        this.closeButtonSlot = menuConfig.getInt("main-menu.items.closeMenu.slot");
+        this.menuConfig.singleLayerKeySet("main-menu.others").forEach((string) -> {
+            final ItemStack material = processMaterial("main-menu.others."+string+".material");
+
             final List<Integer> slots = menuConfig.getStringList("main-menu.others."+string+".slots").stream().map(Integer::parseInt).collect(Collectors.toList());
-            mainMenuStaticMaterials.put(material,slots);
+            this.mainMenuStaticMaterials.put(material,slots);
         });
 
     }
@@ -127,13 +130,16 @@ public class MenuConfiguration extends ConfigurationFile {
     }
 
     private ItemStack processMaterial(String configPath){
+        System.out.println(configPath+" contains -- "+menuConfig.contains(configPath));
         if(menuConfig.contains(configPath))
         {
             if(menuConfig.getString(configPath).startsWith("base64")){
                 return ItemStackUtils.getSkull(menuConfig.getString(configPath));
             }else {
-                if (EnumUtils.isValidEnum(XMaterial.class, menuConfig.getString(configPath + ".material"))) {
-                    return menuConfig.getEnum(configPath, XMaterial.class).parseItem();
+                System.out.println(EnumUtils.isValidEnum(XMaterial.class, menuConfig.getString(configPath))+" -- "+menuConfig.getString(configPath));
+                if (EnumUtils.isValidEnum(XMaterial.class, menuConfig.getString(configPath))) {
+                    System.out.println(configPath+" is a valid Xmaterial");
+                    return XMaterial.matchXMaterial(menuConfig.getString(configPath)).get().parseItem();
                 } else {
                     return XMaterial.CRAFTING_TABLE.parseItem();
                 }
@@ -223,5 +229,21 @@ public class MenuConfiguration extends ConfigurationFile {
 
     public String getAdminMenuPermission() {
         return adminMenuPermission;
+    }
+
+    public ItemStack getCloseButton() {
+        return closeButton;
+    }
+
+    public List<String> getCloseButtonLore() {
+        return closeButtonLore;
+    }
+
+    public int getCloseButtonSlot() {
+        return closeButtonSlot;
+    }
+
+    public String getCloseButtonDisplayName() {
+        return closeButtonDisplayName;
     }
 }
