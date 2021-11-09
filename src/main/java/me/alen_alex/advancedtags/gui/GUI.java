@@ -3,7 +3,9 @@ package me.alen_alex.advancedtags.gui;
 import me.Abhigya.core.menu.inventory.Item;
 import me.Abhigya.core.menu.inventory.ItemMenu;
 import me.Abhigya.core.menu.inventory.action.ItemClickAction;
+import me.Abhigya.core.menu.inventory.custom.book.BookItemMenu;
 import me.Abhigya.core.menu.inventory.item.action.ActionItem;
+import me.Abhigya.core.util.scheduler.SchedulerUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -55,9 +57,10 @@ public abstract class GUI {
 
     public abstract void openMenu(Player player);
 
-    public abstract CompletableFuture<ItemMenu> setUpMenu(Player player);
+    protected abstract CompletableFuture<Object> setUpMenu(Player player);
 
     protected GUIHandler getHandler() {
         return handler;
     }
+
 }

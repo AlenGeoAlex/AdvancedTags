@@ -8,3 +8,6 @@ softdepend:
   - "Vault"
 commands:
   Test:
+    description: "Hello"
+  Test3:
+    description: "Hllo2"

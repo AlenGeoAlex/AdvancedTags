@@ -25,6 +25,7 @@ public class Configuration extends ConfigurationFile {
     private boolean failedToRegister,failedToFetch;
     private String failedRegisterKickMessage,failedFetchKickMessage;
     private boolean hookVault,hookPlaceholderAPI;
+    private boolean tagShopEnabled,tagShopLockedTagsOnly;
     public Configuration(ConfigurationHandler handler) {
         super(handler);
         this.handler = handler;
@@ -72,6 +73,10 @@ public class Configuration extends ConfigurationFile {
         //hooks
         this.hookVault = config.getBoolean("hooks.vault");
         this.hookPlaceholderAPI = config.getBoolean("hooks.placeholder-api");
+
+        //tagShop
+        this.tagShopEnabled = config.getBoolean("tag-shop.enabled");
+        this.tagShopLockedTagsOnly = config.getBoolean("tag-shop.show-only-locked");
 
         this.randomTagOnInvalid = config.getBoolean("set-random-if-invalid-dbtag");
         getHandler().getPlugin().getLogger().info("Plugin Configuration has been loaded with the version "+getVersion());
@@ -187,6 +192,14 @@ public class Configuration extends ConfigurationFile {
 
     public boolean isHookPlaceholderAPI() {
         return hookPlaceholderAPI;
+    }
+
+    public boolean isTagShopEnabled() {
+        return tagShopEnabled;
+    }
+
+    public boolean isTagShopLockedTagsOnly() {
+        return tagShopLockedTagsOnly;
     }
 }
 

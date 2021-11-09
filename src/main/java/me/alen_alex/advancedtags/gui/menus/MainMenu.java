@@ -11,6 +11,7 @@ import me.alen_alex.advancedtags.gui.GUI;
 import me.alen_alex.advancedtags.gui.GUIHandler;
 import org.bukkit.entity.Player;
 
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 public class MainMenu extends GUI {
@@ -45,7 +46,8 @@ public class MainMenu extends GUI {
             SchedulerUtils.runTask(new Runnable() {
                 @Override
                 public void run() {
-                    menu.open(player);
+                    if(menu instanceof ItemMenu)
+                        ((ItemMenu) menu).open(player);
                 }
             }, getHandler().getPlugin());
 
@@ -53,8 +55,9 @@ public class MainMenu extends GUI {
     }
 
     @Override
-    public CompletableFuture<ItemMenu> setUpMenu(Player player) {
+    protected CompletableFuture<Object> setUpMenu(Player player) {
         return CompletableFuture.supplyAsync( () -> {
+            this.mainMenu.clear();
             ActionItem myTags,tagShop,closeButton,adminButton;
             myTags = new ActionItem(getHandler().getMenuConfiguration().getMyTags());
             myTags.setName(getHandler().getMenuConfiguration().getMyTagDisplayName());
@@ -134,4 +137,7 @@ public class MainMenu extends GUI {
 
     }
 
+    public ItemMenu getMainMenu() {
+        return mainMenu;
+    }
 }

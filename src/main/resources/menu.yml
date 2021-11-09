@@ -2,7 +2,7 @@ main-menu:
   name: '&b&lAdvanced&f&lTags'
   size: 45
   filler:
-    fill-empty-slots: true
+    fill-empty-slots: false
     filler: LIME_STAINED_GLASS_PANE
   items:
     myTags:
@@ -10,7 +10,10 @@ main-menu:
       display-name: '&cMy Tags'
       size: 1
       lore:
-        - Click to open
+        - "&6Click to open &c&lMy Tag"
+        - ""
+        - "&fThe &c&lMy Tag &fmenu shows all the tag"
+        - "&fyou own and have access to."
       slot: 20
     tagShop:
       material: "ENDER_CHEST"
@@ -18,7 +21,7 @@ main-menu:
       size: 1
       lore:
         - Click to open
-      slot: 23
+      slot: 22
     closeMenu:
       material: "BARRIER"
       display-name: "&c&lClose Menu"
@@ -34,7 +37,7 @@ main-menu:
       size: 1
       lore:
         - Click to open
-      slot: 25
+      slot: 24
   others:
     GLASS_BORDER:
       material: "BLACK_STAINED_GLASS_PANE"
@@ -62,6 +65,11 @@ main-menu:
         - 42
         - 43
         - 44
-
-
+tagShop:
+  name: '&c&lTag Shop'
+  closeMenu:
+    material: "BARRIER"
+    display-name: "&c&lClose Menu"
+    lore:
+      - "Click to open"
 version: 1.0

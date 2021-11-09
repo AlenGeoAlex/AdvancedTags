@@ -1,13 +1,12 @@
 package me.alen_alex.advancedtags;
 
+import me.alen_alex.advancedtags.exceptions.UnknownDataException;
 import me.alen_alex.advancedtags.object.ATPlayer;
 import me.alen_alex.advancedtags.object.Tag;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class PluginDataManager {
 
@@ -85,6 +84,25 @@ public class PluginDataManager {
 
     public void removePlayer(@NotNull UUID playerID){
         this.playerLoaded.remove(playerID);
+    }
+
+    public boolean hasTag(@NotNull Player player,@NotNull String tagName) throws UnknownDataException {
+        if(!this.tagCache.containsKey(tagName))
+            throw new UnknownDataException("The tag "+tagName+" has not been loaded or does not exist");
+
+        if(!this.playerLoaded.containsKey(player))
+            throw new UnknownDataException("The player "+player.getName()+"/"+player.getUniqueId()+" has not been loaded into the plugin cache!");
+
+        return this.playerLoaded.get(player.getUniqueId()).getPlayerUnlockedTags().contains(tagName);
+    }
+
+    public List<Tag> getAllTagsOnServer(){
+        final List<Tag> currentTags = new ArrayList<Tag>();
+        for(Map.Entry<String,Tag> entry : tagCache.entrySet()){
+            System.out.println(entry.getValue().getName());
+            currentTags.add(entry.getValue());
+        }
+        return currentTags;
     }
 
 

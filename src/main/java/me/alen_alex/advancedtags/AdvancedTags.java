@@ -2,6 +2,7 @@ package me.alen_alex.advancedtags;
 
 import me.Abhigya.core.main.CoreAPI;
 import me.Abhigya.core.plugin.PluginAdapter;
+import me.alen_alex.advancedtags.command.Test3;
 import me.alen_alex.advancedtags.command.TestCommand;
 import me.alen_alex.advancedtags.configurations.ConfigurationHandler;
 import me.alen_alex.advancedtags.database.StorageHandler;
@@ -77,6 +78,8 @@ public final class AdvancedTags extends PluginAdapter {
         getServer().getPluginManager().registerEvents(new AsyncPlayerJoinEvent(this),this);
         getServer().getPluginManager().registerEvents(new PlayerQuitEvent(this),this);
         getCommand("test").setExecutor(new TestCommand(this));
+        getCommand("test3").setExecutor(new Test3(this));
+
         return true;
     }
 

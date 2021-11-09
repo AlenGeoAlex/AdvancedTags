@@ -34,6 +34,12 @@ public class MenuConfiguration extends ConfigurationFile {
     private String adminMenuPermission;
     private final HashMap<ItemStack,List<Integer>> mainMenuStaticMaterials = new HashMap<ItemStack,List<Integer>>();
 
+    //TagShop
+    private String tagShopName;
+    private String tagShopCloseName;
+    private ItemStack tagShopCloseItem;
+    private List<String> tagShopCloseLore;
+
     public MenuConfiguration(ConfigurationHandler handler) {
         super(handler);
         this.handler = handler;
@@ -81,11 +87,15 @@ public class MenuConfiguration extends ConfigurationFile {
         this.closeButtonSlot = menuConfig.getInt("main-menu.items.closeMenu.slot");
         this.menuConfig.singleLayerKeySet("main-menu.others").forEach((string) -> {
             final ItemStack material = processMaterial("main-menu.others."+string+".material");
-
             final List<Integer> slots = menuConfig.getStringList("main-menu.others."+string+".slots").stream().map(Integer::parseInt).collect(Collectors.toList());
             this.mainMenuStaticMaterials.put(material,slots);
         });
 
+        //TagShop
+        this.tagShopName = IridiumColorAPI.process(menuConfig.getString("tagShop.name"));
+        this.tagShopCloseName = IridiumColorAPI.process(menuConfig.getString("tagShop.closeMenu.display-name"));
+        this.tagShopCloseItem = processMaterial("tagShop.closeMenu.material");
+        this.tagShopCloseLore = IridiumColorAPI.process(menuConfig.getStringList("tagShop.closeMenu.lore"));
     }
 
     @Override
@@ -130,15 +140,12 @@ public class MenuConfiguration extends ConfigurationFile {
     }
 
     private ItemStack processMaterial(String configPath){
-        System.out.println(configPath+" contains -- "+menuConfig.contains(configPath));
         if(menuConfig.contains(configPath))
         {
             if(menuConfig.getString(configPath).startsWith("base64")){
                 return ItemStackUtils.getSkull(menuConfig.getString(configPath));
             }else {
-                System.out.println(EnumUtils.isValidEnum(XMaterial.class, menuConfig.getString(configPath))+" -- "+menuConfig.getString(configPath));
                 if (EnumUtils.isValidEnum(XMaterial.class, menuConfig.getString(configPath))) {
-                    System.out.println(configPath+" is a valid Xmaterial");
                     return XMaterial.matchXMaterial(menuConfig.getString(configPath)).get().parseItem();
                 } else {
                     return XMaterial.CRAFTING_TABLE.parseItem();
@@ -245,5 +252,21 @@ public class MenuConfiguration extends ConfigurationFile {
 
     public String getCloseButtonDisplayName() {
         return closeButtonDisplayName;
+    }
+
+    public String getTagShopName() {
+        return tagShopName;
+    }
+
+    public String getTagShopCloseName() {
+        return tagShopCloseName;
+    }
+
+    public ItemStack getTagShopCloseItem() {
+        return tagShopCloseItem;
+    }
+
+    public List<String> getTagShopCloseLore() {
+        return tagShopCloseLore;
     }
 }

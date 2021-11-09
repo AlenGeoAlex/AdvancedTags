@@ -5,6 +5,7 @@ import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -101,5 +102,27 @@ public class ATPlayer {
 
     public List<String> getPlayerUnlockedTags() {
         return playerUnlockedTags;
+    }
+
+    public List<String> getPlayerLockedTagName(){
+        List<String> playerLocked = new ArrayList<String>();
+
+        plugin.getPluginManager().getAllTagsOnServer().forEach((tag) -> {
+            if(!this.playerUnlockedTags.contains(tag.getName()))
+                playerLocked.add(tag.getName());
+        });
+        return playerLocked;
+    }
+
+    public List<Tag> getPlayerLockedTags(){
+        List<Tag> playerLocked = new ArrayList<Tag>();
+
+
+        plugin.getPluginManager().getAllTagsOnServer().forEach((tag) -> {
+            if(!this.playerUnlockedTags.contains(tag.getName())) {
+                playerLocked.add(tag);
+            }
+        });
+        return playerLocked;
     }
 }
