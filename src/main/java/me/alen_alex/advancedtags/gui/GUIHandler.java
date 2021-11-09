@@ -38,4 +38,9 @@ public class GUIHandler {
     public TagShop getTagShop() {
         return tagShop;
     }
+
+    public void reloadMenuStatics(){
+        this.mainMenu.loadStatics();
+        this.tagShop.loadStatics();
+    }
 }

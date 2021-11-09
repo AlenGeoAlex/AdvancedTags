@@ -97,12 +97,18 @@ public class PluginDataManager {
     }
 
     public List<Tag> getAllTagsOnServer(){
-        final List<Tag> currentTags = new ArrayList<Tag>();
+        /*final List<Tag> currentTags = new ArrayList<Tag>();
+        System.out.println(tagCache.size());
+        tagCache.values().forEach(s -> {
+            System.out.println(s.getName());
+        });
+
         for(Map.Entry<String,Tag> entry : tagCache.entrySet()){
             System.out.println(entry.getValue().getName());
             currentTags.add(entry.getValue());
         }
-        return currentTags;
+        return currentTags;*/
+        return new ArrayList<>(tagCache.values());
     }
 
 

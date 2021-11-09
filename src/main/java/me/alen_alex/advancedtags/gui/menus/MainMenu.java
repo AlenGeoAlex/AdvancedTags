@@ -70,7 +70,8 @@ public class MainMenu extends GUI {
 
                 @Override
                 public void onClick(ItemClickAction itemClickAction) {
-                    System.out.println(itemClickAction.getClickedItem().getItemMeta().getDisplayName());
+                    mainMenu.close(player);
+                    getHandler().getTagShop().openMenu(player);
                 }
             });
 

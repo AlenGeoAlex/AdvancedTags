@@ -51,6 +51,23 @@ public abstract class GUI {
         }
     }
 
+    public void setStaticItemStacks(HashMap<ItemStack, List<Integer>> configurationSection,BookItemMenu inventory){
+        Iterator<Map.Entry<ItemStack, List<Integer>>> staticISIterator = configurationSection.entrySet().iterator();
+        while (staticISIterator.hasNext()){
+            Map.Entry<ItemStack, List<Integer>> currentConfig = staticISIterator.next();
+            try {
+                ActionItem item = new ActionItem(currentConfig.getKey());
+                item.setName("");
+                currentConfig.getValue().forEach((position) -> {
+                    inventory.setBarButton(position-45,item);
+                });
+            }catch (Exception e){
+                handler.getPlugin().getLogger().warning("Failed to set static items on the inventory "+inventory.getTitle());
+                e.printStackTrace();
+            }
+        }
+    }
+
     public abstract void init();
 
     public abstract void loadStatics();

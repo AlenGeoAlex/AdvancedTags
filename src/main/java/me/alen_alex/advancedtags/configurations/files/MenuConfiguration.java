@@ -39,6 +39,12 @@ public class MenuConfiguration extends ConfigurationFile {
     private String tagShopCloseName;
     private ItemStack tagShopCloseItem;
     private List<String> tagShopCloseLore;
+    private int tagShopCloseSlot;
+    private String tagShopGoBackName,tagShopGoNextName,tagShopGoMainMenuName;
+    private ItemStack tagShopGoBackItem,tagShopGoNextItem,tagShopMainMenuItem;
+    private List<String> tagShopGoBackLore,tagShopGoNextLore,tagShopMainMenuLore;
+    private int tagShopGoBackSlot,tagShopGoNextSlot,tagShopGoMainMenuSlot;
+    private final HashMap<ItemStack,List<Integer>> tagMenuStaticMaterials = new HashMap<ItemStack,List<Integer>>();
 
     public MenuConfiguration(ConfigurationHandler handler) {
         super(handler);
@@ -96,6 +102,26 @@ public class MenuConfiguration extends ConfigurationFile {
         this.tagShopCloseName = IridiumColorAPI.process(menuConfig.getString("tagShop.closeMenu.display-name"));
         this.tagShopCloseItem = processMaterial("tagShop.closeMenu.material");
         this.tagShopCloseLore = IridiumColorAPI.process(menuConfig.getStringList("tagShop.closeMenu.lore"));
+        this.tagShopCloseSlot = menuConfig.getInt("tagShop.closeMenu.slot");
+        this.tagShopGoBackItem = processMaterial("tagShop.goBack.material");
+        this.tagShopGoNextItem = processMaterial("tagShop.goNext.material");
+        this.tagShopMainMenuItem = processMaterial("tagShop.mainMenu.material");
+        this.tagShopGoBackName = IridiumColorAPI.process(menuConfig.getString("tagShop.goBack.display-name"));
+        this.tagShopGoNextName = IridiumColorAPI.process(menuConfig.getString("tagShop.goNext.display-name"));
+        this.tagShopGoMainMenuName = IridiumColorAPI.process(menuConfig.getString("tagShop.mainMenu.display-name"));
+        this.tagShopGoNextLore = IridiumColorAPI.process(menuConfig.getStringList("tagShop.goNext.lore"));
+        this.tagShopGoBackLore = IridiumColorAPI.process(menuConfig.getStringList("tagShop.goBack.lore"));
+        this.tagShopMainMenuLore = IridiumColorAPI.process(menuConfig.getStringList("tagShop.mainMenu.lore"));
+        this.tagShopGoBackSlot = menuConfig.getInt("tagShop.goBack.slot");
+        this.tagShopGoNextSlot =  menuConfig.getInt("tagShop.goNext.slot");
+        this.tagShopGoMainMenuSlot = menuConfig.getInt("tagShop.mainMenu.slot");
+        this.menuConfig.singleLayerKeySet("tagShop.others").forEach((string) -> {
+            final ItemStack material = processMaterial("tagShop.others."+string+".material");
+            final List<Integer> slots = menuConfig.getStringList("tagShop.others."+string+".slots").stream().map(Integer::parseInt).collect(Collectors.toList());
+            this.tagMenuStaticMaterials.put(material,slots);
+        });
+
+        menuConfig = null;
     }
 
     @Override
@@ -268,5 +294,61 @@ public class MenuConfiguration extends ConfigurationFile {
 
     public List<String> getTagShopCloseLore() {
         return tagShopCloseLore;
+    }
+
+    public int getTagShopCloseSlot() {
+        return tagShopCloseSlot;
+    }
+
+    public String getTagShopGoBackName() {
+        return tagShopGoBackName;
+    }
+
+    public String getTagShopGoNextName() {
+        return tagShopGoNextName;
+    }
+
+    public String getTagShopGoMainMenuName() {
+        return tagShopGoMainMenuName;
+    }
+
+    public ItemStack getTagShopGoBackItem() {
+        return tagShopGoBackItem;
+    }
+
+    public ItemStack getTagShopGoNextItem() {
+        return tagShopGoNextItem;
+    }
+
+    public ItemStack getTagShopMainMenuItem() {
+        return tagShopMainMenuItem;
+    }
+
+    public List<String> getTagShopGoBackLore() {
+        return tagShopGoBackLore;
+    }
+
+    public List<String> getTagShopGoNextLore() {
+        return tagShopGoNextLore;
+    }
+
+    public List<String> getTagShopMainMenuLore() {
+        return tagShopMainMenuLore;
+    }
+
+    public int getTagShopGoBackSlot() {
+        return tagShopGoBackSlot;
+    }
+
+    public int getTagShopGoNextSlot() {
+        return tagShopGoNextSlot;
+    }
+
+    public int getTagShopGoMainMenuSlot() {
+        return tagShopGoMainMenuSlot;
+    }
+
+    public HashMap<ItemStack, List<Integer>> getTagMenuStaticMaterials() {
+        return tagMenuStaticMaterials;
     }
 }

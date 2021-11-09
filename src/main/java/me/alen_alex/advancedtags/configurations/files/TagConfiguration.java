@@ -8,7 +8,6 @@ import me.alen_alex.advancedtags.configurations.ConfigurationHandler;
 import me.alen_alex.advancedtags.object.Tag;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.EnumUtils;
-import org.bukkit.Material;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,7 +95,7 @@ public class TagConfiguration extends ConfigurationFile {
                 tagBatch.add(tag);
             }
         }
-
+        getHandler().getPlugin().getPluginManager().insertTagAsBatch(tagBatch);
     }
 
 
