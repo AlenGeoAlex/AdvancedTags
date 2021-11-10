@@ -35,8 +35,8 @@ public class TagShop extends GUI {
 
     @Override
     public void loadStatics() {
-        goNext = null;
-        goBack = null;
+        this.goNext = null;
+        this.goBack = null;
 
         this.goBack= new AlternateBookPageActionItem(getHandler().getMenuConfiguration().getTagShopGoBackName(),getHandler().getMenuConfiguration().getTagShopGoBackItem());
         this.goBack.setLore(getHandler().getMenuConfiguration().getTagShopGoBackLore());
@@ -47,8 +47,6 @@ public class TagShop extends GUI {
         this.goNext.setLore(getHandler().getMenuConfiguration().getTagShopGoNextLore());
         this.goNext.setBookMenu(this.shopMenu);
         this.goNext.setGoNext(true);
-
-
     }
 
     @Override
@@ -70,7 +68,7 @@ public class TagShop extends GUI {
     @Override
     protected CompletableFuture<Object> setUpMenu(Player player) {
         return CompletableFuture.supplyAsync(() -> {
-            this.shopMenu.clear();
+            this.shopMenu.clearContents();
             setStaticItemStacks(getHandler().getMenuConfiguration().getTagMenuStaticMaterials(), this.shopMenu);
 
 
@@ -111,24 +109,23 @@ public class TagShop extends GUI {
             shopMenu.setBarButton(getHandler().getMenuConfiguration().getTagShopGoBackSlot()-45,this.goBack);
             shopMenu.setBarButton(getHandler().getMenuConfiguration().getTagShopGoNextSlot()-45,this.goNext);
             shopMenu.setBarButton(getHandler().getMenuConfiguration().getTagShopGoMainMenuSlot()-45,goMainMenu);
+                this.handler.getPlugin().getPluginManager().getPlayer(player).getPlayerLockedTags().forEach((lockedTags) -> {
+                    ActionItem tagItem = new ActionItem(lockedTags.getName(), lockedTags.getMenuItem());
+                    tagItem.setLore(lockedTags.getLore());
+                    tagItem.addAction(new ItemAction() {
+                        @Override
+                        public ItemActionPriority getPriority() {
+                            return ItemActionPriority.NORMAL;
+                        }
 
+                        @Override
+                        public void onClick(ItemClickAction itemClickAction) {
+                            handler.getPlugin().getLogger().info("Check for money and unlock if needed!");
+                        }
+                    });
+                    shopMenu.addItem(tagItem);
 
-            this.handler.getPlugin().getPluginManager().getPlayer(player).getPlayerLockedTags().forEach((lockedTags) -> {
-                ActionItem tagItem = new ActionItem(lockedTags.getName(),lockedTags.getMenuItem());
-                tagItem.addAction(new ItemAction() {
-                    @Override
-                    public ItemActionPriority getPriority() {
-                        return ItemActionPriority.NORMAL;
-                    }
-
-                    @Override
-                    public void onClick(ItemClickAction itemClickAction) {
-                        handler.getPlugin().getLogger().info("Check for money and unlock if needed!");
-                    }
                 });
-                shopMenu.addItem(tagItem);
-
-            });
             return shopMenu;
         });
     }

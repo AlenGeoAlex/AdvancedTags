@@ -6,9 +6,9 @@ import org.bukkit.event.Listener;
 
 import java.util.UUID;
 
-public class PlayerQuitEvent implements Listener {
+public final class PlayerQuitEvent implements Listener {
 
-    private AdvancedTags plugin;
+    private final AdvancedTags plugin;
 
     public PlayerQuitEvent(AdvancedTags plugin) {
         this.plugin = plugin;

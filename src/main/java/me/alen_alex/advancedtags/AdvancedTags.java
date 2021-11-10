@@ -2,8 +2,9 @@ package me.alen_alex.advancedtags;
 
 import me.Abhigya.core.main.CoreAPI;
 import me.Abhigya.core.plugin.PluginAdapter;
-import me.alen_alex.advancedtags.command.Test3;
-import me.alen_alex.advancedtags.command.TestCommand;
+import me.alen_alex.advancedtags.command.CommandHandler;
+import me.alen_alex.advancedtags.testcommand.Test3;
+import me.alen_alex.advancedtags.testcommand.TestCommand;
 import me.alen_alex.advancedtags.configurations.ConfigurationHandler;
 import me.alen_alex.advancedtags.database.StorageHandler;
 import me.alen_alex.advancedtags.gui.GUIHandler;
@@ -20,6 +21,7 @@ public final class AdvancedTags extends PluginAdapter {
     private StorageHandler storageHandler;
     private ChatUtils chatUtils;
     private GUIHandler guiHandler;
+    private CommandHandler commandHandler;
     private boolean vaultEnabled,placeholderAPIEnabled;
 
     @Override
@@ -68,6 +70,9 @@ public final class AdvancedTags extends PluginAdapter {
 
         guiHandler = new GUIHandler(this);
         guiHandler.init();
+
+        commandHandler = new CommandHandler(this);
+
 
         return true;
     }
@@ -138,6 +143,14 @@ public final class AdvancedTags extends PluginAdapter {
      */
     public StorageHandler getStorageHandler() {
         return storageHandler;
+    }
+
+    /**
+     * The Command Handler Class of The Plugin!
+     * @return CommandHandler
+     */
+    public CommandHandler getCommandHandler() {
+        return commandHandler;
     }
 
     public GUIHandler getGuiHandler() {

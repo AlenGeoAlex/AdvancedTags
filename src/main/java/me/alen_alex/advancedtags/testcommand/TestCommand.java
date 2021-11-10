@@ -1,4 +1,4 @@
-package me.alen_alex.advancedtags.command;
+package me.alen_alex.advancedtags.testcommand;
 
 import me.alen_alex.advancedtags.AdvancedTags;
 import org.bukkit.command.Command;
@@ -7,11 +7,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class Test3  implements CommandExecutor {
+public class TestCommand implements CommandExecutor {
 
     private AdvancedTags plugin;
 
-    public Test3(AdvancedTags plugin) {
+    public TestCommand(AdvancedTags plugin) {
         this.plugin = plugin;
     }
 
@@ -20,7 +20,7 @@ public class Test3  implements CommandExecutor {
 
         final Player player = (Player) sender;
 
-        plugin.getGuiHandler().getTagShop().openMenu(player);
+        plugin.getGuiHandler().getMainMenu().openMenu(player);
 
         return true;
     }

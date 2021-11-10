@@ -100,4 +100,30 @@ tagShop:
         - 50
         - 51
         - 52
+myTag:
+  name: '&6&lMy Tags'
+  closeMenu:
+    material: "BARRIER"
+    display-name: "&c&lClose Menu"
+    slot: 49
+    lore:
+      - "Click to open"
+  goBack:
+    material: "ARROW"
+    display-name: "&b&lPrevious Page"
+    slot: 45
+    lore:
+      - "Click to open"
+  goNext:
+    material: "ARROW"
+    display-name: "&6&lNext Page"
+    slot: 53
+    lore:
+      - "Click to open"
+  mainMenu:
+    material: "RED_DYE"
+    display-name: "&d&lMain Menu"
+    slot: 47
+    lore:
+      - "Click to open"
 version: 1.0

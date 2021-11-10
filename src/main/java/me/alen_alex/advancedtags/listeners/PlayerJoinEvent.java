@@ -7,9 +7,9 @@ import org.bukkit.event.Listener;
 
 import java.util.UUID;
 
-public class PlayerJoinEvent implements Listener {
+public final class PlayerJoinEvent implements Listener {
 
-    private AdvancedTags plugin;
+    private final AdvancedTags plugin;
 
     public PlayerJoinEvent(AdvancedTags plugin) {
         this.plugin = plugin;

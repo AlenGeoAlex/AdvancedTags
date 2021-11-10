@@ -93,7 +93,7 @@ public class PluginDataManager {
         if(!this.playerLoaded.containsKey(player))
             throw new UnknownDataException("The player "+player.getName()+"/"+player.getUniqueId()+" has not been loaded into the plugin cache!");
 
-        return this.playerLoaded.get(player.getUniqueId()).getPlayerUnlockedTags().contains(tagName);
+        return this.playerLoaded.get(player.getUniqueId()).getPlayerUnlockedTagNames().contains(tagName);
     }
 
     public List<Tag> getAllTagsOnServer(){

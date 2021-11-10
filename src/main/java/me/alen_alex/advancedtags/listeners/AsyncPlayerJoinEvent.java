@@ -8,9 +8,9 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 
 import java.util.UUID;
 
-public class AsyncPlayerJoinEvent implements Listener {
+public final class AsyncPlayerJoinEvent implements Listener {
 
-    private AdvancedTags plugin;
+    private final AdvancedTags plugin;
 
     public AsyncPlayerJoinEvent(AdvancedTags plugin) {
         this.plugin = plugin;

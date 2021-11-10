@@ -76,7 +76,6 @@ public class Configuration extends ConfigurationFile {
 
         //tagShop
         this.tagShopEnabled = config.getBoolean("tag-shop.enabled");
-        this.tagShopLockedTagsOnly = config.getBoolean("tag-shop.show-only-locked");
 
         this.randomTagOnInvalid = config.getBoolean("set-random-if-invalid-dbtag");
         getHandler().getPlugin().getLogger().info("Plugin Configuration has been loaded with the version "+getVersion());
@@ -198,8 +197,5 @@ public class Configuration extends ConfigurationFile {
         return tagShopEnabled;
     }
 
-    public boolean isTagShopLockedTagsOnly() {
-        return tagShopLockedTagsOnly;
-    }
 }
 

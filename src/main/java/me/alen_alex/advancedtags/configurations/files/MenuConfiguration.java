@@ -46,6 +46,13 @@ public class MenuConfiguration extends ConfigurationFile {
     private int tagShopGoBackSlot,tagShopGoNextSlot,tagShopGoMainMenuSlot;
     private final HashMap<ItemStack,List<Integer>> tagMenuStaticMaterials = new HashMap<ItemStack,List<Integer>>();
 
+    //MyTag
+    private String myTagName;
+    private String myTagCloseItemName,myTagGoBackName,myTagGoNextName,myTagMainMenuName;
+    private ItemStack myTagCloseItem,myTagGoBackItem,myTagGoNextItem,myTagMainMenuItem;
+    private List<String> myTagCloseLore,myTagGoBackLore,myTagGoNextLore,myTagMainMenuLore;
+    private int myTagCloseSlot,myTagGoBackSlot,myTagGoNextSlot,myTagMainMenuSlot;
+
     public MenuConfiguration(ConfigurationHandler handler) {
         super(handler);
         this.handler = handler;
@@ -121,6 +128,24 @@ public class MenuConfiguration extends ConfigurationFile {
             this.tagMenuStaticMaterials.put(material,slots);
         });
 
+        //MyTags
+        this.myTagName = IridiumColorAPI.process(menuConfig.getString("myTag.name"));
+        this.myTagCloseItemName = IridiumColorAPI.process(menuConfig.getString("myTag.closeMenu.display-name"));
+        this.myTagGoBackName = IridiumColorAPI.process(menuConfig.getString("myTag.goBack.display-name"));
+        this.myTagGoNextName = IridiumColorAPI.process(menuConfig.getString("myTag.goNext.display-name"));
+        this.myTagMainMenuName = IridiumColorAPI.process(menuConfig.getString("myTag.mainMenu.display-name"));
+        this.myTagCloseItem = processMaterial("myTag.closeMenu.material");
+        this.myTagGoBackItem = processMaterial("myTag.closeMenu.material");
+        this.myTagGoNextItem = processMaterial("myTag.goNext.material");
+        this.myTagMainMenuItem = processMaterial("myTag.mainMenu.material");
+        this.myTagCloseLore = IridiumColorAPI.process(menuConfig.getStringList("myTag.closeMenu.lore"));
+        this.myTagGoBackLore = IridiumColorAPI.process(menuConfig.getStringList("myTag.goBack.lore"));
+        this.myTagGoNextLore = IridiumColorAPI.process(menuConfig.getStringList("myTag.goNext.lore"));
+        this.myTagMainMenuLore = IridiumColorAPI.process(menuConfig.getStringList("myTag.mainMenu.lore"));
+        this.myTagCloseSlot = menuConfig.getInt("myTag.closeMenu.slot");
+        this.myTagGoNextSlot = menuConfig.getInt("myTag.goNext.slot");
+        this.myTagGoBackSlot = menuConfig.getInt("myTag.goBack.slot");
+        this.myTagMainMenuSlot = menuConfig.getInt("myTag.mainMenu.slot");
         menuConfig = null;
     }
 
@@ -169,7 +194,8 @@ public class MenuConfiguration extends ConfigurationFile {
         if(menuConfig.contains(configPath))
         {
             if(menuConfig.getString(configPath).startsWith("base64")){
-                return ItemStackUtils.getSkull(menuConfig.getString(configPath));
+                final String[] texture = menuConfig.getString(configPath).split(":");
+                return ItemStackUtils.getSkull(texture[1]);
             }else {
                 if (EnumUtils.isValidEnum(XMaterial.class, menuConfig.getString(configPath))) {
                     return XMaterial.matchXMaterial(menuConfig.getString(configPath)).get().parseItem();
@@ -350,5 +376,73 @@ public class MenuConfiguration extends ConfigurationFile {
 
     public HashMap<ItemStack, List<Integer>> getTagMenuStaticMaterials() {
         return tagMenuStaticMaterials;
+    }
+
+    public String getMyTagName() {
+        return myTagName;
+    }
+
+    public String getMyTagCloseItemName() {
+        return myTagCloseItemName;
+    }
+
+    public String getMyTagGoBackName() {
+        return myTagGoBackName;
+    }
+
+    public String getMyTagGoNextName() {
+        return myTagGoNextName;
+    }
+
+    public String getMyTagMainMenuName() {
+        return myTagMainMenuName;
+    }
+
+    public ItemStack getMyTagCloseItem() {
+        return myTagCloseItem;
+    }
+
+    public ItemStack getMyTagGoBackItem() {
+        return myTagGoBackItem;
+    }
+
+    public ItemStack getMyTagGoNextItem() {
+        return myTagGoNextItem;
+    }
+
+    public ItemStack getMyTagMainMenuItem() {
+        return myTagMainMenuItem;
+    }
+
+    public List<String> getMyTagCloseLore() {
+        return myTagCloseLore;
+    }
+
+    public List<String> getMyTagGoBackLore() {
+        return myTagGoBackLore;
+    }
+
+    public List<String> getMyTagGoNextLore() {
+        return myTagGoNextLore;
+    }
+
+    public List<String> getMyTagMainMenuLore() {
+        return myTagMainMenuLore;
+    }
+
+    public int getMyTagCloseSlot() {
+        return myTagCloseSlot;
+    }
+
+    public int getMyTagGoBackSlot() {
+        return myTagGoBackSlot;
+    }
+
+    public int getMyTagGoNextSlot() {
+        return myTagGoNextSlot;
+    }
+
+    public int getMyTagMainMenuSlot() {
+        return myTagMainMenuSlot;
     }
 }

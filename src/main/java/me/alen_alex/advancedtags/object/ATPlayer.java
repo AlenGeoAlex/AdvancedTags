@@ -100,8 +100,19 @@ public class ATPlayer {
         return tagOnDatabase;
     }
 
-    public List<String> getPlayerUnlockedTags() {
+    public List<String> getPlayerUnlockedTagNames() {
         return playerUnlockedTags;
+    }
+
+    public List<Tag> getPlayerUnlockedTags(){
+        List<Tag> playerUnlocked = new ArrayList<Tag>();
+
+        this.playerUnlockedTags.forEach((stringTag) -> {
+            if(plugin.getPluginManager().containsTag(stringTag))
+                playerUnlocked.add(plugin.getPluginManager().getTagFromCache(stringTag));
+        });
+
+        return playerUnlocked;
     }
 
     public List<String> getPlayerLockedTagName(){

@@ -42,7 +42,6 @@ kick-if-failed:
 
 tag-shop:
   enabled: true
-  show-only-locked: false
 
 hooks:
   vault: true
