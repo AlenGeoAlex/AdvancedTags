@@ -42,7 +42,6 @@ public abstract class CommandFramework extends Command {
             CommandMap commandMap = null;
             commandMap = (CommandMap) commandField.get(this.handler.getPlugin().getServer());
             commandMap.register(commandName, this);
-
         } catch (IllegalAccessException | NoSuchFieldException e) {
             e.printStackTrace();
         }
