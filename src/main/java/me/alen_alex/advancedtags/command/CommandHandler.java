@@ -16,7 +16,6 @@ public class CommandHandler {
 
     public void initCommands(){
         this.mainCommand = new AdvancedTagCommand("advancedtag","at.command.*",this);
-        this.mainCommand.
     }
 
 
