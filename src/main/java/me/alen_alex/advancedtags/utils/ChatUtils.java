@@ -59,6 +59,13 @@ public class ChatUtils {
         player.sendMessage(formatSimpleMessage(message));
     }
 
+    public void sendSimpleMessage(@NotNull CommandSender player,String message){
+        if(StringUtils.isBlank(message))
+            return;
+
+        player.sendMessage(formatSimpleMessage(message));
+    }
+
     public void sendMessage(@NotNull CommandSender sender, String message) {
         if (StringUtils.isBlank(message))
             return;

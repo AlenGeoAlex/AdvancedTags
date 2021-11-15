@@ -1,6 +1,7 @@
 package me.alen_alex.advancedtags.object;
 
 import me.alen_alex.advancedtags.AdvancedTags;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -71,9 +72,11 @@ public class ATPlayer {
     }
 
     public String getCurrentTagDisplay(){
-        if(playerCurrentTag != null)
-            return this.playerCurrentTag.getName();
-        else return null;
+        if(playerCurrentTag != null) {
+            if(this.getPlayerCurrentTag().isDynamicTag())
+                return PlaceholderAPI.setPlaceholders(this.player,this.playerCurrentTag.getDisplayTag());
+            else return this.playerCurrentTag.getDisplayTag();
+        } else return null;
     }
 
     public boolean doPlayerHaveTag(){
@@ -82,6 +85,10 @@ public class ATPlayer {
 
     public int getTillUnlockedTagCount(){
         return this.playerUnlockedTags.size();
+    }
+
+    public int getRemainingToUnlock(){
+        return this.plugin.getPluginManager().getAllTagsOnServer().size() - getTillUnlockedTagCount();
     }
 
     public UUID getPlayerID() {
@@ -135,5 +142,10 @@ public class ATPlayer {
             }
         });
         return playerLocked;
+    }
+
+    @Override
+    public String toString() {
+        return this.getPlayerName()+" occupied "+this.getCurrentTagDisplay();
     }
 }

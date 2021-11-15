@@ -147,4 +147,9 @@ public final class Tag {
     public int hashCode() {
         return Objects.hashCode(getName(), getDisplayTag(), isPermissionRequired(), getPermission(), isDynamicTag(), getLore(), getMenuItem(), isGlobal(), money);
     }
+
+    @Override
+    public String toString() {
+        return this.displayTag;
+    }
 }

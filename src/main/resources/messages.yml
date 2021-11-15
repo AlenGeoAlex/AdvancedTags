@@ -1,3 +1,8 @@
+##The plugin utilizes the Iridium Color API, It will support Hex Colors on servers higher than 1.15.
+##If the native server version does not support it,
+##The plugin will automatically try to convert all your text to the legacy color codes.
+##The usage of the color codes has been described on the Github Wiki of Iridium Color API. (Link Below)
+## https://github:com/Iridium-Development/IridiumColorAPI
 version:
 
 errors:
@@ -7,5 +12,14 @@ errors:
 
 selecting-random-tag-no-tag-on-server: "<SOLID:FF0400>Your selected tag <SOLID:FFC500>%selected_tag% <SOLID:FF0400>is not available on the current server. Your tag has been switched to <SOLID:8400FF>%temp_tag% temporarily."
 
+help-message:
+  header:
+    - "<RAINBOW1>|------------------------------|</RAINBOW>"
+    - "   <SOLID:FF0000>Advanced<SOLID:ABA6A6>Tag"
+    - " "
+  footer:
+    - "<RAINBOW1>|------------------------------|</RAINBOW>"
+  message-placeholder: "<SOLID:E11010>%command% <SOLID:BDB7B7>» <SOLID:00DDF7>%description%"
+  enable-json-suggestion: true
 
 no-tag-on-the-server: "<SOLID:FF0400>Your selected tag has not been found nor a owned one. Your tag has been removed on the current server"

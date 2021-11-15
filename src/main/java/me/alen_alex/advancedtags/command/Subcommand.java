@@ -18,6 +18,10 @@ public interface Subcommand {
 
     List<String> getAliases();
 
+    String getCommandSyntax();
+
+    String getSuggestionString();
+
     String getCommandDescription();
 
     void runMethod(Player player,String[] args);

@@ -26,6 +26,7 @@ public class MySQL implements StorageWorker {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public boolean init() {
         try {
             databaseEngine =  new HikariClientBuilder(handler.getPlugin().getConfigurationHandler().getPluginConfig().getSqlHost(),

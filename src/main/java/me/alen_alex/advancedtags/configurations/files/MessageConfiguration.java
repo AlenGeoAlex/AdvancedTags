@@ -4,6 +4,10 @@ import de.leonhard.storage.Yaml;
 import me.alen_alex.advancedtags.configurations.ConfigurationFile;
 import me.alen_alex.advancedtags.configurations.ConfigurationHandler;
 import me.alen_alex.advancedtags.utils.ChatUtils;
+import me.alen_alex.advancedtags.utils.iridiumcolorapi.IridiumColorAPI;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MessageConfiguration extends ConfigurationFile{
 
@@ -13,6 +17,12 @@ public class MessageConfiguration extends ConfigurationFile{
     private String version;
 
     private String selectedRandomTag,removedTagNoTag;
+    private String unknownCommand,noPermission,notAConsoleCommand;
+
+    //HelpMessage
+    private List<String> helpHeader, helpFooter;
+    private boolean enableJsonHelpMessage;
+    private String helpPlaceholder;
 
     public MessageConfiguration(ConfigurationHandler handler) {
         super(handler);
@@ -33,10 +43,24 @@ public class MessageConfiguration extends ConfigurationFile{
     public void loadConfig() {
         version = messageConfig.getString("version");
 
+        this.helpHeader = new ArrayList<String>();
+        this.helpFooter = new ArrayList<String>();
+
+        //Plugin messages
+        this.unknownCommand = handler.getPlugin().getChatUtils().parseColorCodes(this.messageConfig.getString("errors.unknown-command"));
+        this.noPermission = handler.getPlugin().getChatUtils().parseColorCodes(this.messageConfig.getString("errors.no-permission"));
+        this.notAConsoleCommand = handler.getPlugin().getChatUtils().parseColorCodes(this.messageConfig.getString("errors.unable-to-run-from-console"));
+
+
         //Tag Proccess
         this.selectedRandomTag = handler.getPlugin().getChatUtils().parseColorCodes(this.messageConfig.getString("selecting-random-tag-no-tag-on-server"));
         this.removedTagNoTag = handler.getPlugin().getChatUtils().parseColorCodes(this.messageConfig.getString("no-tag-on-the-server"));
 
+        //HelpMessage
+        this.helpHeader = IridiumColorAPI.process(this.messageConfig.getStringList("help-message.header"));
+        this.helpFooter = IridiumColorAPI.process(this.messageConfig.getStringList("help-message.footer"));
+        this.enableJsonHelpMessage = this.messageConfig.getBoolean("help-message.enable-json-suggestion");
+        this.helpPlaceholder = handler.getPlugin().getChatUtils().parseColorCodes(this.messageConfig.getString("help-message.message-placeholder"));
         getHandler().getPlugin().getLogger().info("Message Configuration has been loaded with the version "+getVersion());
     }
 
@@ -71,6 +95,35 @@ public class MessageConfiguration extends ConfigurationFile{
         return this.version;
     }
 
+    public String getUnknownCommand() {
+        return unknownCommand;
+    }
 
+    public String getNoPermission() {
+        return noPermission;
+    }
 
+    public String getNotAConsoleCommand() {
+        return notAConsoleCommand;
+    }
+
+    public List<String> getHelpHeader() {
+        return helpHeader;
+    }
+
+    public List<String> getHelpFooter() {
+        return helpFooter;
+    }
+
+    public boolean isEnableJsonHelpMessage() {
+        return enableJsonHelpMessage;
+    }
+
+    public String getHelpPlaceholder() {
+        return helpPlaceholder;
+    }
+
+    public String getHelpPlaceholder(String commandName,String description){
+        return this.helpPlaceholder.replaceAll("%command%",commandName).replaceAll("%description%",description);
+    }
 }

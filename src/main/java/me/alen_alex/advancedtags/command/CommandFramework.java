@@ -75,23 +75,56 @@ public abstract class CommandFramework extends Command {
 
     protected void executeCommand(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args){
         if(args.length == 0){
-
+            if(sender instanceof Player){
+                handler.sendHelpMessage((Player) sender);
+            }else getHandler().getPlugin().getChatUtils().sendSimpleMessage(sender,sendCannotRunFromConsole());
             return;
         }else {
             if(subcommands.containsKey(args[0])){
                 final Subcommand subcommand = subcommands.get(args[0]);
                 if(!(sender instanceof Player) && !subcommand.doRunOnConsole()){
-                    sender.sendMessage(sendCannotRunFromConsole());
+                    sender.sendMessage(this.sendCannotRunFromConsole());
                     return;
                 }
                 final Player player = (Player) sender;
                 if(!sender.hasPermission(subcommand.getCommandPermission())){
-                    getHandler().getPlugin().getChatUtils().sendMessage(player,sendNoPermission());
+                    getHandler().getPlugin().getChatUtils().sendSimpleMessage(player,this.sendNoPermission());
                     return;
                 }
 
                 subcommand.runMethod(player,args);
+            }else getHandler().getPlugin().getChatUtils().sendSimpleMessage(sender,this.sendUnknownCommand());
+        }
+    }
+
+    protected void executeCommand(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args,Subcommand command){
+        if(args.length == 0){
+            if(!(sender instanceof Player) && !command.doRunOnConsole()){
+                sender.sendMessage(this.sendCannotRunFromConsole());
+                return;
             }
+            final Player player = (Player) sender;
+            if(!sender.hasPermission(command.getCommandPermission())){
+                getHandler().getPlugin().getChatUtils().sendSimpleMessage(player,this.sendNoPermission());
+                return;
+            }
+
+            command.runMethod(player,args);
+        }else {
+            if(subcommands.containsKey(args[0])){
+                final Subcommand subcommand = subcommands.get(args[0]);
+                if(!(sender instanceof Player) && !subcommand.doRunOnConsole()){
+                    sender.sendMessage(this.sendCannotRunFromConsole());
+                    return;
+                }
+                final Player player = (Player) sender;
+                if(!sender.hasPermission(subcommand.getCommandPermission())){
+                    getHandler().getPlugin().getChatUtils().sendSimpleMessage(player,this.sendNoPermission());
+                    return;
+                }
+
+                subcommand.runMethod(player,args);
+            }else getHandler().getPlugin().getChatUtils().sendSimpleMessage(sender,this.sendUnknownCommand());
         }
     }
 
@@ -99,18 +132,17 @@ public abstract class CommandFramework extends Command {
         return subcommands;
     }
 
-    protected String sendUnknownPermission(){
-
-        return null;
+    protected String sendUnknownCommand(){
+        return handler.getPlugin().getConfigurationHandler().getMessageConfiguration().getUnknownCommand();
     }
 
     protected String sendNoPermission(){
-        return null;
+        return handler.getPlugin().getConfigurationHandler().getMessageConfiguration().getNoPermission();
 
     }
 
     protected String sendCannotRunFromConsole(){
-        return null;
+        return handler.getPlugin().getConfigurationHandler().getMessageConfiguration().getNotAConsoleCommand();
 
     }
 
