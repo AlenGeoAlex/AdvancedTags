@@ -21,6 +21,7 @@ public class PlayerTags extends GUI {
 
     public PlayerTags(GUIHandler handler) {
         super(handler);
+        playerTags = new BookItemMenu(handler.getMenuConfiguration().getMyTagName(),ItemMenuSize.SIX_LINE,ItemMenuSize.ONE_LINE,getHandler().getMainMenu().getMainMenu());
         init();
     }
 

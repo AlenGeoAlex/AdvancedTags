@@ -13,6 +13,8 @@ import me.alen_alex.advancedtags.listeners.PlayerJoinEvent;
 import me.alen_alex.advancedtags.listeners.PlayerQuitEvent;
 import me.alen_alex.advancedtags.utils.ChatUtils;
 
+import java.io.IOException;
+
 public final class AdvancedTags extends PluginAdapter {
 
     private static AdvancedTags plugin;
@@ -72,6 +74,7 @@ public final class AdvancedTags extends PluginAdapter {
         guiHandler.init();
 
         commandHandler = new CommandHandler(this);
+        commandHandler.initCommands();
 
 
         return true;
@@ -104,8 +107,6 @@ public final class AdvancedTags extends PluginAdapter {
         configurationHandler = null;
         chatUtils = null;
     }
-
-
     public AdvancedTags getPlugin() {
         return plugin;
     }

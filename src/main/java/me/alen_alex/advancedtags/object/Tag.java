@@ -34,7 +34,7 @@ public final class Tag {
         this.permissionRequired = permissionRequired;
         this.permission = permission;
         this.dynamicTag = dynamicTag;
-        this.lore = lore;
+        this.lore = IridiumColorAPI.process(lore);
         menuMaterial1 = XMaterial.matchXMaterial(menuMaterial).get();
         if(menuMaterial1 == null)
             menuMaterial1 = XMaterial.CRAFTING_TABLE;
@@ -48,7 +48,7 @@ public final class Tag {
         this.permissionRequired = false;
         this.permission = "";
         this.dynamicTag = dynamicTag;
-        this.lore = lore;
+        this.lore = IridiumColorAPI.process(lore);
         menuMaterial1 = XMaterial.matchXMaterial(menuMaterial).get();
         if(menuMaterial1 == null)
             menuMaterial1 = XMaterial.CRAFTING_TABLE;
@@ -62,7 +62,7 @@ public final class Tag {
         this.permissionRequired = false;
         this.permission = "";
         this.dynamicTag = false;
-        this.lore = new ArrayList<String>();
+        this.lore = IridiumColorAPI.process(new ArrayList<String>());
         this.menuItem = XMaterial.CRAFTING_TABLE.parseItem();
     }
 
@@ -119,7 +119,7 @@ public final class Tag {
     }
 
     public void setLore(List<String> lore) {
-        this.lore = lore;
+        this.lore = IridiumColorAPI.process(lore);
     }
 
 

@@ -2,6 +2,8 @@ package me.alen_alex.advancedtags.command;
 
 import me.alen_alex.advancedtags.AdvancedTags;
 import me.alen_alex.advancedtags.command.advancedtag.AdvancedTagCommand;
+import me.alen_alex.advancedtags.command.tag.TagCommand;
+import me.alen_alex.advancedtags.command.tag.TagMenu;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.Player;
@@ -15,6 +17,7 @@ public class CommandHandler {
     private final List<TextComponent> helpMessage;
     //
     private AdvancedTagCommand mainCommand;
+    private TagCommand tagCommand;
 
     public CommandHandler(AdvancedTags plugin) {
         this.plugin = plugin;
@@ -23,6 +26,7 @@ public class CommandHandler {
 
     public void initCommands(){
         this.mainCommand = new AdvancedTagCommand("advancedtag","at.command",this);
+        this.tagCommand = new TagCommand("tag","at.command.tag",this);
         prepareHelpMessage();
     }
 

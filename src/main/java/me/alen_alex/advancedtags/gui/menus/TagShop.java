@@ -120,7 +120,11 @@ public class TagShop extends GUI {
 
                         @Override
                         public void onClick(ItemClickAction itemClickAction) {
-                            handler.getPlugin().getLogger().info("Check for money and unlock if needed!");
+                            if(itemClickAction.getClickType().isLeftClick())
+                                handler.getPlugin().getLogger().info("Check for money and unlock if needed!");
+                            if(itemClickAction.getClickType().isRightClick()){
+                                getHandler().getPlugin().getChatUtils().sendMessage(player,lockedTags.getDisplayTag());
+                            }
                         }
                     });
                     shopMenu.addItem(tagItem);

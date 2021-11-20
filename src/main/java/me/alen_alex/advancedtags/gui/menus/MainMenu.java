@@ -27,7 +27,6 @@ public class MainMenu extends GUI {
     @Override
     public void init() {
         mainMenu.registerListener(getHandler().getPlugin());
-        loadStatics();
     }
 
     @Override
@@ -58,6 +57,7 @@ public class MainMenu extends GUI {
     protected CompletableFuture<Object> setUpMenu(Player player) {
         return CompletableFuture.supplyAsync( () -> {
             this.mainMenu.clear();
+            loadStatics();
             ActionItem myTags,tagShop,closeButton,adminButton;
             myTags = new ActionItem(getHandler().getMenuConfiguration().getMyTags());
             myTags.setName(getHandler().getMenuConfiguration().getMyTagDisplayName());
@@ -86,7 +86,7 @@ public class MainMenu extends GUI {
 
                 @Override
                 public void onClick(ItemClickAction itemClickAction) {
-                    System.out.println(itemClickAction.getClickedItem().getItemMeta().getDisplayName());
+                    getHandler().getTagShop().openMenu(player);
 
                 }
             });
