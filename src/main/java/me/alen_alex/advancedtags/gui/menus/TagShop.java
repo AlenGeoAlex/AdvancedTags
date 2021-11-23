@@ -123,6 +123,7 @@ public class TagShop extends GUI {
                             if(itemClickAction.getClickType().isLeftClick())
                                 handler.getPlugin().getLogger().info("Check for money and unlock if needed!");
                             if(itemClickAction.getClickType().isRightClick()){
+                                shopMenu.close(player);
                                 getHandler().getPlugin().getChatUtils().sendMessage(player,getHandler().getPlugin().getConfigurationHandler().getMessageConfiguration().getTestMessage(lockedTags.getDisplayTag(), player));
                             }
                         }

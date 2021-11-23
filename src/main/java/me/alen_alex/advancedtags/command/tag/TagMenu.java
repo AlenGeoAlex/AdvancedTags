@@ -2,6 +2,7 @@ package me.alen_alex.advancedtags.command.tag;
 
 import me.alen_alex.advancedtags.AdvancedTags;
 import me.alen_alex.advancedtags.command.Subcommand;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -48,12 +49,12 @@ public class TagMenu implements Subcommand {
 
     @Override
     public String getCommandSyntax() {
-        return "tag";
+        return "tag menu";
     }
 
     @Override
     public String getSuggestionString() {
-        return null;
+        return "/tag menu";
     }
 
     @Override
@@ -64,5 +65,10 @@ public class TagMenu implements Subcommand {
     @Override
     public void runMethod(Player player, String[] args) {
         plugin.getGuiHandler().getMainMenu().openMenu(player);
+    }
+
+    @Override
+    public void runMethod(CommandSender sender, String[] args) {
+        return;
     }
 }

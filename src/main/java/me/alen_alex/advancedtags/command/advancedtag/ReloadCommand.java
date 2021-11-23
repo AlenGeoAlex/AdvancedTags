@@ -2,6 +2,7 @@ package me.alen_alex.advancedtags.command.advancedtag;
 
 import me.alen_alex.advancedtags.AdvancedTags;
 import me.alen_alex.advancedtags.command.Subcommand;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -48,12 +49,12 @@ public class ReloadCommand implements Subcommand {
 
     @Override
     public String getCommandSyntax() {
-        return "/advancedtags reload";
+        return "advancedtags reload";
     }
 
     @Override
     public String getSuggestionString() {
-        return null;
+        return "/advancedtags reload";
     }
 
     @Override
@@ -63,6 +64,11 @@ public class ReloadCommand implements Subcommand {
 
     @Override
     public void runMethod(Player player, String[] args) {
+        plugin.callReload();
+    }
+
+    @Override
+    public void runMethod(CommandSender sender, String[] args) {
         plugin.callReload();
     }
 }

@@ -48,12 +48,16 @@ public class PlayerTags extends GUI {
 
     @Override
     public void openMenu(Player player) {
-        setUpMenu(player).thenAccept((obj) -> {
+        getHandler().getPlugin().getLogger().info("Triggered Open Menu Method");
+        this.setUpMenu(player).thenAccept((obj) -> {
             SchedulerUtils.runTask(new Runnable() {
                 @Override
                 public void run() {
-                    if(obj instanceof BookItemMenu)
+                    getHandler().getPlugin().getLogger().info("Triggered Run Method as an object of "+obj.getClass().getSimpleName());
+                    if(obj instanceof BookItemMenu) {
+                        getHandler().getPlugin().getLogger().info("Instance of BookItemMenu");
                         ((BookItemMenu) obj).open(player);
+                    }
                 }
             }, handler.getPlugin());
         });
@@ -61,6 +65,7 @@ public class PlayerTags extends GUI {
 
     @Override
     protected CompletableFuture<Object> setUpMenu(Player player) {
+        getHandler().getPlugin().getLogger().info("Triggered SetupMenu");
         return CompletableFuture.supplyAsync(() -> {
             this.playerTags.clearContents();
 
@@ -80,7 +85,6 @@ public class PlayerTags extends GUI {
                     playerTags.close(player);
                 }
             });
-            closeMenu.setLore(getHandler().getMenuConfiguration().getMyTagCloseLore());
             playerTags.setBarButton(getHandler().getMenuConfiguration().getMyTagCloseSlot(),closeMenu);
 
             final ActionItem mainMenuItem = new ActionItem(getHandler().getMenuConfiguration().getMyTagMainMenuName(),getHandler().getMenuConfiguration().getMyTagMainMenuItem());

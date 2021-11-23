@@ -38,14 +38,14 @@ public class CommandHandler {
         }));
         this.mainCommand.getSubcommands().values().forEach((subcommand) -> {
             final TextComponent tc = new TextComponent();
-            tc.setText(getPlugin().getConfigurationHandler().getMessageConfiguration().getHelpPlaceholder(subcommand.getCommandName(),subcommand.getCommandDescription()));
+            tc.setText(getPlugin().getConfigurationHandler().getMessageConfiguration().getHelpPlaceholder(subcommand.getCommandSyntax(),subcommand.getCommandDescription()));
             if(isJson)
                 tc.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND,subcommand.getSuggestionString()));
             helpMessage.add(tc);
         });
         this.tagCommand.getSubcommands().values().forEach((subcommand) -> {
             final TextComponent tc = new TextComponent();
-            tc.setText(getPlugin().getConfigurationHandler().getMessageConfiguration().getHelpPlaceholder(subcommand.getCommandName(),subcommand.getCommandDescription()));
+            tc.setText(getPlugin().getConfigurationHandler().getMessageConfiguration().getHelpPlaceholder(subcommand.getCommandSyntax(),subcommand.getCommandDescription()));
             if(isJson)
                 tc.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND,subcommand.getSuggestionString()));
             helpMessage.add(tc);
@@ -54,6 +54,10 @@ public class CommandHandler {
             final TextComponent textComponent = new TextComponent(s);
             helpMessage.add(textComponent);
         }));
+    }
+
+    public void reloadHandler(){
+        prepareHelpMessage();
     }
 
 

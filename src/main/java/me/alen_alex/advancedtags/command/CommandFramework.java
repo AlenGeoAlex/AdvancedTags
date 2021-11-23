@@ -58,6 +58,7 @@ public abstract class CommandFramework extends Command {
             }
             subcommands.put(s,command);
         });
+        subcommands.put(command.getCommandName(),command);
     }
 
     protected void registerSubcommands(Subcommand... command){
@@ -70,7 +71,16 @@ public abstract class CommandFramework extends Command {
 
     protected void unregisterSubCommand(String subcommand){
         if(subcommands.containsKey(subcommand))
+        {
+            subcommands.get(subcommand).getAliases().forEach((s) -> {
+                if(subcommands.containsKey(s))
+                    subcommands.remove(s);
+            });
+
             subcommands.remove(subcommand);
+        }
+
+
     }
 
     protected void executeCommand(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args){
@@ -86,13 +96,17 @@ public abstract class CommandFramework extends Command {
                     sender.sendMessage(this.sendCannotRunFromConsole());
                     return;
                 }
-                final Player player = (Player) sender;
-                if(!sender.hasPermission(subcommand.getCommandPermission())){
-                    getHandler().getPlugin().getChatUtils().sendSimpleMessage(player,this.sendNoPermission());
-                    return;
+                if(sender instanceof Player) {
+                    final Player player = (Player) sender;
+                    if (!sender.hasPermission(subcommand.getCommandPermission())) {
+                        getHandler().getPlugin().getChatUtils().sendSimpleMessage(player, this.sendNoPermission());
+                        return;
+                    }
+                    subcommand.runMethod(player,args);
                 }
 
-                subcommand.runMethod(player,args);
+
+
             }else getHandler().getPlugin().getChatUtils().sendSimpleMessage(sender,this.sendUnknownCommand());
         }
     }

@@ -18,12 +18,13 @@ help-message:
     - "   <SOLID:FF0000>Advanced<SOLID:ABA6A6>Tag"
     - " "
   footer:
+    - " "
     - "<RAINBOW1>|------------------------------|</RAINBOW>"
   message-placeholder: "<SOLID:E11010>%command% <SOLID:BDB7B7>» <SOLID:00DDF7>%description%"
   enable-json-suggestion: true
 
 test-message:
-  format: "&7[<SOLID:FF0000>Server <SOLID:ABA6A6>Name&7]%testtag%%player_name% &8» %message%"
+  format: "&7[<SOLID:FF0000>Server <SOLID:ABA6A6>Name&7] %testtag% %player_name% &8» %message%"
   messages:
     - "Hello World"
     - "Hey How Are You"

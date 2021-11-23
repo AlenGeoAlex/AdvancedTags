@@ -117,6 +117,7 @@ public final class AdvancedTags extends PluginAdapter {
         long timeTaken;
         timeTaken = configurationHandler.reloadAll();
         guiHandler.reloadMenuStatics();
+        commandHandler.reloadHandler();
         getLogger().info("The plugin has been reloaded and took "+timeTaken+" ms.");
         return true;
     }
