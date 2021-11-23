@@ -40,6 +40,9 @@ kick-if-failed:
     enable: true
     message: "&cFailed to fetch your user data from database - AdvancedTags"
 
+tag-format:
+  placeholder-format: " %tag% "
+
 tag-shop:
   enabled: true
 

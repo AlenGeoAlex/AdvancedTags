@@ -10,6 +10,7 @@ public class AdvancedTagCommand extends CommandFramework {
     public AdvancedTagCommand(@NotNull String name, @NotNull String commandPermission, @NotNull CommandHandler handler) {
         super(name, commandPermission, handler);
         registerCommand();
+        registerSubcommands(new ReloadCommand(handler.getPlugin()));
     }
 
     @Override

@@ -3,6 +3,7 @@ package me.alen_alex.advancedtags;
 import me.Abhigya.core.main.CoreAPI;
 import me.Abhigya.core.plugin.PluginAdapter;
 import me.alen_alex.advancedtags.command.CommandHandler;
+import me.alen_alex.advancedtags.hook.HookManager;
 import me.alen_alex.advancedtags.testcommand.Test3;
 import me.alen_alex.advancedtags.testcommand.TestCommand;
 import me.alen_alex.advancedtags.configurations.ConfigurationHandler;
@@ -24,6 +25,7 @@ public final class AdvancedTags extends PluginAdapter {
     private ChatUtils chatUtils;
     private GUIHandler guiHandler;
     private CommandHandler commandHandler;
+    private HookManager hookManager;
     private boolean vaultEnabled,placeholderAPIEnabled;
 
     @Override
@@ -73,6 +75,9 @@ public final class AdvancedTags extends PluginAdapter {
         guiHandler = new GUIHandler(this);
         guiHandler.init();
 
+        hookManager = new HookManager(this);
+        hookManager.initHooks();
+
         commandHandler = new CommandHandler(this);
         commandHandler.initCommands();
 
@@ -107,6 +112,15 @@ public final class AdvancedTags extends PluginAdapter {
         configurationHandler = null;
         chatUtils = null;
     }
+
+    public boolean callReload(){
+        long timeTaken;
+        timeTaken = configurationHandler.reloadAll();
+        guiHandler.reloadMenuStatics();
+        getLogger().info("The plugin has been reloaded and took "+timeTaken+" ms.");
+        return true;
+    }
+
     public AdvancedTags getPlugin() {
         return plugin;
     }

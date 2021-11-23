@@ -25,7 +25,7 @@ public class CommandHandler {
     }
 
     public void initCommands(){
-        this.mainCommand = new AdvancedTagCommand("advancedtag","at.command",this);
+        this.mainCommand = new AdvancedTagCommand("advancedtag","at.command.main",this);
         this.tagCommand = new TagCommand("tag","at.command.tag",this);
         prepareHelpMessage();
     }
@@ -37,6 +37,13 @@ public class CommandHandler {
             helpMessage.add(textComponent);
         }));
         this.mainCommand.getSubcommands().values().forEach((subcommand) -> {
+            final TextComponent tc = new TextComponent();
+            tc.setText(getPlugin().getConfigurationHandler().getMessageConfiguration().getHelpPlaceholder(subcommand.getCommandName(),subcommand.getCommandDescription()));
+            if(isJson)
+                tc.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND,subcommand.getSuggestionString()));
+            helpMessage.add(tc);
+        });
+        this.tagCommand.getSubcommands().values().forEach((subcommand) -> {
             final TextComponent tc = new TextComponent();
             tc.setText(getPlugin().getConfigurationHandler().getMessageConfiguration().getHelpPlaceholder(subcommand.getCommandName(),subcommand.getCommandDescription()));
             if(isJson)

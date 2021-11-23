@@ -22,4 +22,10 @@ help-message:
   message-placeholder: "<SOLID:E11010>%command% <SOLID:BDB7B7>» <SOLID:00DDF7>%description%"
   enable-json-suggestion: true
 
+test-message:
+  format: "&7[<SOLID:FF0000>Server <SOLID:ABA6A6>Name&7]%testtag%%player_name% &8» %message%"
+  messages:
+    - "Hello World"
+    - "Hey How Are You"
+
 no-tag-on-the-server: "<SOLID:FF0400>Your selected tag has not been found nor a owned one. Your tag has been removed on the current server"

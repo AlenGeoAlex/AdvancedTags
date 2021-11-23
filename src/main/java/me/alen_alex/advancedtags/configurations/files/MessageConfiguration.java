@@ -5,9 +5,12 @@ import me.alen_alex.advancedtags.configurations.ConfigurationFile;
 import me.alen_alex.advancedtags.configurations.ConfigurationHandler;
 import me.alen_alex.advancedtags.utils.ChatUtils;
 import me.alen_alex.advancedtags.utils.iridiumcolorapi.IridiumColorAPI;
+import me.clip.placeholderapi.PlaceholderAPI;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class MessageConfiguration extends ConfigurationFile{
 
@@ -23,6 +26,8 @@ public class MessageConfiguration extends ConfigurationFile{
     private List<String> helpHeader, helpFooter;
     private boolean enableJsonHelpMessage;
     private String helpPlaceholder;
+    private String testMessage;
+    private List<String> testMessageList;
 
     public MessageConfiguration(ConfigurationHandler handler) {
         super(handler);
@@ -55,6 +60,10 @@ public class MessageConfiguration extends ConfigurationFile{
         //Tag Proccess
         this.selectedRandomTag = handler.getPlugin().getChatUtils().parseColorCodes(this.messageConfig.getString("selecting-random-tag-no-tag-on-server"));
         this.removedTagNoTag = handler.getPlugin().getChatUtils().parseColorCodes(this.messageConfig.getString("no-tag-on-the-server"));
+
+        //test-messages
+        this.testMessage = handler.getPlugin().getChatUtils().parseColorCodes(this.messageConfig.getString("test-message.format"));
+        this.testMessageList = IridiumColorAPI.process(this.messageConfig.getStringList("test-message.messages"));
 
         //HelpMessage
         this.helpHeader = IridiumColorAPI.process(this.messageConfig.getStringList("help-message.header"));
@@ -125,5 +134,10 @@ public class MessageConfiguration extends ConfigurationFile{
 
     public String getHelpPlaceholder(String commandName,String description){
         return this.helpPlaceholder.replaceAll("%command%",commandName).replaceAll("%description%",description);
+    }
+
+    public String getTestMessage(String tagName, Player player){
+        final String message = testMessageList.get(new Random().nextInt(testMessageList.size()));
+        return PlaceholderAPI.setPlaceholders(player,(testMessage.replaceAll("%testtag%",tagName).replaceAll("%player_name%",player.getName()).replaceAll("%message%",message)));
     }
 }

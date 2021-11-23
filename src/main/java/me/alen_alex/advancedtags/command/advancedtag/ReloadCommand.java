@@ -1,4 +1,4 @@
-package me.alen_alex.advancedtags.command.tag;
+package me.alen_alex.advancedtags.command.advancedtag;
 
 import me.alen_alex.advancedtags.AdvancedTags;
 import me.alen_alex.advancedtags.command.Subcommand;
@@ -7,38 +7,38 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TagMenu implements Subcommand {
+public class ReloadCommand implements Subcommand {
 
     private AdvancedTags plugin;
     private final List<String> aliases = new ArrayList<String>();
 
-    public TagMenu(AdvancedTags plugin) {
+    public ReloadCommand(AdvancedTags plugin) {
         this.plugin = plugin;
     }
 
     @Override
     public boolean doRunOnConsole() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean registerTabCompletion() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isTabCompletion() {
-        return false;
+        return true;
     }
 
     @Override
     public String getCommandPermission() {
-        return "at.gui.tag";
+        return "adt.reload";
     }
 
     @Override
     public String getCommandName() {
-        return "tag";
+        return "reload";
     }
 
     @Override
@@ -48,7 +48,7 @@ public class TagMenu implements Subcommand {
 
     @Override
     public String getCommandSyntax() {
-        return "tag";
+        return "/advancedtags reload";
     }
 
     @Override
@@ -58,11 +58,11 @@ public class TagMenu implements Subcommand {
 
     @Override
     public String getCommandDescription() {
-        return "Open The Tag Menu";
+        return "Reload the command";
     }
 
     @Override
     public void runMethod(Player player, String[] args) {
-        plugin.getGuiHandler().getMainMenu().openMenu(player);
+        plugin.callReload();
     }
 }
