@@ -52,6 +52,8 @@ public class MenuConfiguration extends ConfigurationFile {
     private ItemStack myTagCloseItem,myTagGoBackItem,myTagGoNextItem,myTagMainMenuItem;
     private List<String> myTagCloseLore,myTagGoBackLore,myTagGoNextLore,myTagMainMenuLore;
     private int myTagCloseSlot,myTagGoBackSlot,myTagGoNextSlot,myTagMainMenuSlot;
+    private final HashMap<ItemStack,List<Integer>> myTagStaticMaterials = new HashMap<ItemStack,List<Integer>>();
+
 
     public MenuConfiguration(ConfigurationHandler handler) {
         super(handler);
@@ -135,7 +137,7 @@ public class MenuConfiguration extends ConfigurationFile {
         this.myTagGoNextName = IridiumColorAPI.process(menuConfig.getString("myTag.goNext.display-name"));
         this.myTagMainMenuName = IridiumColorAPI.process(menuConfig.getString("myTag.mainMenu.display-name"));
         this.myTagCloseItem = processMaterial("myTag.closeMenu.material");
-        this.myTagGoBackItem = processMaterial("myTag.closeMenu.material");
+        this.myTagGoBackItem = processMaterial("myTag.goBack.material");
         this.myTagGoNextItem = processMaterial("myTag.goNext.material");
         this.myTagMainMenuItem = processMaterial("myTag.mainMenu.material");
         this.myTagCloseLore = IridiumColorAPI.process(menuConfig.getStringList("myTag.closeMenu.lore"));
@@ -146,6 +148,12 @@ public class MenuConfiguration extends ConfigurationFile {
         this.myTagGoNextSlot = menuConfig.getInt("myTag.goNext.slot");
         this.myTagGoBackSlot = menuConfig.getInt("myTag.goBack.slot");
         this.myTagMainMenuSlot = menuConfig.getInt("myTag.mainMenu.slot");
+        this.menuConfig.singleLayerKeySet("myTag.others").forEach((string) -> {
+            final ItemStack material = processMaterial("myTag.others."+string+".material");
+            final List<Integer> slots = menuConfig.getStringList("myTag.others."+string+".slots").stream().map(Integer::parseInt).collect(Collectors.toList());
+            this.myTagStaticMaterials.put(material,slots);
+        });
+
         menuConfig = null;
     }
 
@@ -444,5 +452,9 @@ public class MenuConfiguration extends ConfigurationFile {
 
     public int getMyTagMainMenuSlot() {
         return myTagMainMenuSlot;
+    }
+
+    public HashMap<ItemStack, List<Integer>> getMyTagStaticMaterials() {
+        return myTagStaticMaterials;
     }
 }

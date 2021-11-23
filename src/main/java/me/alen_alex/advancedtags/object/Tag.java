@@ -108,7 +108,9 @@ public final class Tag {
     }
 
     public boolean hasPlayerPermissionRequired(Player player){
-        return player.hasPermission(this.permission);
+        if(isPermissionRequired())
+            return player.hasPermission(this.permission);
+        else return true;
     }
 
     public boolean isGlobal() {

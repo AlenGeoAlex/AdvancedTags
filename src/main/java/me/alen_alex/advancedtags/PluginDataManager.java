@@ -111,5 +111,13 @@ public class PluginDataManager {
         return new ArrayList<>(tagCache.values());
     }
 
+    public void setTagForPlayer(Player player, Tag tag){
+        if(tag.hasPlayerPermissionRequired(player)){
+            if(containsPlayer(player)){
+                getPlayer(player).setPlayerTag(tag);
+            }
+        }
+    }
+
 
 }

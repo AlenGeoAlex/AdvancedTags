@@ -48,14 +48,11 @@ public class PlayerTags extends GUI {
 
     @Override
     public void openMenu(Player player) {
-        getHandler().getPlugin().getLogger().info("Triggered Open Menu Method");
         this.setUpMenu(player).thenAccept((obj) -> {
             SchedulerUtils.runTask(new Runnable() {
                 @Override
                 public void run() {
-                    getHandler().getPlugin().getLogger().info("Triggered Run Method as an object of "+obj.getClass().getSimpleName());
                     if(obj instanceof BookItemMenu) {
-                        getHandler().getPlugin().getLogger().info("Instance of BookItemMenu");
                         ((BookItemMenu) obj).open(player);
                     }
                 }
@@ -65,13 +62,11 @@ public class PlayerTags extends GUI {
 
     @Override
     protected CompletableFuture<Object> setUpMenu(Player player) {
-        getHandler().getPlugin().getLogger().info("Triggered SetupMenu");
         return CompletableFuture.supplyAsync(() -> {
             this.playerTags.clearContents();
-
-            this.playerTags.setBarButton(getHandler().getMenuConfiguration().getMyTagGoBackSlot(),this.goBack);
-            this.playerTags.setBarButton(getHandler().getMenuConfiguration().getTagShopGoNextSlot(),this.goNext);
-
+            setStaticItemStacks(getHandler().getMenuConfiguration().getMyTagStaticMaterials(), this.playerTags);
+            this.playerTags.setBarButton(getHandler().getMenuConfiguration().getMyTagGoBackSlot()-45,this.goBack);
+            this.playerTags.setBarButton(getHandler().getMenuConfiguration().getMyTagGoNextSlot()-45,this.goNext);
             final ActionItem closeMenu = new ActionItem(getHandler().getMenuConfiguration().getMyTagCloseItemName(),getHandler().getMenuConfiguration().getMyTagCloseItem());
             closeMenu.setLore(getHandler().getMenuConfiguration().getMyTagCloseLore());
             closeMenu.addAction(new ItemAction() {
@@ -85,8 +80,7 @@ public class PlayerTags extends GUI {
                     playerTags.close(player);
                 }
             });
-            playerTags.setBarButton(getHandler().getMenuConfiguration().getMyTagCloseSlot(),closeMenu);
-
+            playerTags.setBarButton(getHandler().getMenuConfiguration().getMyTagCloseSlot()-45,closeMenu);
             final ActionItem mainMenuItem = new ActionItem(getHandler().getMenuConfiguration().getMyTagMainMenuName(),getHandler().getMenuConfiguration().getMyTagMainMenuItem());
             mainMenuItem.setLore(getHandler().getMenuConfiguration().getMyTagMainMenuLore());
             mainMenuItem.addAction(new ItemAction() {
@@ -101,8 +95,7 @@ public class PlayerTags extends GUI {
                     getHandler().getPlugin().getGuiHandler().getMainMenu().openMenu(player);
                 }
             });
-
-            playerTags.setBarButton(getHandler().getMenuConfiguration().getMyTagMainMenuSlot(),mainMenuItem);
+            playerTags.setBarButton(getHandler().getMenuConfiguration().getMyTagMainMenuSlot()-45,mainMenuItem);
             getHandler().getPlugin().getPluginManager().getPlayer(player).getPlayerUnlockedTags().forEach(tag -> {
                 final ActionItem tagMaterial = new ActionItem(tag.getName(),tag.getMenuItem());
                 tagMaterial.setLore(tag.getLore());
@@ -114,7 +107,7 @@ public class PlayerTags extends GUI {
 
                     @Override
                     public void onClick(ItemClickAction itemClickAction) {
-                        //TODO Set player tag to this
+                        getHandler().getPlugin().getPluginManager().setTagForPlayer(player,tag);
                     }
                 });
                 playerTags.addItem(tagMaterial);

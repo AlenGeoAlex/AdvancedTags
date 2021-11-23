@@ -14,7 +14,7 @@ public class ATPlayer {
 
     private final UUID playerID;
     private final String playerName;
-    private final String tagOnDatabase;
+    private String tagOnDatabase;
     private List<String> playerUnlockedTags;
     private Tag playerCurrentTag;
     private final Player player;
@@ -142,6 +142,13 @@ public class ATPlayer {
             }
         });
         return playerLocked;
+    }
+
+    public void setPlayerTag(Tag tag){
+        playerCurrentTag = tag;
+        tagOnDatabase = tag.getName();
+        if(!plugin.getStorageHandler().getDatabaseImpl().setCurrentTag(tagOnDatabase))
+            plugin.getLogger().severe("Unable to update "+getPlayerName()+"'s tag on database! Tag will be updated here, but not on DB");
     }
 
     @Override
