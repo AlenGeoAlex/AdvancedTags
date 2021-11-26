@@ -45,6 +45,7 @@ public class MenuConfiguration extends ConfigurationFile {
     private List<String> tagShopGoBackLore,tagShopGoNextLore,tagShopMainMenuLore;
     private int tagShopGoBackSlot,tagShopGoNextSlot,tagShopGoMainMenuSlot;
     private final HashMap<ItemStack,List<Integer>> tagMenuStaticMaterials = new HashMap<ItemStack,List<Integer>>();
+    private boolean closeTagShopAfterEachSelection;
 
     //MyTag
     private String myTagName;
@@ -129,6 +130,7 @@ public class MenuConfiguration extends ConfigurationFile {
             final List<Integer> slots = menuConfig.getStringList("tagShop.others."+string+".slots").stream().map(Integer::parseInt).collect(Collectors.toList());
             this.tagMenuStaticMaterials.put(material,slots);
         });
+        this.closeTagShopAfterEachSelection = menuConfig.getBoolean("tagShop.close-tag-shop-after-each-selection");
 
         //MyTags
         this.myTagName = IridiumColorAPI.process(menuConfig.getString("myTag.name"));
@@ -154,7 +156,7 @@ public class MenuConfiguration extends ConfigurationFile {
             this.myTagStaticMaterials.put(material,slots);
         });
 
-        menuConfig = null;
+        menuConfig.getFileData().clear();
     }
 
     @Override
@@ -456,5 +458,9 @@ public class MenuConfiguration extends ConfigurationFile {
 
     public HashMap<ItemStack, List<Integer>> getMyTagStaticMaterials() {
         return myTagStaticMaterials;
+    }
+
+    public boolean isCloseTagShopAfterEachSelection() {
+        return closeTagShopAfterEachSelection;
     }
 }

@@ -1,6 +1,7 @@
 package me.alen_alex.advancedtags;
 
 import me.alen_alex.advancedtags.exceptions.UnknownDataException;
+import me.alen_alex.advancedtags.hook.HookManager;
 import me.alen_alex.advancedtags.object.ATPlayer;
 import me.alen_alex.advancedtags.object.Tag;
 import org.bukkit.entity.Player;
@@ -97,17 +98,6 @@ public class PluginDataManager {
     }
 
     public List<Tag> getAllTagsOnServer(){
-        /*final List<Tag> currentTags = new ArrayList<Tag>();
-        System.out.println(tagCache.size());
-        tagCache.values().forEach(s -> {
-            System.out.println(s.getName());
-        });
-
-        for(Map.Entry<String,Tag> entry : tagCache.entrySet()){
-            System.out.println(entry.getValue().getName());
-            currentTags.add(entry.getValue());
-        }
-        return currentTags;*/
         return new ArrayList<>(tagCache.values());
     }
 
@@ -117,6 +107,46 @@ public class PluginDataManager {
                 getPlayer(player).setPlayerTag(tag);
             }
         }
+    }
+
+    public void setTagForPlayer(ATPlayer player,Tag tag){
+        if(tag.hasPlayerPermissionRequired(player.getPlayer())){
+            player.setPlayerTag(tag);
+        }
+    }
+
+    public void unlockTagForPlayer(Player player,Tag tag){
+        final ATPlayer atPlayer = this.getPlayer(player);
+        if(atPlayer.getPlayerUnlockedTags().contains(tag)){
+            plugin.getChatUtils().sendSimpleMessage(player,"//TODO You already owe the tag");
+            return;
+        }
+
+        if(!tag.hasPlayerPermissionRequired(player)){
+            plugin.getChatUtils().sendSimpleMessage(player,"//TODO SEND NO PERMISSION FOR THE TAG");
+            return;
+        }
+
+        if(plugin.getHookManager().getCurrentEcoManager() != HookManager.EconomySelected.NONE) {
+            if (!plugin.getHookManager().getEconomyWorker().hasMoney(player, tag.getMoney())) {
+                plugin.getChatUtils().sendSimpleMessage(player, "//TODO SEND Insufficent fund");
+                return;
+            }
+        }
+
+        plugin.getHookManager().getEconomyWorker().takeMoney(player,tag.getMoney());
+        atPlayer.getPlayerUnlockedTags().add(tag);
+
+        if(plugin.getConfigurationHandler().getPluginConfig().isSetNewTagOnUnlock()){
+            this.setTagForPlayer(player,tag);
+        }
+
+        plugin.getStorageHandler().getDatabaseImpl().savePlayerTag(atPlayer).thenAccept((saved) -> {
+            if(!saved)
+                plugin.getLogger().severe("Unable to update data onto database for user "+atPlayer.getPlayerName());
+        });
+
+
     }
 
 

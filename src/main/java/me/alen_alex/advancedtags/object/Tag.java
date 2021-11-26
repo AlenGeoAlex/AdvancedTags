@@ -144,6 +144,10 @@ public final class Tag {
         else return this.displayTag;
     }
 
+    public float getMoney() {
+        return money;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

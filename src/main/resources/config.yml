@@ -32,6 +32,10 @@ storage:
     database:
 
 set-random-if-invalid-dbtag: true
+
+set-new-tag-when-unlocked: true
+
+
 kick-if-failed:
   register:
     enable: true

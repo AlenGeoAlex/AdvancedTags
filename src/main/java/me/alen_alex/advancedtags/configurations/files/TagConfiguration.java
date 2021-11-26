@@ -83,12 +83,7 @@ public class TagConfiguration extends ConfigurationFile {
             }
 
             if(tagConfig.contains(tagName+".money")){
-                if(this.handler.getPlugin().isVaultEnabled()){
-                    tag.setMoney(tagConfig.getFloat(tagName+".money"));
-                }else{
-                    tag.setMoney(0.0F);
-                    this.handler.getPlugin().getLogger().warning("VaultAPI has been not enabled, tag "+tagName+" has been set as not vault");
-                }
+                tag.setMoney(tagConfig.getFloat(tagName+".money"));
             }
 
             if(tag != null){

@@ -71,7 +71,7 @@ public class MongoDB implements StorageWorker {
     }
 
     @Override
-    public boolean setCurrentTag(String name) {
+    public boolean setCurrentTag(Tag tag) {
         return false;
     }
 

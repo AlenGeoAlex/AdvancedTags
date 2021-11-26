@@ -147,7 +147,14 @@ public class ATPlayer {
     public void setPlayerTag(Tag tag){
         playerCurrentTag = tag;
         tagOnDatabase = tag.getName();
-        if(!plugin.getStorageHandler().getDatabaseImpl().setCurrentTag(tagOnDatabase))
+        if(!plugin.getStorageHandler().getDatabaseImpl().setCurrentTag(tag))
+            plugin.getLogger().severe("Unable to update "+getPlayerName()+"'s tag on database! Tag will be updated here, but not on DB");
+    }
+
+    public void clearPlayerTag(){
+        playerCurrentTag = null;
+        tagOnDatabase = null;
+        if(!plugin.getStorageHandler().getDatabaseImpl().setCurrentTag(null))
             plugin.getLogger().severe("Unable to update "+getPlayerName()+"'s tag on database! Tag will be updated here, but not on DB");
     }
 

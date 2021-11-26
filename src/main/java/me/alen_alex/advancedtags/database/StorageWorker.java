@@ -29,7 +29,7 @@ public interface StorageWorker {
 
     List<Tag> loadBatchTags();
 
-    boolean setCurrentTag(String name);
+    boolean setCurrentTag(Tag tag);
 
     boolean insertGlobalTag(Tag tag);
 

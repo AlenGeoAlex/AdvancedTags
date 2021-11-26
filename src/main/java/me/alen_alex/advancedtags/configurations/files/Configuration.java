@@ -25,7 +25,7 @@ public class Configuration extends ConfigurationFile {
     private boolean failedToRegister,failedToFetch;
     private String failedRegisterKickMessage,failedFetchKickMessage;
     private boolean hookVault,hookPlaceholderAPI;
-    private boolean tagShopEnabled,tagShopLockedTagsOnly;
+    private boolean tagShopEnabled,tagShopLockedTagsOnly,setNewTagOnUnlock;
     private String tagSpaceFormat;
     public Configuration(ConfigurationHandler handler) {
         super(handler);
@@ -80,6 +80,9 @@ public class Configuration extends ConfigurationFile {
 
         //format
         this.tagSpaceFormat = IridiumColorAPI.process(config.getString("tag-format.placeholder-format"));
+
+        //
+        this.setNewTagOnUnlock = config.getBoolean("set-new-tag-when-unlocked");
 
         this.randomTagOnInvalid = config.getBoolean("set-random-if-invalid-dbtag");
         getHandler().getPlugin().getLogger().info("Plugin Configuration has been loaded with the version "+getVersion());
@@ -203,6 +206,10 @@ public class Configuration extends ConfigurationFile {
 
     public String getTagSpaceFormat() {
         return tagSpaceFormat;
+    }
+
+    public boolean isSetNewTagOnUnlock() {
+        return setNewTagOnUnlock;
     }
 }
 

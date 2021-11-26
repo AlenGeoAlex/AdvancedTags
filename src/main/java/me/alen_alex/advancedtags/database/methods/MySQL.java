@@ -146,14 +146,12 @@ public class MySQL implements StorageWorker {
     public CompletableFuture<Boolean> savePlayerTag(ATPlayer playerObj) {
         final CompletableFuture future = new CompletableFuture<Boolean>();
         try {
-            //System.out.println("UPDATE `"+this.handler.getSqlPlayerDataTable()+"` SET `current` =  '"+playerObj.getTagOnDatabase()+"', `tags` = '"+this.handler.concatTags(playerObj.getPlayerUnlockedTags())+"';");
             PreparedStatement ps = this.databaseEngine.getConnection().prepareStatement("UPDATE ? SET `current` = ?,`tags` =? WHERE `uuid` = ?;");
             ps.setString(1, handler.getSqlPlayerDataTable());
-            ps.setString(2,playerObj.getTagOnDatabase());
+            ps.setString(2, playerObj.getPlayerCurrentTag().getName());
             ps.setString(3, handler.concatTags(playerObj.getPlayerUnlockedTagNames()));
-            ps.setString(4,playerObj.getPlayerID().toString());
-            //TODO
-            //this.databaseEngine.executeAsync(ps).thenAccept(s -> future.complete(s));
+            ps.setString(4, playerObj.getPlayerID().toString());
+            this.databaseEngine.executeAsync(ps.toString()).thenAccept(future::complete);
             ps.close();
         }catch (Exception e){
             future.complete(false);
@@ -168,7 +166,7 @@ public class MySQL implements StorageWorker {
     }
 
     @Override
-    public boolean setCurrentTag(String name) {
+    public boolean setCurrentTag(Tag tag) {
         return false;
     }
 

@@ -2,6 +2,7 @@ package me.alen_alex.advancedtags.hook.placeholder;
 
 import me.alen_alex.advancedtags.hook.HookManager;
 import me.alen_alex.advancedtags.object.ATPlayer;
+import me.alen_alex.advancedtags.utils.iridiumcolorapi.IridiumColorAPI;
 import org.bukkit.entity.Player;
 
 public class DataManager {
@@ -11,6 +12,8 @@ public class DataManager {
     public DataManager(HookManager manager) {
         this.manager = manager;
     }
+
+    private static final String UNKNOWN_PLAYER = IridiumColorAPI.process("&cUnknown Player");
 
     public String getPlayerFormattedTag(Player player){
         final ATPlayer atPlayer = this.manager.getPlugin().getPluginManager().getPlayer(player);
@@ -33,6 +36,21 @@ public class DataManager {
         return atPlayer.getCurrentTagDisplay();
     }
 
+    public String getPlayerTagCount(Player player){
+        final ATPlayer atPlayer = this.manager.getPlugin().getPluginManager().getPlayer(player);
+        if(atPlayer == null)
+            return UNKNOWN_PLAYER;
+
+        return String.valueOf(atPlayer.getPlayerUnlockedTags().size());
+    }
+
+    public String getPlayerLockedTagCount(Player player){
+        final ATPlayer atPlayer = this.manager.getPlugin().getPluginManager().getPlayer(player);
+        if(atPlayer == null)
+            return UNKNOWN_PLAYER;
+
+        return String.valueOf(atPlayer.getPlayerLockedTags().size());
+    }
 
 
 }

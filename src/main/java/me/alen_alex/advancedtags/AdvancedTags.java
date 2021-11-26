@@ -4,8 +4,7 @@ import me.Abhigya.core.main.CoreAPI;
 import me.Abhigya.core.plugin.PluginAdapter;
 import me.alen_alex.advancedtags.command.CommandHandler;
 import me.alen_alex.advancedtags.hook.HookManager;
-import me.alen_alex.advancedtags.testcommand.Test3;
-import me.alen_alex.advancedtags.testcommand.TestCommand;
+
 import me.alen_alex.advancedtags.configurations.ConfigurationHandler;
 import me.alen_alex.advancedtags.database.StorageHandler;
 import me.alen_alex.advancedtags.gui.GUIHandler;
@@ -35,6 +34,7 @@ public final class AdvancedTags extends PluginAdapter {
 
     @Override
     protected boolean setUp() {
+        //TODO Check server reload
         plugin = this;
         CoreAPI.getInstance().load();
         pluginManager = new PluginDataManager(this);
@@ -90,8 +90,7 @@ public final class AdvancedTags extends PluginAdapter {
         getServer().getPluginManager().registerEvents(new PlayerJoinEvent(this),this);
         getServer().getPluginManager().registerEvents(new AsyncPlayerJoinEvent(this),this);
         getServer().getPluginManager().registerEvents(new PlayerQuitEvent(this),this);
-        getCommand("test").setExecutor(new TestCommand(this));
-        getCommand("test3").setExecutor(new Test3(this));
+
 
         return true;
     }
@@ -173,11 +172,12 @@ public final class AdvancedTags extends PluginAdapter {
         return guiHandler;
     }
 
-    public boolean isVaultEnabled() {
-        return vaultEnabled;
-    }
 
     public boolean isPlaceholderAPIEnabled() {
         return placeholderAPIEnabled;
+    }
+
+    public HookManager getHookManager() {
+        return hookManager;
     }
 }

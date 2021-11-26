@@ -70,6 +70,7 @@ public class MessageConfiguration extends ConfigurationFile{
         this.helpFooter = IridiumColorAPI.process(this.messageConfig.getStringList("help-message.footer"));
         this.enableJsonHelpMessage = this.messageConfig.getBoolean("help-message.enable-json-suggestion");
         this.helpPlaceholder = handler.getPlugin().getChatUtils().parseColorCodes(this.messageConfig.getString("help-message.message-placeholder"));
+        this.messageConfig.getFileData().clear();
         getHandler().getPlugin().getLogger().info("Message Configuration has been loaded with the version "+getVersion());
     }
 
