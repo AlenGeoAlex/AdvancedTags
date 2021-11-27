@@ -107,7 +107,14 @@ public class PlayerTags extends GUI {
 
                     @Override
                     public void onClick(ItemClickAction itemClickAction) {
-                        getHandler().getPlugin().getPluginManager().setTagForPlayer(player,tag);
+                        if(itemClickAction.getClickType().isLeftClick()) {
+                            getHandler().getPlugin().getPluginManager().setTagForPlayer(player, tag);
+                            playerTags.close(player);
+                        }else {
+                            if(getHandler().getPlugin().getPluginManager().getPlayer(player).doPlayerHaveTag() && getHandler().getPlugin().getPluginManager().getPlayer(player).getPlayerCurrentTag() == tag){
+                                getHandler().getPlugin().getPluginManager().clearPlayerTag(player);
+                            }
+                        }
                     }
                 });
                 playerTags.addItem(tagMaterial);

@@ -18,14 +18,14 @@ public class Configuration extends ConfigurationFile {
     private String databaseType,sqlHost,sqlPassword,sqlUsername,sqlDatabse;
     private String mongoHost,mongodatabase;
     private String pluginPrefix;
-    private int mongoPort,sqlPort;
+    private int mongoPort,sqlPort,autoSaveMins;
     private boolean sqlUseSSL;
     private boolean globalEnabled,globalPriority;
     private boolean randomTagOnInvalid;
     private boolean failedToRegister,failedToFetch;
     private String failedRegisterKickMessage,failedFetchKickMessage;
     private boolean hookVault,hookPlaceholderAPI;
-    private boolean tagShopEnabled,tagShopLockedTagsOnly,setNewTagOnUnlock;
+    private boolean tagShopEnabled,tagShopLockedTagsOnly,setNewTagOnUnlock,autoSaveEnabled;
     private String tagSpaceFormat;
     public Configuration(ConfigurationHandler handler) {
         super(handler);
@@ -83,6 +83,10 @@ public class Configuration extends ConfigurationFile {
 
         //
         this.setNewTagOnUnlock = config.getBoolean("set-new-tag-when-unlocked");
+
+        //Auto-save
+        this.autoSaveEnabled = config.getBoolean("auto-save.enabled");
+        this.autoSaveMins = config.getInt("auto-save.duration-in-mins");
 
         this.randomTagOnInvalid = config.getBoolean("set-random-if-invalid-dbtag");
         getHandler().getPlugin().getLogger().info("Plugin Configuration has been loaded with the version "+getVersion());
@@ -210,6 +214,14 @@ public class Configuration extends ConfigurationFile {
 
     public boolean isSetNewTagOnUnlock() {
         return setNewTagOnUnlock;
+    }
+
+    public int getAutoSaveMins() {
+        return autoSaveMins;
+    }
+
+    public boolean isAutoSaveEnabled() {
+        return autoSaveEnabled;
     }
 }
 

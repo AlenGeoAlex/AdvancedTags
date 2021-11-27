@@ -18,23 +18,40 @@ prefix: "&7[<SOLID:FF0000>Advanced<SOLID:ABA6A6>Tags&7] &8»"
 ##mysql-settings: Basic MySQL Settings
 ##mongoDB-settings: MongoDB Connection URL, port and database
 storage:
-  DBType: "H2"
+  DBType: "MySQL"
+#  mysql-settings:
+#    host: "localhost"
+#    port: "3306"
+#    username: "root"
+#    password: "password"
+#    database: "adv_tags"
+#    use-ssl: true
   mysql-settings:
-    host: "localhost"
-    port: "3306"
-    username: "root"
-    password: "password"
-    database: "adv_tags"
-    use-ssl: true
+    host: 65.108.66.231
+    port: 3306
+    username: u10_vFeo36t0zv
+    password: iaI@alaG=jInfa2gKN3u9g6.
+    database: s10_tags
+    use-ssl: false
   mongoDB-settings:
     host:
     port:
     database:
 
+##Set a random tag that a player owns if the selected tag on the database doesnot match with the tag that on the server
+##or Global database
+##If set to true -> Any Tag the player own will act as a substitue
+##If set to false -> The player will not have any tag on the server, it will be updated to database if a save task occurs
 set-random-if-invalid-dbtag: true
 
+##Set the new tag as the primary tag when a new tag is unlocked
+##If set to true -> The new Unlocked Tag will be selected as the player tag
+##If set to false -> The old tag will be there still
 set-new-tag-when-unlocked: true
 
+auto-save:
+  enabled: true
+  duration-in-mins: 10
 
 kick-if-failed:
   register:

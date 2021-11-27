@@ -8,10 +8,12 @@ import me.alen_alex.advancedtags.database.StorageHandler;
 import me.alen_alex.advancedtags.database.StorageWorker;
 import me.alen_alex.advancedtags.object.ATPlayer;
 import me.alen_alex.advancedtags.object.Tag;
+import org.apache.commons.lang3.StringUtils;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
@@ -144,15 +146,20 @@ public class MySQL implements StorageWorker {
 
     @Override
     public CompletableFuture<Boolean> savePlayerTag(ATPlayer playerObj) {
-        final CompletableFuture future = new CompletableFuture<Boolean>();
+        final CompletableFuture<Boolean> future = new CompletableFuture<Boolean>();
         try {
-            PreparedStatement ps = this.databaseEngine.getConnection().prepareStatement("UPDATE ? SET `current` = ?,`tags` =? WHERE `uuid` = ?;");
-            ps.setString(1, handler.getSqlPlayerDataTable());
-            ps.setString(2, playerObj.getPlayerCurrentTag().getName());
-            ps.setString(3, handler.concatTags(playerObj.getPlayerUnlockedTagNames()));
-            ps.setString(4, playerObj.getPlayerID().toString());
-            this.databaseEngine.executeAsync(ps.toString()).thenAccept(future::complete);
-            ps.close();
+            PreparedStatement ps = this.databaseEngine.getConnection().prepareStatement("UPDATE "+handler.getSqlPlayerDataTable()+" SET `current` = ?,`tags` = ? WHERE `uuid` = ?;");
+            ps.setString(1, playerObj.getPlayerCurrentTag().getName());
+            final String tagString = handler.concatTags(playerObj.getPlayerUnlockedTagNames());
+            if(StringUtils.isBlank(tagString)) ps.setNull(2, Types.NULL);
+            else ps.setString(2, tagString);
+            ps.setString(3, playerObj.getPlayerID().toString());
+            this.databaseEngine.updateAsync(ps).thenAccept((val -> {
+                if(val == 1){
+                    future.complete(true);
+                    System.out.println("Completed as 1");
+                }else future.complete(false);
+            }));
         }catch (Exception e){
             future.complete(false);
             e.printStackTrace();

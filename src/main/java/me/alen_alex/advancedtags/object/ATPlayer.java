@@ -122,6 +122,10 @@ public class ATPlayer {
         return playerUnlocked;
     }
 
+    public void addToUnlockedTag(Tag tag){
+        playerUnlockedTags.add(tag.getName());
+    }
+
     public List<String> getPlayerLockedTagName(){
         List<String> playerLocked = new ArrayList<String>();
 

@@ -105,13 +105,17 @@ public class PluginDataManager {
         if(tag.hasPlayerPermissionRequired(player)){
             if(containsPlayer(player)){
                 getPlayer(player).setPlayerTag(tag);
+                //TODO send tag set successfully
             }
         }
     }
 
-    public void setTagForPlayer(ATPlayer player,Tag tag){
-        if(tag.hasPlayerPermissionRequired(player.getPlayer())){
-            player.setPlayerTag(tag);
+
+    public void clearPlayerTag(Player player){
+        if(containsPlayer(player))  {
+            getPlayer(player).clearPlayerTag();
+            player.sendMessage("/TODO TAG CLEARED");
+            //TODO Clear Tag Message
         }
     }
 
@@ -132,18 +136,19 @@ public class PluginDataManager {
                 plugin.getChatUtils().sendSimpleMessage(player, "//TODO SEND Insufficent fund");
                 return;
             }
+            plugin.getHookManager().getEconomyWorker().takeMoney(player,tag.getMoney());
         }
 
-        plugin.getHookManager().getEconomyWorker().takeMoney(player,tag.getMoney());
-        atPlayer.getPlayerUnlockedTags().add(tag);
+        atPlayer.addToUnlockedTag(tag);
 
         if(plugin.getConfigurationHandler().getPluginConfig().isSetNewTagOnUnlock()){
             this.setTagForPlayer(player,tag);
         }
 
         plugin.getStorageHandler().getDatabaseImpl().savePlayerTag(atPlayer).thenAccept((saved) -> {
-            if(!saved)
-                plugin.getLogger().severe("Unable to update data onto database for user "+atPlayer.getPlayerName());
+            if(!saved) {
+                plugin.getLogger().severe("Unable to update data onto database for user " + atPlayer.getPlayerName());
+            }
         });
 
 

@@ -120,10 +120,11 @@ public class TagShop extends GUI {
 
                         @Override
                         public void onClick(ItemClickAction itemClickAction) {
-                            if(itemClickAction.getClickType().isLeftClick())
-                                if(getHandler().getMenuConfiguration().isCloseTagShopAfterEachSelection())
+                            if(itemClickAction.getClickType().isLeftClick()) {
+                                if (getHandler().getMenuConfiguration().isCloseTagShopAfterEachSelection())
                                     shopMenu.close(player);
-                                getHandler().getPlugin().getPluginManager().unlockTagForPlayer(player,lockedTags);
+                                getHandler().getPlugin().getPluginManager().unlockTagForPlayer(player, lockedTags);
+                            }
                             if(itemClickAction.getClickType().isRightClick()){
                                 shopMenu.close(player);
                                 getHandler().getPlugin().getChatUtils().sendMessage(player,getHandler().getPlugin().getConfigurationHandler().getMessageConfiguration().getTestMessage(lockedTags.getDisplayTag(), player));

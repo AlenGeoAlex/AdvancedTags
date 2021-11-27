@@ -11,6 +11,7 @@ import me.alen_alex.advancedtags.gui.GUIHandler;
 import me.alen_alex.advancedtags.listeners.AsyncPlayerJoinEvent;
 import me.alen_alex.advancedtags.listeners.PlayerJoinEvent;
 import me.alen_alex.advancedtags.listeners.PlayerQuitEvent;
+import me.alen_alex.advancedtags.task.AutoSaveData;
 import me.alen_alex.advancedtags.utils.ChatUtils;
 
 import java.io.IOException;
@@ -26,6 +27,7 @@ public final class AdvancedTags extends PluginAdapter {
     private CommandHandler commandHandler;
     private HookManager hookManager;
     private boolean vaultEnabled,placeholderAPIEnabled;
+    private AutoSaveData saveDataTask;
 
     @Override
     public void onLoad(){
@@ -81,6 +83,10 @@ public final class AdvancedTags extends PluginAdapter {
         commandHandler = new CommandHandler(this);
         commandHandler.initCommands();
 
+        if(configurationHandler.getPluginConfig().isAutoSaveEnabled()) {
+            saveDataTask = new AutoSaveData(this);
+            saveDataTask.runTaskAsynchronously(this);
+        }
 
         return true;
     }
