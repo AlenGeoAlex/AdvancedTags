@@ -149,16 +149,15 @@ public class MySQL implements StorageWorker {
         final CompletableFuture<Boolean> future = new CompletableFuture<Boolean>();
         try {
             PreparedStatement ps = this.databaseEngine.getConnection().prepareStatement("UPDATE "+handler.getSqlPlayerDataTable()+" SET `current` = ?,`tags` = ? WHERE `uuid` = ?;");
-            ps.setString(1, playerObj.getPlayerCurrentTag().getName());
+            if(playerObj.doPlayerHaveTag())
+                ps.setString(1, playerObj.getPlayerCurrentTag().getName());
             final String tagString = handler.concatTags(playerObj.getPlayerUnlockedTagNames());
             if(StringUtils.isBlank(tagString)) ps.setNull(2, Types.NULL);
             else ps.setString(2, tagString);
             ps.setString(3, playerObj.getPlayerID().toString());
             this.databaseEngine.updateAsync(ps).thenAccept((val -> {
-                if(val == 1){
-                    future.complete(true);
-                    System.out.println("Completed as 1");
-                }else future.complete(false);
+                if(val == 1) future.complete(true);
+                else future.complete(false);
             }));
         }catch (Exception e){
             future.complete(false);
@@ -195,5 +194,22 @@ public class MySQL implements StorageWorker {
     @Override
     public Tag fetchTag(String tagName) {
         return null;
+    }
+
+    @Override
+    public CompletableFuture<Boolean> clearPlayerTags(UUID uuid) {
+        final CompletableFuture<Boolean> future = new CompletableFuture<Boolean>();
+        try {
+            PreparedStatement ps = this.databaseEngine.getConnection().prepareStatement("UPDATE "+handler.getSqlPlayerDataTable()+" SET `current` = ?,`tags` = ? WHERE `uuid` = ?;");
+            ps.setNull(1,Types.NULL);
+            ps.setNull(2,Types.NULL);
+            ps.setString(3,uuid.toString());
+            this.databaseEngine.updateAsync(ps);
+            future.complete(true);
+        }catch (Exception e){
+            future.complete(false);
+            e.printStackTrace();
+        }
+        return future;
     }
 }

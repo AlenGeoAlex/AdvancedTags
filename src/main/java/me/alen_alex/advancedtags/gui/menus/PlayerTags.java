@@ -28,7 +28,6 @@ public class PlayerTags extends GUI {
     @Override
     public void init() {
         this.playerTags.registerListener(handler.getPlugin());
-        this.playerTags = new BookItemMenu(getHandler().getMenuConfiguration().getTagShopName(), ItemMenuSize.SIX_LINE,ItemMenuSize.ONE_LINE,getHandler().getMainMenu().getMainMenu());
         loadStatics();
     }
 

@@ -33,7 +33,7 @@ public class HookManager {
             getPlugin().getLogger().info("Advanced Tags Has Hooked With PlaceholderAPI");
         }
 
-        if(currentEcoManager == EconomySelected.NONE && plugin.getServer().getPluginManager().isPluginEnabled("Vault")){
+        if(currentEcoManager == EconomySelected.NONE && plugin.getServer().getPluginManager().getPlugin("Vault") != null){
             System.out.println("Hello");
             RegisteredServiceProvider<Economy> rsp = plugin.getServer().getServicesManager().getRegistration(Economy.class);
             if (rsp != null) {

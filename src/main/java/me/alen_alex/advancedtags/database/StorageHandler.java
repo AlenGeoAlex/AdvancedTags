@@ -108,4 +108,8 @@ public class StorageHandler {
 
         return String.join(TAG_DELIMITER,tags);
     }
+
+    public StorageHandler getHandler(){
+        return this;
+    }
 }

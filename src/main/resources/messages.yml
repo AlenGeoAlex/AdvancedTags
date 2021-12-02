@@ -10,7 +10,7 @@ errors:
   unable-to-run-from-console: "This command cannot be run from the console"
   unknown-command: "<SOLID:FF3333>This command is unknown to <SOLID:33FFEB>Advanced<SOLID:BFC3C2>Tags"
 
-selecting-random-tag-no-tag-on-server: "<SOLID:FF0400>Your selected tag <SOLID:FFC500>%selected_tag% <SOLID:FF0400>is not available on the current server. Your tag has been switched to <SOLID:8400FF>%temp_tag% temporarily."
+selecting-random-tag-no-tag-on-server: "<SOLID:FF0400>Your selected tag <SOLID:FFC500>%selected_tag% <SOLID:FF0400>is not available on the current server.Your tag has been switched to <SOLID:8400FF>%temp_tag% temporarily."
 
 help-message:
   header:

@@ -108,4 +108,9 @@ public class PostGreSQL implements StorageWorker {
     public Tag fetchTag(String tagName) {
         return null;
     }
+
+    @Override
+    public CompletableFuture<Boolean> clearPlayerTags(UUID uuid) {
+        return null;
+    }
 }

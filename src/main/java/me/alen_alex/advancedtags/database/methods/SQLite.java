@@ -30,6 +30,7 @@ public class SQLite implements StorageWorker {
         try {
             final File databaseFile = new File(dataPath);
             databaseEngine = new me.Abhigya.core.database.sql.sqlite.SQLite(databaseFile, true);
+            databaseEngine.connect();
             return databaseEngine.isConnected();
         }catch (Exception e) {
             handler.getPlugin().getLogger().severe("Unable to connect to SQLite Database");
@@ -100,6 +101,11 @@ public class SQLite implements StorageWorker {
 
     @Override
     public Tag fetchTag(String tagName) {
+        return null;
+    }
+
+    @Override
+    public CompletableFuture<Boolean> clearPlayerTags(UUID uuid) {
         return null;
     }
 }

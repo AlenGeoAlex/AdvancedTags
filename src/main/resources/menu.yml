@@ -100,7 +100,7 @@ tagShop:
         - 50
         - 51
         - 52
-  close-tag-shop-after-each-selection: false
+  close-tag-shop-after-each-selection: true
 myTag:
   name: '&6&lMy Tags'
   closeMenu:

@@ -1,10 +1,13 @@
 package me.alen_alex.advancedtags.database.methods;
 
+import com.mongodb.DB;
+import com.mongodb.DBCursor;
 import me.Abhigya.core.database.DatabaseType;
 import me.alen_alex.advancedtags.database.StorageHandler;
 import me.alen_alex.advancedtags.database.StorageWorker;
 import me.alen_alex.advancedtags.object.ATPlayer;
 import me.alen_alex.advancedtags.object.Tag;
+import me.alen_alex.advancedtags.utils.MongoAdapter;
 
 import java.util.List;
 import java.util.UUID;
@@ -14,9 +17,12 @@ public class MongoDB implements StorageWorker {
 
     private me.Abhigya.core.database.mongo.MongoDB databaseEngine;
     private final StorageHandler handler;
+    private DB mongoDatabase;
+    private final MongoAdapter adapter;
 
     public MongoDB(StorageHandler handler) {
         this.handler = handler;
+        adapter = new MongoAdapter(this);
     }
 
     @Override
@@ -31,8 +37,12 @@ public class MongoDB implements StorageWorker {
 
     @Override
     public boolean handleInitial() {
-
-        return false;
+        mongoDatabase = databaseEngine.getDb();
+        mongoDatabase.createCollection(this.handler.getSqlPlayerDataTable(),null);
+        if(this.handler.getPlugin().getConfigurationHandler().getPluginConfig().isGlobalEnabled()) {
+            mongoDatabase.createCollection(this.handler.getSqlGlobalTagTable(),null);
+        }
+        return true;
     }
 
     @Override
@@ -47,12 +57,28 @@ public class MongoDB implements StorageWorker {
 
     @Override
     public CompletableFuture<Boolean> registerUser(UUID player) {
-        return null;
+        CompletableFuture<Boolean> future = new CompletableFuture<Boolean>();
+        try {
+            mongoDatabase.getCollection(this.handler.getSqlPlayerDataTable()).insert(adapter.UUIDToDBObject(player));
+            future.complete(true);
+        }catch (Exception e){
+            e.printStackTrace();
+            future.complete(false);
+        }
+        return future;
     }
 
     @Override
     public CompletableFuture<Boolean> doUserExist(UUID uuid) {
-        return null;
+        CompletableFuture<Boolean> future = new CompletableFuture<Boolean>();
+        try {
+            final DBCursor queryResult = mongoDatabase.getCollection(this.handler.getSqlPlayerDataTable()).find(adapter.buildUUIDQuery(uuid));
+            future.complete(queryResult.hasNext());
+        }catch (Exception e){
+            e.printStackTrace();
+            future.complete(false);
+        }
+        return future;
     }
 
     @Override
@@ -62,7 +88,14 @@ public class MongoDB implements StorageWorker {
 
     @Override
     public CompletableFuture<Boolean> savePlayerTag(ATPlayer playerObj) {
-        return null;
+        CompletableFuture<Boolean> future = new CompletableFuture<Boolean>();
+        try {
+            mongoDatabase.getCollection(this.handler.getSqlPlayerDataTable()).update(adapter.buildUUIDQuery(playerObj.getPlayerID()),adapter.toObject(playerObj));
+        }catch (Exception e){
+            e.printStackTrace();
+            future.complete(false);
+        }
+        return future;
     }
 
     @Override
@@ -95,9 +128,17 @@ public class MongoDB implements StorageWorker {
         return null;
     }
 
+    @Override
+    public CompletableFuture<Boolean> clearPlayerTags(UUID uuid) {
+        return null;
+    }
+
     private boolean connect(){
         databaseEngine.connect();
         return databaseEngine.isConnected();
     }
 
+    public StorageHandler getHandler() {
+        return handler;
+    }
 }

@@ -145,11 +145,7 @@ public class PluginDataManager {
             this.setTagForPlayer(player,tag);
         }
 
-        plugin.getStorageHandler().getDatabaseImpl().savePlayerTag(atPlayer).thenAccept((saved) -> {
-            if(!saved) {
-                plugin.getLogger().severe("Unable to update data onto database for user " + atPlayer.getPlayerName());
-            }
-        });
+        plugin.getStorageHandler().getDatabaseImpl().savePlayerTag(atPlayer);
 
 
     }

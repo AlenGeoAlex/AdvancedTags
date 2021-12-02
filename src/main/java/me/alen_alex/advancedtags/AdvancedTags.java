@@ -14,7 +14,6 @@ import me.alen_alex.advancedtags.listeners.PlayerQuitEvent;
 import me.alen_alex.advancedtags.task.AutoSaveData;
 import me.alen_alex.advancedtags.utils.ChatUtils;
 
-import java.io.IOException;
 
 public final class AdvancedTags extends PluginAdapter {
 
@@ -26,7 +25,7 @@ public final class AdvancedTags extends PluginAdapter {
     private GUIHandler guiHandler;
     private CommandHandler commandHandler;
     private HookManager hookManager;
-    private boolean vaultEnabled,placeholderAPIEnabled;
+    private boolean placeholderAPIEnabled;
     private AutoSaveData saveDataTask;
 
     @Override
@@ -36,12 +35,12 @@ public final class AdvancedTags extends PluginAdapter {
 
     @Override
     protected boolean setUp() {
-        //TODO Check server reload
+
+
         plugin = this;
         CoreAPI.getInstance().load();
         pluginManager = new PluginDataManager(this);
         chatUtils = new ChatUtils(this);
-        vaultEnabled = getServer().getPluginManager().isPluginEnabled("Vault");
         placeholderAPIEnabled = getServer().getPluginManager().isPluginEnabled("PlaceholderAPI");
         return true;
     }
@@ -85,9 +84,10 @@ public final class AdvancedTags extends PluginAdapter {
 
         if(configurationHandler.getPluginConfig().isAutoSaveEnabled()) {
             saveDataTask = new AutoSaveData(this);
-            saveDataTask.runTaskAsynchronously(this);
+            saveDataTask.runTaskTimerAsynchronously(this,this.configurationHandler.getPluginConfig().getAutoSaveMins(),this.configurationHandler.getPluginConfig().getAutoSaveMins());
         }
 
+        getCommand("test").setExecutor(new TestCommand(this));
         return true;
     }
 

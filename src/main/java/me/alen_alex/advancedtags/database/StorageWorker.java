@@ -38,4 +38,6 @@ public interface StorageWorker {
     boolean removeGlobalTag(String tagName);
 
     Tag fetchTag(String tagName);
+
+    CompletableFuture<Boolean> clearPlayerTags(UUID uuid);
 }

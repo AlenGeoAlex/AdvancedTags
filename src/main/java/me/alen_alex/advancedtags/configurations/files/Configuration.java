@@ -18,7 +18,7 @@ public class Configuration extends ConfigurationFile {
     private String databaseType,sqlHost,sqlPassword,sqlUsername,sqlDatabse;
     private String mongoHost,mongodatabase;
     private String pluginPrefix;
-    private int mongoPort,sqlPort,autoSaveMins;
+    private int mongoPort,sqlPort,autoSaveMins,autoSaveMinTPS;
     private boolean sqlUseSSL;
     private boolean globalEnabled,globalPriority;
     private boolean randomTagOnInvalid;
@@ -87,9 +87,12 @@ public class Configuration extends ConfigurationFile {
         //Auto-save
         this.autoSaveEnabled = config.getBoolean("auto-save.enabled");
         this.autoSaveMins = config.getInt("auto-save.duration-in-mins");
+        this.autoSaveMinTPS = config.getInt("auto-save.min-tps-to-perform");
 
         this.randomTagOnInvalid = config.getBoolean("set-random-if-invalid-dbtag");
         getHandler().getPlugin().getLogger().info("Plugin Configuration has been loaded with the version "+getVersion());
+
+
     }
 
     @Override
@@ -216,12 +219,16 @@ public class Configuration extends ConfigurationFile {
         return setNewTagOnUnlock;
     }
 
-    public int getAutoSaveMins() {
-        return autoSaveMins;
+    public long getAutoSaveMins() {
+        return (long) autoSaveMins*20*60;
     }
 
     public boolean isAutoSaveEnabled() {
         return autoSaveEnabled;
+    }
+
+    public int getAutoSaveMinTPS() {
+        return autoSaveMinTPS;
     }
 }
 

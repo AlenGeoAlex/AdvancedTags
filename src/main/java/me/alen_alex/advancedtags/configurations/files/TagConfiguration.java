@@ -72,7 +72,8 @@ public class TagConfiguration extends ConfigurationFile {
             if(tagConfig.contains(tagName+".material"))
             {
                 if(tagConfig.getString(tagName+".material").startsWith("base64")){
-                    tag.setMenuItem(ItemStackUtils.getSkull(tagConfig.getString(tagName+".material")));
+                    final String texture = tagConfig.getString(tagName+".material").substring(7);
+                    tag.setMenuItem(ItemStackUtils.getSkull(texture));
                 }else {
                     if (EnumUtils.isValidEnum(XMaterial.class, tagConfig.getString(tagName + ".material"))) {
                         tag.setMenuItem(tagConfig.getEnum(tagName + ".material", XMaterial.class));

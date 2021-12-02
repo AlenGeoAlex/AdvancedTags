@@ -1,5 +1,6 @@
 package me.alen_alex.advancedtags.object;
 
+import com.mongodb.DBObject;
 import me.alen_alex.advancedtags.AdvancedTags;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.apache.commons.lang.StringUtils;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class ATPlayer {
+public class ATPlayer  {
 
     private final UUID playerID;
     private final String playerName;
@@ -35,7 +36,7 @@ public class ATPlayer {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
             @Override
             public void run() {
-                if(tagOnDatabase != null || StringUtils.isNotBlank(tagOnDatabase)) {
+                if(StringUtils.isNotBlank(tagOnDatabase)) {
                     if (plugin.getPluginManager().containsTag(tagOnDatabase)) {
                         playerCurrentTag = plugin.getPluginManager().getTagFromCache(tagOnDatabase);
                     } else {
@@ -48,16 +49,20 @@ public class ATPlayer {
                                     break;
                                 }
                             }
-                            if (!found)
+
+                            if (!found) {
                                 playerCurrentTag = null;
-                            else
+                            }
+                            else {
                                 plugin.getChatUtils().sendSimpleMessage(player, plugin.getConfigurationHandler().getMessageConfiguration().getSelectedRandomTag(tagOnDatabase, playerCurrentTag.getName()));
+                            }
                         } else playerCurrentTag = null;
+
+                        if(playerCurrentTag == null){
+                            plugin.getChatUtils().sendSimpleMessage(player,plugin.getConfigurationHandler().getMessageConfiguration().getRemovedTagNoTag(tagOnDatabase));
+                        }
                     }
 
-                    if(playerCurrentTag == null){
-                        plugin.getChatUtils().sendSimpleMessage(player,plugin.getConfigurationHandler().getMessageConfiguration().getRemovedTagNoTag(tagOnDatabase));
-                    }
                 }
             }
         });
@@ -166,4 +171,5 @@ public class ATPlayer {
     public String toString() {
         return this.getPlayerName()+" occupied "+this.getCurrentTagDisplay();
     }
+
 }

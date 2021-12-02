@@ -52,6 +52,7 @@ set-new-tag-when-unlocked: true
 auto-save:
   enabled: true
   duration-in-mins: 10
+  min-tps-to-perform: 18
 
 kick-if-failed:
   register:
