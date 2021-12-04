@@ -122,7 +122,7 @@ public class TagConfiguration extends ConfigurationFile {
     public Tag fetchTag(String name){
         if(this.tagConfig.contains(name)){
             tagConfig.setPathPrefix(name);
-            Tag loadable;
+            final Tag loadable;
             if(tagConfig.contains("permission") && !tagConfig.getBoolean("permission.required"))
                 loadable  = new Tag(handler.getPlugin(),name, tagConfig.getString("display-name"), tagConfig.getBoolean("dynamic"), tagConfig.getStringList("lore"), tagConfig.getString("material"));
             else

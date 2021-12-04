@@ -173,7 +173,7 @@ public class MySQL implements StorageWorker {
 
     @Override
     public boolean setCurrentTag(Tag tag) {
-        return false;
+        return true;
     }
 
     @Override

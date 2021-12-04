@@ -1,6 +1,10 @@
 package me.alen_alex.advancedtags.command;
 
 import me.alen_alex.advancedtags.AdvancedTags;
+import me.alen_alex.advancedtags.command.commands.adt.AdvancedTagCommand;
+import me.alen_alex.advancedtags.command.commands.tag.TagCommand;
+import me.alen_alex.advancedtags.command.commands.tag.TagCommandPlayerTag;
+import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.command.CommandSender;
@@ -14,18 +18,45 @@ public class CommandHandler {
     private final AdvancedTags plugin;
     private final List<TextComponent> helpMessage;
 
+
+    private AdvancedTagCommand advancedTagCommand;
+    private TagCommand tagCommand;
+
     public CommandHandler(AdvancedTags plugin) {
         this.plugin = plugin;
         this.helpMessage = new ArrayList<>();
     }
 
     public void initCommandHandler(){
-
+        advancedTagCommand = new AdvancedTagCommand("advancedtag","adt.command",this);
+        tagCommand = new TagCommand("tag","adt.command.tag",this, new TagCommandPlayerTag(this));
         prepareHelpMessage();
     };
 
     private void prepareHelpMessage(){
-
+        final boolean isJson = this.getPlugin().getConfigurationHandler().getMessageConfiguration().isEnableJsonHelpMessage();
+        getPlugin().getConfigurationHandler().getMessageConfiguration().getHelpHeader().forEach((s -> {
+            final TextComponent textComponent = new TextComponent(s);
+            helpMessage.add(textComponent);
+        }));
+        this.advancedTagCommand.getSubcommands().values().forEach((subcommand) -> {
+            final TextComponent tc = new TextComponent();
+            tc.setText(getPlugin().getConfigurationHandler().getMessageConfiguration().getHelpPlaceholder(subcommand.getCommandHelpSyntax(),subcommand.getCommandDescription()));
+            if(isJson)
+                tc.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND,subcommand.getCommandHelpSyntaxSuggestion()));
+            helpMessage.add(tc);
+        });
+        this.tagCommand.getSubcommands().values().forEach((subcommand) -> {
+            final TextComponent tc = new TextComponent();
+            tc.setText(getPlugin().getConfigurationHandler().getMessageConfiguration().getHelpPlaceholder(subcommand.getCommandHelpSyntax(),subcommand.getCommandDescription()));
+            if(isJson)
+                tc.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND,subcommand.getCommandHelpSyntaxSuggestion()));
+            helpMessage.add(tc);
+        });
+        getPlugin().getConfigurationHandler().getMessageConfiguration().getHelpFooter().forEach((s -> {
+            final TextComponent textComponent = new TextComponent(s);
+            helpMessage.add(textComponent);
+        }));
     }
 
     public void reloadHandler(){

@@ -87,12 +87,12 @@ public class PluginDataManager {
         this.playerLoaded.remove(playerID);
     }
 
-    public boolean hasTag(@NotNull Player player,@NotNull String tagName) throws UnknownDataException {
+    public boolean hasTag(@NotNull Player player,@NotNull String tagName){
         if(!this.tagCache.containsKey(tagName))
-            throw new UnknownDataException("The tag "+tagName+" has not been loaded or does not exist");
+            return false;
 
         if(!this.playerLoaded.containsKey(player))
-            throw new UnknownDataException("The player "+player.getName()+"/"+player.getUniqueId()+" has not been loaded into the plugin cache!");
+            return false;
 
         return this.playerLoaded.get(player.getUniqueId()).getPlayerUnlockedTagNames().contains(tagName);
     }
@@ -105,7 +105,7 @@ public class PluginDataManager {
         if(tag.hasPlayerPermissionRequired(player)){
             if(containsPlayer(player)){
                 getPlayer(player).setPlayerTag(tag);
-                //TODO send tag set successfully
+                plugin.getChatUtils().sendSimpleMessage(player,plugin.getConfigurationHandler().getMessageConfiguration().getNewTagSet(tag.getName()));
             }
         }
     }
@@ -114,26 +114,25 @@ public class PluginDataManager {
     public void clearPlayerTag(Player player){
         if(containsPlayer(player))  {
             getPlayer(player).clearPlayerTag();
-            player.sendMessage("/TODO TAG CLEARED");
-            //TODO Clear Tag Message
+            plugin.getChatUtils().sendSimpleMessage(player,plugin.getConfigurationHandler().getMessageConfiguration().getClearedTag());
         }
     }
 
     public void unlockTagForPlayer(Player player,Tag tag){
         final ATPlayer atPlayer = this.getPlayer(player);
         if(atPlayer.getPlayerUnlockedTags().contains(tag)){
-            plugin.getChatUtils().sendSimpleMessage(player,"//TODO You already owe the tag");
+            plugin.getChatUtils().sendSimpleMessage(player,plugin.getConfigurationHandler().getMessageConfiguration().getAlreadyUnlocked());
             return;
         }
 
         if(!tag.hasPlayerPermissionRequired(player)){
-            plugin.getChatUtils().sendSimpleMessage(player,"//TODO SEND NO PERMISSION FOR THE TAG");
+            plugin.getChatUtils().sendSimpleMessage(player,plugin.getConfigurationHandler().getMessageConfiguration().getInsufficentPermission());
             return;
         }
 
         if(plugin.getHookManager().getCurrentEcoManager() != HookManager.EconomySelected.NONE) {
             if (!plugin.getHookManager().getEconomyWorker().hasMoney(player, tag.getMoney())) {
-                plugin.getChatUtils().sendSimpleMessage(player, "//TODO SEND Insufficent fund");
+                plugin.getChatUtils().sendSimpleMessage(player, plugin.getConfigurationHandler().getMessageConfiguration().getInsufficentFund());
                 return;
             }
             plugin.getHookManager().getEconomyWorker().takeMoney(player,tag.getMoney());

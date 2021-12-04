@@ -2,7 +2,6 @@ package me.alen_alex.advancedtags.database.methods;
 
 import me.Abhigya.core.database.DatabaseType;
 import me.Abhigya.core.database.sql.SQLDatabase;
-import me.alen_alex.advancedtags.AdvancedTags;
 import me.alen_alex.advancedtags.database.StorageHandler;
 import me.alen_alex.advancedtags.database.StorageWorker;
 import me.alen_alex.advancedtags.object.ATPlayer;
@@ -81,7 +80,7 @@ public class SQLite implements StorageWorker {
 
     @Override
     public boolean setCurrentTag(Tag tag) {
-        return false;
+        return true;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package me.alen_alex.advancedtags.configurations.files;
 
+import com.google.common.base.Objects;
 import de.leonhard.storage.Yaml;
 import me.alen_alex.advancedtags.configurations.ConfigurationFile;
 import me.alen_alex.advancedtags.configurations.ConfigurationHandler;
@@ -24,6 +25,12 @@ public class MessageConfiguration extends ConfigurationFile{
 
     //Reload
     private String reloadSuccess;
+    //Unknwown Tag
+    private String unknownTag,tagNotYetBought,newTagSet;
+    private String clearedTag;
+    private String alreadyUnlocked;
+    private String insufficentPermission,insufficentFund;
+    private String noActiveTag;
 
     //HelpMessage
     private List<String> helpHeader, helpFooter;
@@ -75,6 +82,15 @@ public class MessageConfiguration extends ConfigurationFile{
         this.helpPlaceholder = handler.getPlugin().getChatUtils().parseColorCodes(this.messageConfig.getString("help-message.message-placeholder"));
 
         this.reloadSuccess = IridiumColorAPI.process(this.messageConfig.getString("reload-success"));
+        this.unknownTag = IridiumColorAPI.process(this.messageConfig.getString("unknown-tag"));
+        this.tagNotYetBought = IridiumColorAPI.process(this.messageConfig.getString("player-does-not-own-tag"));
+        this.newTagSet = IridiumColorAPI.process(this.messageConfig.getString("tag-set"));
+        this.clearedTag = IridiumColorAPI.process(this.messageConfig.getString("cleared-tag"));
+        this.alreadyUnlocked = IridiumColorAPI.process(this.messageConfig.getString("already-unlocked"));
+        this.insufficentFund = IridiumColorAPI.process(this.messageConfig.getString("insufficent-permission-for-tag"));
+        this.insufficentPermission = IridiumColorAPI.process(this.messageConfig.getString("insufficent-coins"));
+        this.noActiveTag = IridiumColorAPI.process(this.messageConfig.getString("no-active-tags"));
+        this.clearedTag = IridiumColorAPI.process(this.messageConfig.getString("cleared-all-player-tag"));
 
         this.messageConfig.getFileData().clear();
         getHandler().getPlugin().getLogger().info("Message Configuration has been loaded with the version "+getVersion());
@@ -143,6 +159,10 @@ public class MessageConfiguration extends ConfigurationFile{
         return this.helpPlaceholder.replaceAll("%command%",commandName).replaceAll("%description%",description);
     }
 
+    public String getUnknownTag(String tagName) {
+        return unknownTag.replaceAll("%tag-name%",tagName);
+    }
+
     public String getTestMessage(String tagName, Player player){
         final String message = testMessageList.get(new Random().nextInt(testMessageList.size()));
         return PlaceholderAPI.setPlaceholders(player,(testMessage.replaceAll("%testtag%",tagName).replaceAll("%player_name%",player.getName()).replaceAll("%message%",message)));
@@ -150,5 +170,47 @@ public class MessageConfiguration extends ConfigurationFile{
 
     public String getReloadSuccess(long ms) {
         return reloadSuccess.replaceAll("%ms%", String.valueOf(ms));
+    }
+
+    public String getTagNotYetBought() {
+        return tagNotYetBought;
+    }
+
+    public String getNewTagSet(String newTag) {
+        return newTagSet.replaceAll("%new-tag%",newTag);
+    }
+
+
+    public String getAlreadyUnlocked() {
+        return alreadyUnlocked;
+    }
+
+    public String getInsufficentPermission() {
+        return insufficentPermission;
+    }
+
+    public String getInsufficentFund() {
+        return insufficentFund;
+    }
+
+    public String getNoActiveTag() {
+        return noActiveTag;
+    }
+
+    public String getClearedTag() {
+        return clearedTag;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MessageConfiguration that = (MessageConfiguration) o;
+        return isEnableJsonHelpMessage() == that.isEnableJsonHelpMessage() && Objects.equal(messageConfig, that.messageConfig) && Objects.equal(getHandler(), that.getHandler()) && Objects.equal(getVersion(), that.getVersion()) && Objects.equal(selectedRandomTag, that.selectedRandomTag) && Objects.equal(removedTagNoTag, that.removedTagNoTag) && Objects.equal(getUnknownCommand(), that.getUnknownCommand()) && Objects.equal(getNoPermission(), that.getNoPermission()) && Objects.equal(getNotAConsoleCommand(), that.getNotAConsoleCommand()) && Objects.equal(reloadSuccess, that.reloadSuccess) && Objects.equal(unknownTag, that.unknownTag) && Objects.equal(getHelpHeader(), that.getHelpHeader()) && Objects.equal(getHelpFooter(), that.getHelpFooter()) && Objects.equal(getHelpPlaceholder(), that.getHelpPlaceholder()) && Objects.equal(testMessage, that.testMessage) && Objects.equal(testMessageList, that.testMessageList);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(messageConfig, getHandler(), getVersion(), selectedRandomTag, removedTagNoTag, getUnknownCommand(), getNoPermission(), getNotAConsoleCommand(), reloadSuccess, unknownTag, getHelpHeader(), getHelpFooter(), isEnableJsonHelpMessage(), getHelpPlaceholder(), testMessage, testMessageList);
     }
 }

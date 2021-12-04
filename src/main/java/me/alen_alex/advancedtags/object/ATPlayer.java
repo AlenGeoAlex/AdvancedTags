@@ -1,6 +1,5 @@
 package me.alen_alex.advancedtags.object;
 
-import com.mongodb.DBObject;
 import me.alen_alex.advancedtags.AdvancedTags;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.apache.commons.lang.StringUtils;
@@ -16,7 +15,7 @@ public class ATPlayer  {
     private final UUID playerID;
     private final String playerName;
     private String tagOnDatabase;
-    private List<String> playerUnlockedTags;
+    private final List<String> playerUnlockedTags;
     private Tag playerCurrentTag;
     private final Player player;
     private final AdvancedTags plugin;
@@ -156,14 +155,14 @@ public class ATPlayer  {
     public void setPlayerTag(Tag tag){
         playerCurrentTag = tag;
         tagOnDatabase = tag.getName();
-        if(!plugin.getStorageHandler().getDatabaseImpl().setCurrentTag(tag))
+        if(plugin.getStorageHandler().getDatabaseImpl().setCurrentTag(tag))
             plugin.getLogger().severe("Unable to update "+getPlayerName()+"'s tag on database! Tag will be updated here, but not on DB");
     }
 
     public void clearPlayerTag(){
         playerCurrentTag = null;
         tagOnDatabase = null;
-        if(!plugin.getStorageHandler().getDatabaseImpl().setCurrentTag(null))
+        if(plugin.getStorageHandler().getDatabaseImpl().setCurrentTag(null))
             plugin.getLogger().severe("Unable to update "+getPlayerName()+"'s tag on database! Tag will be updated here, but not on DB");
     }
 

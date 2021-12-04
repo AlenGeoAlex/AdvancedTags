@@ -30,5 +30,14 @@ test-message:
     - "Hey How Are You"
 
 reload-success: "&eThe plugin has been reloaded successfully. &b(%ms%) ms."
+unknown-tag: "&cThe tag &b&l%tag-name% &cis not available/unknown!"
+player-does-not-own-tag: "&cYou have not unlocked this tag yet!, &euse &6/tag shop &eto buy this tag now!"
+tag-set: "&aYou have now set to your tag to &6&l%new-tag%."
+cleared-tag: "&bYour tag has been cleared!"
+already-unlocked: "&eYou have already unlocked this tag!"
+insufficent-permission-for-tag: "&cYou doesn't have enough permission to unlock the tag!"
+insufficent-coins: "&cYou doesn't have enough coins to unlock the tag!"
+no-active-tags: "&cYou don't have any active tag!"
+cleared-all-player-tag: "&aYour player tag has been cleared."
 
 no-tag-on-the-server: "<SOLID:FF0400>Your selected tag has not been found nor a owned one. Your tag has been removed on the current server"
