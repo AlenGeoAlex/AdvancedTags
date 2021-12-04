@@ -1,45 +1,45 @@
-package me.alen_alex.advancedtags.command.tag;
+package me.alen_alex.advancedtags.commandold.advancedtag;
 
 import me.alen_alex.advancedtags.AdvancedTags;
-import me.alen_alex.advancedtags.command.Subcommand;
+import me.alen_alex.advancedtags.commandold.Subcommand;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TagShopMenu implements Subcommand {
+public class ReloadCommand implements Subcommand {
 
     private AdvancedTags plugin;
     private final List<String> aliases = new ArrayList<String>();
 
-    public TagShopMenu(AdvancedTags plugin) {
+    public ReloadCommand(AdvancedTags plugin) {
         this.plugin = plugin;
     }
 
     @Override
     public boolean doRunOnConsole() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean registerTabCompletion() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isTabCompletion() {
-        return false;
+        return true;
     }
 
     @Override
     public String getCommandPermission() {
-        return "at.gui.tagshop";
+        return "adt.reload";
     }
 
     @Override
     public String getCommandName() {
-        return "shop";
+        return "reload";
     }
 
     @Override
@@ -49,26 +49,26 @@ public class TagShopMenu implements Subcommand {
 
     @Override
     public String getCommandSyntax() {
-        return "tag shop";
+        return "advancedtags reload";
     }
 
     @Override
     public String getSuggestionString() {
-        return "/tag shop";
+        return "/advancedtags reload";
     }
 
     @Override
     public String getCommandDescription() {
-        return "The tag shop for the plugin";
+        return "Reload the command";
     }
 
     @Override
     public void runMethod(Player player, String[] args) {
-        plugin.getGuiHandler().getTagShop().openMenu(player);
+        plugin.callReload();
     }
 
     @Override
     public void runMethod(CommandSender sender, String[] args) {
-        return;
+        plugin.callReload();
     }
 }

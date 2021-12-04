@@ -1,7 +1,7 @@
-package me.alen_alex.advancedtags.command.tag;
+package me.alen_alex.advancedtags.commandold.tag;
 
 import me.alen_alex.advancedtags.AdvancedTags;
-import me.alen_alex.advancedtags.command.Subcommand;
+import me.alen_alex.advancedtags.commandold.Subcommand;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 

@@ -1,13 +1,13 @@
-package me.alen_alex.advancedtags.command.advancedtag;
+package me.alen_alex.advancedtags.commandold.advancedtag;
 
-import me.alen_alex.advancedtags.command.CommandFramework;
-import me.alen_alex.advancedtags.command.CommandHandler;
+import me.alen_alex.advancedtags.commandold.CommandFramework;
+import me.alen_alex.advancedtags.commandold.CommandHandler_;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 public class AdvancedTagCommand extends CommandFramework {
 
-    public AdvancedTagCommand(@NotNull String name, @NotNull String commandPermission, @NotNull CommandHandler handler) {
+    public AdvancedTagCommand(@NotNull String name, @NotNull String commandPermission, @NotNull CommandHandler_ handler) {
         super(name, commandPermission, handler);
         registerCommand();
         registerSubcommands(new ReloadCommand(handler.getPlugin()));

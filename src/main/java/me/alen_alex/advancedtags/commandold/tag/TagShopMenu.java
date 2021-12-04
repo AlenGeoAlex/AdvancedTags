@@ -1,25 +1,25 @@
-package me.alen_alex.advancedtags.command.tag;
+package me.alen_alex.advancedtags.commandold.tag;
 
 import me.alen_alex.advancedtags.AdvancedTags;
-import me.alen_alex.advancedtags.command.Subcommand;
+import me.alen_alex.advancedtags.commandold.Subcommand;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TagSet implements Subcommand {
+public class TagShopMenu implements Subcommand {
 
     private AdvancedTags plugin;
     private final List<String> aliases = new ArrayList<String>();
 
-    public TagSet(AdvancedTags plugin) {
+    public TagShopMenu(AdvancedTags plugin) {
         this.plugin = plugin;
     }
 
     @Override
     public boolean doRunOnConsole() {
-        return true;
+        return false;
     }
 
     @Override
@@ -34,12 +34,12 @@ public class TagSet implements Subcommand {
 
     @Override
     public String getCommandPermission() {
-        return "at.tag.set";
+        return "at.gui.tagshop";
     }
 
     @Override
     public String getCommandName() {
-        return "set";
+        return "shop";
     }
 
     @Override
@@ -49,26 +49,26 @@ public class TagSet implements Subcommand {
 
     @Override
     public String getCommandSyntax() {
-        return "tag set";
+        return "tag shop";
     }
 
     @Override
     public String getSuggestionString() {
-        return "/tag set [tag-name]";
+        return "/tag shop";
     }
 
     @Override
     public String getCommandDescription() {
-        return "Set a particular tag";
+        return "The tag shop for the plugin";
     }
 
     @Override
     public void runMethod(Player player, String[] args) {
-
+        plugin.getGuiHandler().getTagShop().openMenu(player);
     }
 
     @Override
     public void runMethod(CommandSender sender, String[] args) {
-
+        return;
     }
 }

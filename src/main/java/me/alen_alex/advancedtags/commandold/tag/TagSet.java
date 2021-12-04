@@ -1,19 +1,19 @@
-package me.alen_alex.advancedtags.command.advancedtag;
+package me.alen_alex.advancedtags.commandold.tag;
 
 import me.alen_alex.advancedtags.AdvancedTags;
-import me.alen_alex.advancedtags.command.Subcommand;
+import me.alen_alex.advancedtags.commandold.Subcommand;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReloadCommand implements Subcommand {
+public class TagSet implements Subcommand {
 
     private AdvancedTags plugin;
     private final List<String> aliases = new ArrayList<String>();
 
-    public ReloadCommand(AdvancedTags plugin) {
+    public TagSet(AdvancedTags plugin) {
         this.plugin = plugin;
     }
 
@@ -24,22 +24,22 @@ public class ReloadCommand implements Subcommand {
 
     @Override
     public boolean registerTabCompletion() {
-        return true;
+        return false;
     }
 
     @Override
     public boolean isTabCompletion() {
-        return true;
+        return false;
     }
 
     @Override
     public String getCommandPermission() {
-        return "adt.reload";
+        return "at.tag.set";
     }
 
     @Override
     public String getCommandName() {
-        return "reload";
+        return "set";
     }
 
     @Override
@@ -49,26 +49,26 @@ public class ReloadCommand implements Subcommand {
 
     @Override
     public String getCommandSyntax() {
-        return "advancedtags reload";
+        return "tag set";
     }
 
     @Override
     public String getSuggestionString() {
-        return "/advancedtags reload";
+        return "/tag set [tag-name]";
     }
 
     @Override
     public String getCommandDescription() {
-        return "Reload the command";
+        return "Set a particular tag";
     }
 
     @Override
     public void runMethod(Player player, String[] args) {
-        plugin.callReload();
+
     }
 
     @Override
     public void runMethod(CommandSender sender, String[] args) {
-        plugin.callReload();
+
     }
 }

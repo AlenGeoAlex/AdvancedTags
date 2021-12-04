@@ -3,6 +3,7 @@ package me.alen_alex.advancedtags;
 import me.Abhigya.core.main.CoreAPI;
 import me.Abhigya.core.plugin.PluginAdapter;
 import me.alen_alex.advancedtags.command.CommandHandler;
+import me.alen_alex.advancedtags.commandold.CommandHandler_;
 import me.alen_alex.advancedtags.hook.HookManager;
 
 import me.alen_alex.advancedtags.configurations.ConfigurationHandler;
@@ -80,7 +81,7 @@ public final class AdvancedTags extends PluginAdapter {
         hookManager.initHooks();
 
         commandHandler = new CommandHandler(this);
-        commandHandler.initCommands();
+        commandHandler.initCommandHandler();
 
         if(configurationHandler.getPluginConfig().isAutoSaveEnabled()) {
             saveDataTask = new AutoSaveData(this);
@@ -170,6 +171,7 @@ public final class AdvancedTags extends PluginAdapter {
      * The Command Handler Class of The Plugin!
      * @return CommandHandler
      */
+
     public CommandHandler getCommandHandler() {
         return commandHandler;
     }

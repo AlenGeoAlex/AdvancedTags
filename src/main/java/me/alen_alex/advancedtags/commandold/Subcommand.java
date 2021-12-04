@@ -1,4 +1,4 @@
-package me.alen_alex.advancedtags.command;
+package me.alen_alex.advancedtags.commandold;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
