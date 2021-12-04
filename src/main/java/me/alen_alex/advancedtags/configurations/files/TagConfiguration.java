@@ -46,7 +46,7 @@ public class TagConfiguration extends ConfigurationFile {
                 continue;
             }
 
-            Tag tag = new Tag(tagName,tagConfig.getString(tagName+".display-name"));
+            Tag tag = new Tag(handler.getPlugin(),tagName,tagConfig.getString(tagName+".display-name"));
             tag.setGlobal(false);
             if(tagConfig.getBoolean(tagName+".permission.required")){
                 if(StringUtils.isBlank(tagConfig.getString(tagName+".permission.node"))){
@@ -124,9 +124,9 @@ public class TagConfiguration extends ConfigurationFile {
             tagConfig.setPathPrefix(name);
             Tag loadable;
             if(tagConfig.contains("permission") && !tagConfig.getBoolean("permission.required"))
-                loadable  = new Tag(name, tagConfig.getString("display-name"), tagConfig.getBoolean("dynamic"), tagConfig.getStringList("lore"), tagConfig.getString("material"));
+                loadable  = new Tag(handler.getPlugin(),name, tagConfig.getString("display-name"), tagConfig.getBoolean("dynamic"), tagConfig.getStringList("lore"), tagConfig.getString("material"));
             else
-                loadable  = new Tag(name, tagConfig.getString("display-name"),tagConfig.getBoolean("permission.required"),tagConfig.getString("permission.node") ,tagConfig.getBoolean("dynamic"), tagConfig.getStringList("lore"), tagConfig.getString("material"));
+                loadable  = new Tag(handler.getPlugin(),name, tagConfig.getString("display-name"),tagConfig.getBoolean("permission.required"),tagConfig.getString("permission.node") ,tagConfig.getBoolean("dynamic"), tagConfig.getStringList("lore"), tagConfig.getString("material"));
             if(loadable == null)
                 getHandler().getPlugin().getLogger().warning("Somehow, the object creation for tag "+name+" has became null!, Skipping");
             return loadable;

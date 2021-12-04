@@ -4,6 +4,7 @@ import me.alen_alex.advancedtags.command.CommandHandler;
 import me.alen_alex.advancedtags.command.CommandMessages;
 import me.alen_alex.advancedtags.command.CommandWorkerImpl;
 import me.alen_alex.advancedtags.configurations.ConfigurationHandler;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -52,10 +53,24 @@ public class AdvancedTag_Reload implements CommandWorkerImpl {
                     handler.getPlugin().callReload();
                     reloaded = true;
                     break;
-                default: sender.sendMessage(CommandMessages.RELOAD_FILE_UNKNOWN_ARGS.getMessage());
+                default:sender.sendMessage(CommandMessages.RELOAD_FILE_UNKNOWN_ARGS.getMessage());
             }
             if(reloaded)
-               sender.sendMessage(CommandMessages.FILE_RELOADED.getMessage());
+                sender.sendMessage(CommandMessages.FILE_RELOADED.getMessage());
+        }else if(args.length == 3){
+            if(args[1].equalsIgnoreCase("tag")){
+                if(StringUtils.isBlank(args[2])){
+                    sender.sendMessage(CommandMessages.MISSING_ARGS.getMessage());
+                    return;
+                }
+
+                if(handler.getPlugin().getPluginManager().containsTag(args[2])){
+                    if(handler.getPlugin().getPluginManager().refreshTag(args[2])){
+                        sender.sendMessage(CommandMessages.TAG_RELOAD_SUCCESS.getMessage());
+                    }else sender.sendMessage(CommandMessages.TAG_RELOAD_FAILED.getMessage());
+                }
+
+            }
         }
     }
 
@@ -97,6 +112,19 @@ public class AdvancedTag_Reload implements CommandWorkerImpl {
             }
             if(reloaded)
                 handler.getPlugin().getChatUtils().sendSimpleMessage(player,CommandMessages.FILE_RELOADED.getMessage());
+        }else if(args.length == 3){
+            if(args[1].equalsIgnoreCase("tag")){
+                if(StringUtils.isBlank(args[2])){
+                    handler.getPlugin().getChatUtils().sendSimpleMessage(player,CommandMessages.MISSING_ARGS.getMessage());
+                    return;
+                }
+
+                if(handler.getPlugin().getPluginManager().containsTag(args[2])){
+                    if(handler.getPlugin().getPluginManager().refreshTag(args[2])){
+                        handler.getPlugin().getChatUtils().sendSimpleMessage(player,CommandMessages.TAG_RELOAD_SUCCESS.getMessage());
+                    }else handler.getPlugin().getChatUtils().sendSimpleMessage(player,CommandMessages.TAG_RELOAD_FAILED.getMessage());
+                }
+            }
         }
     }
 

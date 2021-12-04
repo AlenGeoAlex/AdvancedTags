@@ -2,6 +2,7 @@ package me.alen_alex.advancedtags.object;
 
 import com.google.common.base.Objects;
 import me.Abhigya.core.util.xseries.XMaterial;
+import me.alen_alex.advancedtags.AdvancedTags;
 import me.alen_alex.advancedtags.utils.iridiumcolorapi.IridiumColorAPI;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Material;
@@ -14,6 +15,7 @@ import java.util.List;
 
 public final class Tag {
 
+    private final AdvancedTags plugin;
     private final String name;
     private final String displayTag;
     private boolean permissionRequired;
@@ -29,7 +31,8 @@ public final class Tag {
      * @param displayTag
      */
 
-    public Tag(String name, String displayTag, boolean permissionRequired, String permission, boolean dynamicTag, List<String> lore, String menuMaterial) {
+    public Tag(AdvancedTags plugin,String name, String displayTag, boolean permissionRequired, String permission, boolean dynamicTag, List<String> lore, String menuMaterial) {
+        this.plugin = plugin;
         XMaterial menuMaterial1;
         this.name = name;
         this.displayTag = IridiumColorAPI.process(displayTag);
@@ -43,7 +46,8 @@ public final class Tag {
         this.menuItem = menuMaterial1.parseItem();
     }
 
-    public Tag(String name, String displayTag, boolean dynamicTag, List<String> lore, String menuMaterial) {
+    public Tag(AdvancedTags plugin,String name, String displayTag, boolean dynamicTag, List<String> lore, String menuMaterial) {
+        this.plugin = plugin;
         XMaterial menuMaterial1;
         this.name = name;
         this.displayTag = IridiumColorAPI.process(displayTag);
@@ -58,7 +62,8 @@ public final class Tag {
 
     }
 
-    public Tag(String name, String displayTag) {
+    public Tag(AdvancedTags plugin,String name, String displayTag) {
+        this.plugin = plugin;
         this.name = name;
         this.displayTag = IridiumColorAPI.process(displayTag);
         this.permissionRequired = false;
@@ -145,9 +150,11 @@ public final class Tag {
         else return this.displayTag;
     }
 
+
     public float getMoney() {
         return money;
     }
+
 
     @Override
     public boolean equals(Object o) {

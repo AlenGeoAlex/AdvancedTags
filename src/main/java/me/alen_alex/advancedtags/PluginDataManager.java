@@ -150,5 +150,30 @@ public class PluginDataManager {
 
     }
 
+    public Tag getTag(@NotNull String tagName){
+        return tagCache.get(tagName);
+    }
+
+    public boolean refreshTag(@NotNull String tagName){
+        if(!this.containsTag(tagName))
+            return false;
+
+        final boolean isGlobal = tagCache.get(tagName).isGlobal();
+        if(isGlobal){
+            final Tag tag = plugin.getStorageHandler().getDatabaseImpl().fetchTag(tagName);
+
+            if(tag == null) return false;
+
+            tagCache.remove(tagName);
+            tagCache.put(tagName,tag);
+            return true;
+        }else {
+            if(!plugin.getConfigurationHandler().getTagConfiguration().stillContains(tagName)) return false;
+
+            tagCache.remove(tagName);
+            tagCache.put(tagName,plugin.getConfigurationHandler().getTagConfiguration().fetchTag(tagName));
+            return true;
+        }
+    }
 
 }
