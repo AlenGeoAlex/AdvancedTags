@@ -22,6 +22,9 @@ public class MessageConfiguration extends ConfigurationFile{
     private String selectedRandomTag,removedTagNoTag;
     private String unknownCommand,noPermission,notAConsoleCommand;
 
+    //Reload
+    private String reloadSuccess;
+
     //HelpMessage
     private List<String> helpHeader, helpFooter;
     private boolean enableJsonHelpMessage;
@@ -70,6 +73,9 @@ public class MessageConfiguration extends ConfigurationFile{
         this.helpFooter = IridiumColorAPI.process(this.messageConfig.getStringList("help-message.footer"));
         this.enableJsonHelpMessage = this.messageConfig.getBoolean("help-message.enable-json-suggestion");
         this.helpPlaceholder = handler.getPlugin().getChatUtils().parseColorCodes(this.messageConfig.getString("help-message.message-placeholder"));
+
+        this.reloadSuccess = IridiumColorAPI.process(this.messageConfig.getString("reload-success"));
+
         this.messageConfig.getFileData().clear();
         getHandler().getPlugin().getLogger().info("Message Configuration has been loaded with the version "+getVersion());
     }
@@ -140,5 +146,9 @@ public class MessageConfiguration extends ConfigurationFile{
     public String getTestMessage(String tagName, Player player){
         final String message = testMessageList.get(new Random().nextInt(testMessageList.size()));
         return PlaceholderAPI.setPlaceholders(player,(testMessage.replaceAll("%testtag%",tagName).replaceAll("%player_name%",player.getName()).replaceAll("%message%",message)));
+    }
+
+    public String getReloadSuccess(long ms) {
+        return reloadSuccess.replaceAll("%ms%", String.valueOf(ms));
     }
 }

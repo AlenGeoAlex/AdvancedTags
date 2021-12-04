@@ -18,7 +18,7 @@ public abstract class CommandFramework extends Command implements TabCompleter {
 
     private final String name;
     private final String permission;
-    private final CommandHandler handler;
+    protected final CommandHandler handler;
     private final HashMap<String,CommandWorkerImpl> subcommands;
     private boolean helpOnNoArgs;
     private final CommandWorkerImpl defaultCommand;
@@ -104,9 +104,20 @@ public abstract class CommandFramework extends Command implements TabCompleter {
     }
 
     protected List<String> executeTabCompletion(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args){
-        final List<String> tabSugst = new ArrayList<String>();
-
-        return tabSugst;
+        if(args.length <= 0){
+            final List<String> tabSugst = new ArrayList<String>();
+            subcommands.values().forEach((s) -> {
+                tabSugst.add(s.getCommandName());
+            });
+            return tabSugst;
+        }else {
+            if(subcommands.containsKey(args[0])){
+                final CommandWorkerImpl commandWorker = subcommands.get(args[0]);
+                if(commandWorker.registerTabCompleter())
+                    return commandWorker.completeTab(args);
+                else return null;
+            }else return null;
+        }
     }
 
 
@@ -125,6 +136,10 @@ public abstract class CommandFramework extends Command implements TabCompleter {
                 subcommands.put(aliases,commandWorker);
             } );
         }
+    }
+
+    protected CommandHandler getCommandHandler(){
+        return handler;
     }
 
     protected void registerCommand(){
@@ -149,6 +164,8 @@ public abstract class CommandFramework extends Command implements TabCompleter {
     public HashMap<String, CommandWorkerImpl> getSubcommands() {
         return subcommands;
     }
+
+
 
     @Override
     public boolean equals(Object o) {

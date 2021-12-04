@@ -29,6 +29,6 @@ test-message:
     - "Hello World"
     - "Hey How Are You"
 
-
+reload-success: "&eThe plugin has been reloaded successfully. &b(%ms%) ms."
 
 no-tag-on-the-server: "<SOLID:FF0400>Your selected tag has not been found nor a owned one. Your tag has been removed on the current server"

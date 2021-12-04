@@ -84,8 +84,10 @@ public interface CommandWorkerImpl {
         return true;
     }
 
-
-
+    /**
+     * Execute the tab completeion
+     */
+    List<String> completeTab(String[] args);
 
 
 }

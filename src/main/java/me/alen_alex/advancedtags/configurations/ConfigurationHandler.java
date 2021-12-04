@@ -16,7 +16,7 @@ public class ConfigurationHandler {
     private TagConfiguration tagConfiguration;
     private MenuConfiguration menuConfiguration;
 
-    enum FileType{
+    public enum FileType{
         PLUGIN_CONFIG,
         MESSAGE_CONFIG,
         TAG_CONFIG,
