@@ -11,11 +11,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class AdvancedTag_Reload implements CommandWorkerImpl {
+public class AdvancedTagReload implements CommandWorkerImpl {
 
     private final CommandHandler handler;
 
-    public AdvancedTag_Reload(CommandHandler handler) {
+    public AdvancedTagReload(CommandHandler handler) {
         this.handler = handler;
     }
 

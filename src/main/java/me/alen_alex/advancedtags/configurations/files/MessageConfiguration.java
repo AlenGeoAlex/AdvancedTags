@@ -201,16 +201,5 @@ public class MessageConfiguration extends ConfigurationFile{
         return clearedTag;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        MessageConfiguration that = (MessageConfiguration) o;
-        return isEnableJsonHelpMessage() == that.isEnableJsonHelpMessage() && Objects.equal(messageConfig, that.messageConfig) && Objects.equal(getHandler(), that.getHandler()) && Objects.equal(getVersion(), that.getVersion()) && Objects.equal(selectedRandomTag, that.selectedRandomTag) && Objects.equal(removedTagNoTag, that.removedTagNoTag) && Objects.equal(getUnknownCommand(), that.getUnknownCommand()) && Objects.equal(getNoPermission(), that.getNoPermission()) && Objects.equal(getNotAConsoleCommand(), that.getNotAConsoleCommand()) && Objects.equal(reloadSuccess, that.reloadSuccess) && Objects.equal(unknownTag, that.unknownTag) && Objects.equal(getHelpHeader(), that.getHelpHeader()) && Objects.equal(getHelpFooter(), that.getHelpFooter()) && Objects.equal(getHelpPlaceholder(), that.getHelpPlaceholder()) && Objects.equal(testMessage, that.testMessage) && Objects.equal(testMessageList, that.testMessageList);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(messageConfig, getHandler(), getVersion(), selectedRandomTag, removedTagNoTag, getUnknownCommand(), getNoPermission(), getNotAConsoleCommand(), reloadSuccess, unknownTag, getHelpHeader(), getHelpFooter(), isEnableJsonHelpMessage(), getHelpPlaceholder(), testMessage, testMessageList);
-    }
 }

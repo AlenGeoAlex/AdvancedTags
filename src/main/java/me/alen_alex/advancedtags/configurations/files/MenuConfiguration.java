@@ -74,7 +74,7 @@ public class MenuConfiguration extends ConfigurationFile {
 
     @Override
     public void loadConfig() {
-        version = menuConfig.getString("version");
+        this.version = menuConfig.getString("version");
 
         this.mainMenuName = IridiumColorAPI.process(this.menuConfig.getString("main-menu.name"));
         this.mainMenuSize = this.menuConfig.getInt("main-menu.size");
@@ -463,4 +463,6 @@ public class MenuConfiguration extends ConfigurationFile {
     public boolean isCloseTagShopAfterEachSelection() {
         return closeTagShopAfterEachSelection;
     }
+
+
 }

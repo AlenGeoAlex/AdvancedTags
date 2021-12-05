@@ -2,6 +2,7 @@ package me.alen_alex.advancedtags.command;
 
 import me.alen_alex.advancedtags.AdvancedTags;
 import me.alen_alex.advancedtags.command.commands.adt.AdvancedTagCommand;
+import me.alen_alex.advancedtags.command.commands.adt.AdvancedTagDefault;
 import me.alen_alex.advancedtags.command.commands.tag.TagCommand;
 import me.alen_alex.advancedtags.command.commands.tag.TagCommandPlayerTag;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -28,10 +29,10 @@ public class CommandHandler {
     }
 
     public void initCommandHandler(){
-        advancedTagCommand = new AdvancedTagCommand("advancedtag","adt.command",this);
+        advancedTagCommand = new AdvancedTagCommand("advancedtag","adt.command",this, new AdvancedTagDefault(this));
         tagCommand = new TagCommand("tag","adt.command.tag",this, new TagCommandPlayerTag(this));
         prepareHelpMessage();
-    };
+    }
 
     private void prepareHelpMessage(){
         final boolean isJson = this.getPlugin().getConfigurationHandler().getMessageConfiguration().isEnableJsonHelpMessage();

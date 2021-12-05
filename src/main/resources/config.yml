@@ -49,6 +49,11 @@ set-random-if-invalid-dbtag: true
 ##If set to false -> The old tag will be there still
 set-new-tag-when-unlocked: true
 
+##Auto-save plugin related playerdata to database
+##auto-save:
+##enabled -> Enable or Disable Auto Save
+##duration-in-mins -> Interval in which auto save happens
+##min-tps-to-perform -> Minimum TPS to perform auto save, The plugin won't do the save task if its below the given percent, Its async task tho!
 auto-save:
   enabled: true
   duration-in-mins: 10
