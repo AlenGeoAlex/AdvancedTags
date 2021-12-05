@@ -1,9 +1,8 @@
 package me.alen_alex.advancedtags;
 
-import me.Abhigya.core.main.CoreAPI;
-import me.Abhigya.core.plugin.PluginAdapter;
+import com.pepedevs.corelib.plugin.PluginAdapter;
+
 import me.alen_alex.advancedtags.command.CommandHandler;
-import me.alen_alex.advancedtags.commandold.CommandHandler_;
 import me.alen_alex.advancedtags.hook.HookManager;
 
 import me.alen_alex.advancedtags.configurations.ConfigurationHandler;
@@ -29,18 +28,11 @@ public final class AdvancedTags extends PluginAdapter {
     private boolean placeholderAPIEnabled;
     private AutoSaveData saveDataTask;
 
-    @Override
-    public void onLoad(){
-        CoreAPI.init(this);
-    }
+
 
     @Override
     protected boolean setUp() {
-
-
         plugin = this;
-        CoreAPI.getInstance().load();
-        pluginManager = new PluginDataManager(this);
         chatUtils = new ChatUtils(this);
         placeholderAPIEnabled = getServer().getPluginManager().isPluginEnabled("PlaceholderAPI");
         return true;

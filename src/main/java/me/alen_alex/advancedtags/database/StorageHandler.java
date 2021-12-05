@@ -1,9 +1,6 @@
 package me.alen_alex.advancedtags.database;
 
-import me.Abhigya.core.database.DatabaseType;
-import me.Abhigya.core.database.sql.SQLDatabase;
-import me.Abhigya.core.database.sql.h2.H2;
-import me.Abhigya.core.database.sql.hikaricp.HikariClientBuilder;
+import com.pepedevs.corelib.database.DatabaseType;
 import me.alen_alex.advancedtags.AdvancedTags;
 import me.alen_alex.advancedtags.database.methods.MongoDB;
 import me.alen_alex.advancedtags.database.methods.MySQL;

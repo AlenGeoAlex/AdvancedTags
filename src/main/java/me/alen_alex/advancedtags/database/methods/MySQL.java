@@ -1,9 +1,9 @@
 package me.alen_alex.advancedtags.database.methods;
 
-import me.Abhigya.core.database.DatabaseType;
-import me.Abhigya.core.database.sql.SQLConsumer;
-import me.Abhigya.core.database.sql.SQLDatabase;
-import me.Abhigya.core.database.sql.hikaricp.HikariClientBuilder;
+import com.pepedevs.corelib.database.DatabaseType;
+import com.pepedevs.corelib.database.sql.SQLConsumer;
+import com.pepedevs.corelib.database.sql.SQLDatabase;
+import com.pepedevs.corelib.database.sql.hikaricp.HikariClientBuilder;
 import me.alen_alex.advancedtags.database.StorageHandler;
 import me.alen_alex.advancedtags.database.StorageWorker;
 import me.alen_alex.advancedtags.object.ATPlayer;

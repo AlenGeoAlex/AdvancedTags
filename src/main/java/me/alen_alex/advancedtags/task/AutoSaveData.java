@@ -1,6 +1,6 @@
 package me.alen_alex.advancedtags.task;
 
-import me.Abhigya.core.util.tps.TpsUtils;
+import com.pepedevs.corelib.utils.server.TpsUtils;
 import me.alen_alex.advancedtags.AdvancedTags;
 import me.alen_alex.advancedtags.object.ATPlayer;
 import org.bukkit.scheduler.BukkitRunnable;

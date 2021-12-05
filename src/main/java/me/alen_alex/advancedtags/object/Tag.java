@@ -1,15 +1,13 @@
 package me.alen_alex.advancedtags.object;
 
 import com.google.common.base.Objects;
-import me.Abhigya.core.util.xseries.XMaterial;
+import com.pepedevs.corelib.utils.xseries.XMaterial;
 import me.alen_alex.advancedtags.AdvancedTags;
 import me.alen_alex.advancedtags.utils.iridiumcolorapi.IridiumColorAPI;
 import me.clip.placeholderapi.PlaceholderAPI;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 

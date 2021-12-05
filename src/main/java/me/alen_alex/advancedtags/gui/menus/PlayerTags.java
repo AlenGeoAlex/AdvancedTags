@@ -1,13 +1,13 @@
 package me.alen_alex.advancedtags.gui.menus;
 
-import me.Abhigya.core.menu.inventory.action.ItemClickAction;
-import me.Abhigya.core.menu.inventory.custom.book.BookItemMenu;
-import me.Abhigya.core.menu.inventory.custom.book.item.AlternateBookPageActionItem;
-import me.Abhigya.core.menu.inventory.item.action.ActionItem;
-import me.Abhigya.core.menu.inventory.item.action.ItemAction;
-import me.Abhigya.core.menu.inventory.item.action.ItemActionPriority;
-import me.Abhigya.core.menu.inventory.size.ItemMenuSize;
-import me.Abhigya.core.util.scheduler.SchedulerUtils;
+import com.pepedevs.corelib.gui.inventory.action.ItemClickAction;
+import com.pepedevs.corelib.gui.inventory.custom.book.BookItemMenu;
+import com.pepedevs.corelib.gui.inventory.custom.book.item.AlternateBookPageActionItem;
+import com.pepedevs.corelib.gui.inventory.item.action.ActionItem;
+import com.pepedevs.corelib.gui.inventory.item.action.ItemAction;
+import com.pepedevs.corelib.gui.inventory.item.action.ItemActionPriority;
+import com.pepedevs.corelib.gui.inventory.size.ItemMenuSize;
+import com.pepedevs.corelib.utils.scheduler.SchedulerUtils;
 import me.alen_alex.advancedtags.gui.GUI;
 import me.alen_alex.advancedtags.gui.GUIHandler;
 import org.bukkit.entity.Player;

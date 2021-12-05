@@ -1,9 +1,9 @@
 package me.alen_alex.advancedtags.database;
 
-import me.Abhigya.core.database.DatabaseType;
+import com.pepedevs.corelib.database.DatabaseType;
 import me.alen_alex.advancedtags.object.ATPlayer;
 import me.alen_alex.advancedtags.object.Tag;
-import org.bukkit.entity.Player;
+
 
 import java.util.List;
 import java.util.UUID;

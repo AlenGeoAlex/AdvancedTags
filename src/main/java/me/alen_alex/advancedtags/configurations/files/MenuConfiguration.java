@@ -1,8 +1,9 @@
 package me.alen_alex.advancedtags.configurations.files;
 
+import com.pepedevs.corelib.utils.itemstack.ItemStackUtils;
+import com.pepedevs.corelib.utils.xseries.XMaterial;
 import de.leonhard.storage.Yaml;
-import me.Abhigya.core.util.itemstack.ItemStackUtils;
-import me.Abhigya.core.util.xseries.XMaterial;
+
 import me.alen_alex.advancedtags.configurations.ConfigurationFile;
 import me.alen_alex.advancedtags.configurations.ConfigurationHandler;
 import me.alen_alex.advancedtags.utils.iridiumcolorapi.IridiumColorAPI;

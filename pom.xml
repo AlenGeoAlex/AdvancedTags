@@ -94,6 +94,10 @@
 
     <repositories>
         <repository>
+            <id>pepedevs</id>
+            <url>http://13.233.67.205:8080/</url>
+        </repository>
+        <repository>
             <id>spigotmc-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
@@ -103,7 +107,7 @@
         </repository>
         <repository>
             <id>pepedevs</id>
-            <url>http://13.233.67.205:8080/</url>
+            <url>http://13.233.67.205:8080/releases</url>
         </repository>
         <repository>
             <id>jitpack.io</id>
@@ -125,7 +129,7 @@
         </dependency>
         <dependency>
             <groupId>com.pepedevs</groupId>
-            <artifactId>CoreLib</artifactId>
+            <artifactId>corelib</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>

@@ -1,7 +1,8 @@
 package me.alen_alex.advancedtags.database.methods;
 
-import me.Abhigya.core.database.DatabaseType;
-import me.Abhigya.core.database.sql.SQLDatabase;
+import com.pepedevs.corelib.database.DatabaseType;
+import com.pepedevs.corelib.database.sql.SQLDatabase;
+
 import me.alen_alex.advancedtags.database.StorageHandler;
 import me.alen_alex.advancedtags.database.StorageWorker;
 import me.alen_alex.advancedtags.object.ATPlayer;
@@ -28,7 +29,7 @@ public class SQLite implements StorageWorker {
     public boolean init() {
         try {
             final File databaseFile = new File(dataPath);
-            databaseEngine = new me.Abhigya.core.database.sql.sqlite.SQLite(databaseFile, true);
+            databaseEngine = new com.pepedevs.corelib.database.sql.sqlite.SQLite(databaseFile, true);
             databaseEngine.connect();
             return databaseEngine.isConnected();
         }catch (Exception e) {

@@ -1,6 +1,9 @@
 package me.alen_alex.advancedtags.database.methods;
 
 
+import com.pepedevs.corelib.database.DatabaseType;
+import com.pepedevs.corelib.database.sql.SQLConsumer;
+import com.pepedevs.corelib.database.sql.SQLDatabase;
 import me.alen_alex.advancedtags.database.StorageHandler;
 import me.alen_alex.advancedtags.database.StorageWorker;
 import me.alen_alex.advancedtags.object.ATPlayer;
@@ -31,7 +34,7 @@ public class H2 implements StorageWorker {
     public boolean init() {
         try {
             final File databaseFile = new File(dataPath);
-            databaseEngine = new me.Abhigya.core.database.sql.h2.H2(databaseFile, true);
+            databaseEngine = new com.pepedevs.corelib.database.sql.h2.H2(databaseFile, true);
             databaseEngine.connect();
             return databaseEngine.isConnected();
         }catch (Exception e) {

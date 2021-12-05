@@ -2,7 +2,7 @@ package me.alen_alex.advancedtags.database.methods;
 
 import com.mongodb.DB;
 import com.mongodb.DBCursor;
-import me.Abhigya.core.database.DatabaseType;
+import com.pepedevs.corelib.database.DatabaseType;
 import me.alen_alex.advancedtags.database.StorageHandler;
 import me.alen_alex.advancedtags.database.StorageWorker;
 import me.alen_alex.advancedtags.object.ATPlayer;
@@ -15,7 +15,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class MongoDB implements StorageWorker {
 
-    private me.Abhigya.core.database.mongo.MongoDB databaseEngine;
+    private com.pepedevs.corelib.database.mongo.MongoDB databaseEngine;
     private final StorageHandler handler;
     private DB mongoDatabase;
     private final MongoAdapter adapter;
@@ -27,7 +27,7 @@ public class MongoDB implements StorageWorker {
 
     @Override
     public boolean init() {
-        databaseEngine = new me.Abhigya.core.database.mongo.MongoDB(
+        databaseEngine = new com.pepedevs.corelib.database.mongo.MongoDB(
                 handler.getPlugin().getConfigurationHandler().getPluginConfig().getMongoHost(),
                 handler.getPlugin().getConfigurationHandler().getPluginConfig().getMongoPort(),
                 handler.getPlugin().getConfigurationHandler().getPluginConfig().getMongodatabase()

@@ -1,6 +1,6 @@
 package me.alen_alex.advancedtags.listeners;
 
-import me.Abhigya.core.util.scheduler.SchedulerUtils;
+import com.pepedevs.corelib.utils.scheduler.SchedulerUtils;
 import me.alen_alex.advancedtags.AdvancedTags;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

@@ -1,8 +1,8 @@
 package me.alen_alex.advancedtags.configurations.files;
 
+import com.pepedevs.corelib.utils.itemstack.ItemStackUtils;
+import com.pepedevs.corelib.utils.xseries.XMaterial;
 import de.leonhard.storage.Yaml;
-import me.Abhigya.core.util.itemstack.ItemStackUtils;
-import me.Abhigya.core.util.xseries.XMaterial;
 import me.alen_alex.advancedtags.configurations.ConfigurationFile;
 import me.alen_alex.advancedtags.configurations.ConfigurationHandler;
 import me.alen_alex.advancedtags.object.Tag;
@@ -76,7 +76,7 @@ public class TagConfiguration extends ConfigurationFile {
                     tag.setMenuItem(ItemStackUtils.getSkull(texture));
                 }else {
                     if (EnumUtils.isValidEnum(XMaterial.class, tagConfig.getString(tagName + ".material"))) {
-                        tag.setMenuItem(tagConfig.getEnum(tagName + ".material", XMaterial.class));
+                        tag.setMenuItem(XMaterial.matchXMaterial(tagName + ".material").get().parseItem());
                     } else {
                         this.handler.getPlugin().getLogger().warning("Specified material name for " + tagName + " is not a valid name. Setting to default " + tag.getMenuItem().getType().name());
                     }

@@ -1,7 +1,8 @@
 package me.alen_alex.advancedtags.database.methods;
 
-import me.Abhigya.core.database.DatabaseType;
-import me.Abhigya.core.database.sql.SQLDatabase;
+import com.pepedevs.corelib.database.DatabaseType;
+import com.pepedevs.corelib.database.sql.SQLDatabase;
+
 import me.alen_alex.advancedtags.database.StorageHandler;
 import me.alen_alex.advancedtags.database.StorageWorker;
 import me.alen_alex.advancedtags.object.ATPlayer;
@@ -24,7 +25,7 @@ public class PostGreSQL implements StorageWorker {
     @Override
     public boolean init() {
         try {
-            databaseEngine = new me.Abhigya.core.database.sql.postgresql.PostGreSQL(
+            databaseEngine = new com.pepedevs.corelib.database.sql.postgresql.PostGreSQL(
                     handler.getPlugin().getConfigurationHandler().getPluginConfig().getSqlHost(),
                     handler.getPlugin().getConfigurationHandler().getPluginConfig().getSqlPort(),
                     handler.getPlugin().getConfigurationHandler().getPluginConfig().getSqlDatabse(),
